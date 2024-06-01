@@ -1,0 +1,88 @@
+.header-container {
+  display: flex;
+  align-items: center;
+  background-color: #f4f4f4;
+  border-bottom: 2px solid #ddd;
+  padding: 10px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.school-logo {
+  width: 80px;
+  height: auto;
+  margin: 0 auto 10px;
+}
+
+.school-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.school-details h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #07074d;
+}
+
+.school-name {
+  text-transform: uppercase;
+  font-weight: bolder;
+  font-size: x-large;
+}
+
+.school-details p {
+  /* margin: 5px 0; */
+  font-size: 14px;
+  color: #536387;
+}
+
+.general-info {
+  text-align-last: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.general-info-instructions{
+  text-wrap: wrap;
+  text-align: justify;
+}
+
+.form-title {
+  text-transform: uppercase;
+  color: #07074d;
+}
+
+.spacer {
+  margin: auto;
+}
+
+/* Media queries for responsiveness */
+@media (min-width: 768px) {
+  .header-container {
+    flex-wrap: nowrap;
+    padding: 20px;
+    text-align: left;
+  }
+
+  .school-logo {
+    width: 100px;
+    margin: 0 20px 0 0;
+  }
+
+  .school-details {
+    align-items: flex-start;
+    width: auto;
+  }
+
+  .school-details h1 {
+    font-size: 28px;
+  }
+
+  .school-details p {
+    font-size: 16px;
+  }
+}
