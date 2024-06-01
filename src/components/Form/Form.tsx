@@ -3,20 +3,108 @@ import styles from "./form.module.css";
 import FormHeader from "../FormHeader/FormHeader";
 import FormTitleCheckbox from "./FormTitleCheckbox";
 import { getYear } from "@/Utils/utils";
+import FormInput from "./FormInput";
+const requiredInfo = {
+  title: { title: "Title", options: ["Miss", "Mr", "Mrs."] },
+  status: {
+    title: "Marital Status",
+    options: ["Single", "Married"],
+  },
+  gender: {
+    title: "Gender",
+    options: ["Male", "Female"],
+  },
+};
 
+const studentInformation = {
+  surname: {
+    title: "Surname",
+    type: "text",
+    placeholder: "Andrio",
+    required: true,
+  },
+  firstname: {
+    title: "Firstname",
+    type: "text",
+    placeholder: "Andrio",
+    required: true,
+  },
+  othernames: {
+    title: "Othernames",
+    type: "text",
+    placeholder: "Andrio",
+    required: true,
+  },
+  email: {
+    title: "Email",
+    type: "email",
+    placeholder: "Andrio",
+    required: true,
+  },
+  phone: {
+    title: "Phone",
+    type: "text",
+    placeholder: "0123456789",
+    required: true,
+  },
+  address: {
+    title: "Address",
+    type: "text",
+    placeholder: "Andrio",
+    required: true,
+  },
+  nationality: {
+    title: "Nationality",
+    type: "text",
+    placeholder: "country",
+    required: true,
+  },
+  dob: {
+    title: "Date of Birth",
+    type: "date",
+    placeholder: "Andrio",
+    required: true,
+  },
+  placeOfBirth: {
+    title: "Place of Birth",
+    type: "text",
+    placeholder: "Accra",
+    required: true,
+  },
+  religion: {
+    title: "Religion",
+    type: "text",
+    placeholder: "your religion",
+    required: false,
+  },
+  emergencyContact: {
+    title: "Contact",
+    type: "phone",
+    placeholder: "contact",
+    required: true,
+  },
+  emergencyContactName: {
+    title: "Name",
+    type: "text",
+    placeholder: "name",
+    required: true,
+  },
+  emergencyContactRelationship: {
+    title: "Relationship",
+    type: "text",
+    placeholder: "relationship",
+    required: true,
+  },
+  emergencyContactContact: {
+    title: "Name",
+    type: "phone",
+    placeholder: "name",
+    required: true,
+  },
+};
 const Form = () => {
   const [activeStep, setActiveStep] = useState(1);
-  const requiredInfo = {
-    title: { title: "Title", options: ["Miss", "Mr", "Mrs."] },
-    status: {
-      title: "Marital Status",
-      options: ["Single", "Married"],
-    },
-    gender: {
-      title: "Gender",
-      options: ["Male", "Female"],
-    },
-  };
+
   const handleNext = () => {
     if (activeStep < 3) {
       setActiveStep(activeStep + 1);
@@ -207,6 +295,21 @@ export default Form;
 function PersonalInformation({
   activeStep,
 }: Readonly<PersonalInformationProp>) {
+  const {
+    surname,
+    firstname,
+    othernames,
+    address,
+    email,
+    nationality,
+    phone,
+    dob,
+    placeOfBirth,
+    religion,
+    emergencyContact,
+    emergencyContactName,
+    emergencyContactRelationship,
+  } = studentInformation;
   return (
     <div
       className={`${styles["formbold-form-step-1"]} ${
@@ -214,71 +317,40 @@ function PersonalInformation({
       }`}
     >
       <div className={styles["formbold-input-flex"]}>
-        <div>
-          <label htmlFor="surname" className={styles["formbold-form-label"]}>
-            Surname
-          </label>
-          <input
-            type="text"
-            name="surname"
-            placeholder="Andrio"
-            id="surname"
-            className={`${styles["formbold-form-input"]}`}
-          />
-        </div>
-        <div>
-          <label htmlFor="firstname" className={styles["formbold-form-label"]}>
-            First name
-          </label>
-          <input
-            type="text"
-            name="firstname"
-            placeholder="Andrio"
-            id="firstname"
-            className={`${styles["formbold-form-input"]}`}
-          />
-        </div>
-        <div>
-          <label htmlFor="lastname" className={styles["formbold-form-label"]}>
-            Other name
-          </label>
-          <input
-            type="text"
-            name="lastname"
-            placeholder="Dolee"
-            id="lastname"
-            className={`${styles["formbold-form-input"]}`}
-          />
-        </div>
+        <FormInput styles={styles} formField={surname} />
+        <FormInput styles={styles} formField={firstname} />
+        <FormInput styles={styles} formField={othernames} />
       </div>
-      <FormTitleCheckbox information={undefined} />
       <div className={styles["formbold-input-flex"]}>
-        <div>
-          <label htmlFor="dob" className={styles["formbold-form-label"]}>
-            Date of Birth
-          </label>
-          <input
-            type="date"
-            name="dob"
-            id="dob"
-            placeholder=""
-            className={`${styles["formbold-form-input"]} ${styles["formbold-datetime"]}`}
-          />
-        </div>
-        <div>
-          <label htmlFor="pob" className={styles["formbold-form-label"]}>
-            Place of Birth
-          </label>
-          <input
-            type="text"
-            name="pob"
-            placeholder="place of birth"
-            id="pob"
-            className={`${styles["formbold-form-input"]}`}
-          />
-        </div>
+        <FormTitleCheckbox information={requiredInfo.title} />
+        {/* <FormTitleCheckbox information={requiredInfo.title} /> */}
+      </div>
+      <div className={styles["formbold-input-flex"]}>
+        <FormInput styles={styles} formField={dob} />
+        <FormInput styles={styles} formField={placeOfBirth} />
+        <FormInput styles={styles} formField={nationality} />
       </div>
 
+      <div className={styles["formbold-input-flex"]}>
+        <FormTitleCheckbox information={requiredInfo.status} />
+        <FormTitleCheckbox information={requiredInfo.gender} />
+      </div>
+
+      <div className={styles["formbold-input-flex"]}>
+        <FormInput styles={styles} formField={religion} />
+        <FormInput styles={styles} formField={phone} />
+        <FormInput styles={styles} formField={email} />
+      </div>
+      <div className={styles["formbold-emergency-contact"]}>
+        <div className={styles["formbold-emergency-title"]}>
+          Emergency Contact
+        </div>
+        <div className={styles["formbold-input-flex"]}>
+          <FormInput styles={styles} formField={emergencyContact} />
+          <FormInput styles={styles} formField={emergencyContactName} />
+          <FormInput styles={styles} formField={emergencyContactRelationship} />
+        </div>
+      </div>
       <div>
         <label htmlFor="address" className={styles["formbold-form-label"]}>
           Address

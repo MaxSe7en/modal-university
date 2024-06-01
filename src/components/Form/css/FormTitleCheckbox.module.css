@@ -1,61 +1,64 @@
 .formboldTitleCheckbox {
-    margin-bottom: 22px;
-  }
-  
-  .formboldFormLabel {
-    color: #07074D;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 24px;
-    display: block;
-    margin-bottom: 10px;
-  }
-  
+  /* margin-bottom: 22px; */
+}
+
+.formboldFormLabel {
+  color: #07074d;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.formboldCheckboxGroup {
+  display: flex;
+  gap: 20px;
+}
+
+.formboldCheckboxItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.formboldCheckboxInput {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #dde3ec;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.formboldCheckboxInput:checked {
+  background-color: #6a64f1;
+  border-color: #6a64f1;
+}
+
+.formboldCheckboxLabel {
+  font-size: 16px;
+  color: #536387;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
   .formboldCheckboxGroup {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .formboldCheckboxItem {
-    display: flex;
-    align-items: center;
     gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .formboldCheckboxLabel {
+    font-size: 12px;
+  }
+
+  .formboldFormLabel {
+    font-size: 12px;
   }
   
   .formboldCheckboxInput {
-    width: 20px;
-    height: 20px;
-    border: 1px solid #DDE3EC;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    width: 14px;
+    height: 14px;
   }
-  
-  .formboldCheckboxInput:checked {
-    background-color: #6A64F1;
-    border-color: #6A64F1;
-  }
-  
-  .formboldCheckboxLabel {
-    font-size: 16px;
-    color: #536387;
-    cursor: pointer;
-  }
-  
-  @media (max-width: 768px) {
-    .formboldCheckboxGroup {
-      gap: 10px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .formboldCheckboxLabel {
-      font-size: 14px;
-    }
-    
-    .formboldCheckboxInput {
-      width: 18px;
-      height: 18px;
-    }
-  }
-  
+}

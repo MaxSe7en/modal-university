@@ -146,6 +146,14 @@
   display: block;
 }
 
+.formbold-emergency-contact{}
+.formbold-emergency-title{
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  text-align: center;
+  border-bottom: 1px solid #07074d;
+}
+
 .formbold-form-btn-wrapper {
   display: flex;
   align-items: center;
