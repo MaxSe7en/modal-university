@@ -40,16 +40,6 @@
   color: #536387;
 }
 
-.general-info {
-  text-align-last: center;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
-.general-info-instructions{
-  text-wrap: wrap;
-  text-align: justify;
-}
 
 .form-title {
   text-transform: uppercase;

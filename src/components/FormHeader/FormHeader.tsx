@@ -23,12 +23,12 @@ const FormHeader = () => {
         </div>
         <div className={styles["spacer"]}></div>
       </div>
-      <div className={styles["general-info"]}>
+      {/* <div className={styles["general-info"]}>
         <h4 className={`${styles["form-title"]}`}>
         GENERAL INSTRUCTIONS
         </h4>
         <p className={styles["general-info-instructions"]}>Please read all information on this form carefully before completing the form. Apply as early as possible to avoid disappointment as competition is keen.</p>
-      </div>
+      </div> */}
     </>
   );
 };

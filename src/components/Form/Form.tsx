@@ -62,7 +62,7 @@ const studentInformation = {
   dob: {
     title: "Date of Birth",
     type: "date",
-    placeholder: "Andrio",
+    placeholder: "dob",
     required: true,
   },
   placeOfBirth: {

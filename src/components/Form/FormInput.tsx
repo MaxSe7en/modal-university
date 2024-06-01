@@ -14,7 +14,7 @@ const FormInput = ({ styles, formField }: FormInputProps) => {
     const {title, type, placeholder, required} = formField
   return (
     <div>
-      <label htmlFor="surname" className={styles["formbold-form-label"]}>
+      <label htmlFor={title.toLowerCase()} className={styles["formbold-form-label"]}>
         {title}
       </label>
       <input
@@ -23,7 +23,7 @@ const FormInput = ({ styles, formField }: FormInputProps) => {
         placeholder={placeholder}
         id={title.toLowerCase()}
         required={required} 
-        className={`${styles["formbold-form-input"]} ${styles["formbold-datetime"]}`}
+        className={`${styles["formbold-form-input"]} ${placeholder == 'dob' ? styles["formbold-datetime"]: ""}`}
       />
     </div>
     // <div>FormInput</div>

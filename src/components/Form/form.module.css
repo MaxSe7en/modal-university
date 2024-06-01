@@ -54,7 +54,7 @@
   color: #ffffff;
 }
 
-.form-academic-year{
+.form-academic-year {
   font-size: 14px;
   text-align: center;
   font-family: monospace;
@@ -146,8 +146,9 @@
   display: block;
 }
 
-.formbold-emergency-contact{}
-.formbold-emergency-title{
+.formbold-emergency-contact {
+}
+.formbold-emergency-title {
   margin-bottom: 1rem;
   text-transform: uppercase;
   text-align: center;
@@ -203,13 +204,17 @@
   }
 
   .formbold-input-flex {
+    flex-direction: column;
     gap: 10px;
   }
-
+  .formbold-input-flex > div {
+    width: 100%;
+  }
   .formbold-form-confirm p {
     width: 100%;
   }
   .formbold-datetime {
+    width: 100%;
     padding: 1rem;
     height: 2.5rem;
   }
@@ -232,7 +237,10 @@
   .formbold-steps li {
     font-size: 14px;
   }
-
+  
+  .formbold-datetime {
+    width: 90vw;
+  }
   .formbold-steps li span {
     width: 30px;
     height: 30px;
