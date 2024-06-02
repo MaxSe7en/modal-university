@@ -10,6 +10,10 @@
     gap: 20px;
   }
   
+  .formbold-awaiting-info{
+    font-weight: bold;
+    font-size: x-small;
+  }
   .formboldGridRow {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr auto;
@@ -33,7 +37,8 @@
   }
   
   .awaitingColumn {
-    width: 50px;
+    /* width: 50px; */
+    color: #536387;
   }
   
   .formboldGridColumn label,

@@ -23,7 +23,7 @@ export default function AcademicInfoMobile({
     >
       <div className={styles.formboldInputFlex}>
         <div className={parentStyles["formbold-form-label"]}>
-          <h4>Entry Qualifications</h4>
+          <h3>Entry Qualifications</h3>
         </div>
         <span>
           Please list the qualification with which you are applying, including
@@ -46,7 +46,7 @@ export default function AcademicInfoMobile({
                 <input type="text" placeholder="eg 00103620202" />
               </div>
               <div className={`${styles.formboldGridColumn} ${styles.awaitingColumn}`}>
-                <label>AWAITING</label>
+                <div>AWAITING <span className={styles["formbold-awaiting-info"]}>(check if awaiting results)</span></div>
                 <input type="checkbox" />
               </div>
             </div>
@@ -61,7 +61,7 @@ export default function AcademicInfoMobile({
           {Array.from({ length: 10 }, (_, index) => (
             <div className={styles.formboldGridRow} key={index}>
               <div className={styles.subjectColumn}>
-                <label>SUBJECTS TAKEN</label>
+                <div>SUBJECT TAKEN</div>
                 <input type="text" placeholder="Subject" />
               </div>
               {["1st", "2nd", "3rd"].map((attempt, idx) => (
