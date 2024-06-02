@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./css/AccademicInfotion.module.css";
+import { gradeOptions } from "@/Utils/constants";
 
 type AcademicInformationProp = {
   activeStep: number;
@@ -12,7 +13,6 @@ export default function AcademicInformation({
   activeStep,
   parentStyles,
 }: Readonly<AcademicInformationProp>) {
-  const gradeOptions = ["A1", "B2", "B3", "C4", "C5", "C6", "D7", "E8", "F9"];
 
   return (
     <div

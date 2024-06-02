@@ -6,9 +6,12 @@ import { getYear } from "@/Utils/utils";
 import FormInput from "./FormInput";
 import { requiredInfo, studentInformation } from "@/Utils/constants";
 import AcademicInformation from "./AcademicInformation";
+import { useMediaQuery } from "react-responsive";
+import AcademicInfoMobile from "./AcademicInfoMobile";
 
 const Form = () => {
   const [activeStep, setActiveStep] = useState(1);
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const handleNext = () => {
     if (activeStep < 3) {
@@ -28,6 +31,7 @@ const Form = () => {
   return (
     <div className={styles["formbold-main-wrapper"]}>
       <div className={styles["formbold-form-wrapper"]}>
+        {/* {JSON.stringify(isMobile)} */}
         <form action="https://formbold.com/s/FORM_ID" method="POST">
           <FormHeader />
           <div className={styles["form-academic-year"]}>
@@ -59,7 +63,14 @@ const Form = () => {
             </ul>
           </div>
           <PersonalInformation activeStep={activeStep} />
-          <AcademicInformation activeStep={activeStep} parentStyles={styles}/>
+          {isMobile ? (
+            <AcademicInfoMobile activeStep={activeStep} parentStyles={styles} />
+          ) : (
+            <AcademicInformation
+              activeStep={activeStep}
+              parentStyles={styles}
+            />
+          )}
           <div
             className={`${styles["formbold-form-step-3"]} ${
               activeStep === 3 ? styles["active"] : ""
@@ -275,14 +286,11 @@ function PersonalInformation({
   );
 }
 
-
-
 type PersonalInformationProp = {
   activeStep: number;
   // handleNext: () => void,
   // handleBack: () => void,
 };
-
 
 {
   /* <div>
