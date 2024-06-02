@@ -1,0 +1,98 @@
+.formboldInputFlex {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 22px;
+  }
+  
+  .formboldInputField {
+    width: 100%;
+    padding: 13px 22px;
+    border-radius: 5px;
+    border: 1px solid #DDE3EC;
+    background: #FFFFFF;
+    font-weight: 500;
+    font-size: 16px;
+    color: #536387;
+    outline: none;
+    resize: none;
+  }
+  .formboldInputField:focus {
+    border-color: #6a64f1;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .formboldCheckboxGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .formboldCheckboxItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .formboldCheckboxInput {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #DDE3EC;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .formboldCheckboxLabel {
+    font-size: 16px;
+    color: #536387;
+    cursor: pointer;
+  }
+  
+  .formboldTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  .formboldTable th,
+  .formboldTable td {
+    border: 1px solid #DDE3EC;
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+  }
+  .formboldTable th {
+    background-color: #f4f4f4;
+    color: #07074D;
+  }
+  .formboldTable input,
+  .formboldTable select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #DDE3EC;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #536387;
+  }
+  
+  .awaitingCell {
+    width: 50px;
+  }
+  
+  .subjectCell {
+    width: 40%;
+  }
+  
+  .gradeCell {
+    width: 20%;
+  }
+  
+  @media (max-width: 768px) {
+    .formboldInputFlex {
+      flex-direction: column;
+    }
+  
+    .formboldTable th,
+    .formboldTable td {
+      font-size: 12px;
+    }
+  }
+  

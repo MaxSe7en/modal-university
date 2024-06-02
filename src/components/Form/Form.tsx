@@ -4,104 +4,9 @@ import FormHeader from "../FormHeader/FormHeader";
 import FormTitleCheckbox from "./FormTitleCheckbox";
 import { getYear } from "@/Utils/utils";
 import FormInput from "./FormInput";
-const requiredInfo = {
-  title: { title: "Title", options: ["Miss", "Mr", "Mrs."] },
-  status: {
-    title: "Marital Status",
-    options: ["Single", "Married"],
-  },
-  gender: {
-    title: "Gender",
-    options: ["Male", "Female"],
-  },
-};
+import { requiredInfo, studentInformation } from "@/Utils/constants";
+import AcademicInformation from "./AcademicInformation";
 
-const studentInformation = {
-  surname: {
-    title: "Surname",
-    type: "text",
-    placeholder: "Andrio",
-    required: true,
-  },
-  firstname: {
-    title: "Firstname",
-    type: "text",
-    placeholder: "Andrio",
-    required: true,
-  },
-  othernames: {
-    title: "Othernames",
-    type: "text",
-    placeholder: "Andrio",
-    required: true,
-  },
-  email: {
-    title: "Email",
-    type: "email",
-    placeholder: "Andrio",
-    required: true,
-  },
-  phone: {
-    title: "Phone",
-    type: "text",
-    placeholder: "0123456789",
-    required: true,
-  },
-  address: {
-    title: "Address",
-    type: "text",
-    placeholder: "Andrio",
-    required: true,
-  },
-  nationality: {
-    title: "Nationality",
-    type: "text",
-    placeholder: "country",
-    required: true,
-  },
-  dob: {
-    title: "Date of Birth",
-    type: "date",
-    placeholder: "dob",
-    required: true,
-  },
-  placeOfBirth: {
-    title: "Place of Birth",
-    type: "text",
-    placeholder: "Accra",
-    required: true,
-  },
-  religion: {
-    title: "Religion",
-    type: "text",
-    placeholder: "your religion",
-    required: false,
-  },
-  emergencyContact: {
-    title: "Contact",
-    type: "phone",
-    placeholder: "contact",
-    required: true,
-  },
-  emergencyContactName: {
-    title: "Name",
-    type: "text",
-    placeholder: "name",
-    required: true,
-  },
-  emergencyContactRelationship: {
-    title: "Relationship",
-    type: "text",
-    placeholder: "relationship",
-    required: true,
-  },
-  emergencyContactContact: {
-    title: "Name",
-    type: "phone",
-    placeholder: "name",
-    required: true,
-  },
-};
 const Form = () => {
   const [activeStep, setActiveStep] = useState(1);
 
@@ -154,7 +59,7 @@ const Form = () => {
             </ul>
           </div>
           <PersonalInformation activeStep={activeStep} />
-          <AcademicInformation activeStep={activeStep} />
+          <AcademicInformation activeStep={activeStep} parentStyles={styles}/>
           <div
             className={`${styles["formbold-form-step-3"]} ${
               activeStep === 3 ? styles["active"] : ""
@@ -246,6 +151,9 @@ const Form = () => {
             </div>
           </div>
 
+          <div className={styles["formbold-form-btn-wrapper"]}>
+            For more enquiries, please contact 0234113444
+          </div>
           <div className={styles["formbold-form-btn-wrapper"]}>
             <button
               type="button"
@@ -367,41 +275,14 @@ function PersonalInformation({
   );
 }
 
-function AcademicInformation({
-  activeStep,
-}: Readonly<AcademicInformationProp>) {
-  return (
-    <div
-      className={`${styles["formbold-form-step-2"]} ${
-        activeStep === 2 ? styles["active"] : ""
-      }`}
-    >
-      <div>
-        <label htmlFor="message" className={styles["formbold-form-label"]}>
-          Message
-        </label>
-        <textarea
-          rows={6}
-          name="message"
-          id="message"
-          placeholder="Type your message"
-          className={`${styles["formbold-form-input"]}`}
-        ></textarea>
-      </div>
-    </div>
-  );
-}
+
 
 type PersonalInformationProp = {
   activeStep: number;
   // handleNext: () => void,
   // handleBack: () => void,
 };
-type AcademicInformationProp = {
-  activeStep: number;
-  // handleNext: () => void,
-  // handleBack: () => void,
-};
+
 
 {
   /* <div>
