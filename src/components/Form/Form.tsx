@@ -1,13 +1,22 @@
 import React, { useState } from "react";
+import dynamic from "../../../node_modules/next/dynamic";
 import styles from "./form.module.css";
 import FormHeader from "../FormHeader/FormHeader";
 import FormTitleCheckbox from "./FormTitleCheckbox";
 import { getYear } from "@/Utils/utils";
 import FormInput from "./FormInput";
 import { requiredInfo, studentInformation } from "@/Utils/constants";
-import AcademicInformation from "./AcademicInformation";
 import { useMediaQuery } from "react-responsive";
-import AcademicInfoMobile from "./AcademicInfoMobile";
+// import AcademicInformation from "./AcademicInformation";
+// import AcademicInfoMobile from "./AcademicInfoMobile";
+
+const AcademicInfoMobile = dynamic(() => import("./AcademicInfoMobile"),{
+  ssr: false
+});
+
+const AcademicInformation = dynamic(() => import("./AcademicInformation"),{
+  ssr: false
+});
 
 const Form = () => {
   const [activeStep, setActiveStep] = useState(1);
@@ -40,23 +49,20 @@ const Form = () => {
           <div className={styles["formbold-steps"]}>
             <ul>
               <li
-                className={`${styles["formbold-step-menu1"]} ${
-                  activeStep === 1 ? styles["active"] : ""
-                }`}
+                className={`${styles["formbold-step-menu1"]} ${activeStep === 1 ? styles["active"] : ""
+                  }`}
               >
                 <span>1</span>PERSONAL INFORMATION
               </li>
               <li
-                className={`${styles["formbold-step-menu2"]} ${
-                  activeStep === 2 ? styles["active"] : ""
-                }`}
+                className={`${styles["formbold-step-menu2"]} ${activeStep === 2 ? styles["active"] : ""
+                  }`}
               >
                 <span>2</span>ACADEMIC INFORMATION
               </li>
               <li
-                className={`${styles["formbold-step-menu3"]} ${
-                  activeStep === 3 ? styles["active"] : ""
-                }`}
+                className={`${styles["formbold-step-menu3"]} ${activeStep === 3 ? styles["active"] : ""
+                  }`}
               >
                 <span>3</span>Confirm
               </li>
@@ -72,9 +78,8 @@ const Form = () => {
             />
           )}
           <div
-            className={`${styles["formbold-form-step-3"]} ${
-              activeStep === 3 ? styles["active"] : ""
-            }`}
+            className={`${styles["formbold-form-step-3"]} ${activeStep === 3 ? styles["active"] : ""
+              }`}
           >
             <div className={styles["formbold-form-confirm"]}>
               <p>
@@ -168,9 +173,8 @@ const Form = () => {
           <div className={styles["formbold-form-btn-wrapper"]}>
             <button
               type="button"
-              className={`${styles["formbold-back-btn"]} ${
-                activeStep > 1 ? styles["active"] : ""
-              }`}
+              className={`${styles["formbold-back-btn"]} ${activeStep > 1 ? styles["active"] : ""
+                }`}
               onClick={handleBack}
             >
               Back
@@ -231,9 +235,8 @@ function PersonalInformation({
   } = studentInformation;
   return (
     <div
-      className={`${styles["formbold-form-step-1"]} ${
-        activeStep === 1 ? styles["active"] : ""
-      }`}
+      className={`${styles["formbold-form-step-1"]} ${activeStep === 1 ? styles["active"] : ""
+        }`}
     >
       <div className={styles["formbold-input-flex"]}>
         <FormInput styles={styles} formField={surname} />
