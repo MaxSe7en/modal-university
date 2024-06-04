@@ -50,7 +50,7 @@
   color: #07074d;
 }
 .formbold-steps li.active span {
-  background: #6a64f1;
+  background: #00C78C;
   color: #ffffff;
 }
 
@@ -85,7 +85,7 @@
   resize: none;
 }
 .formbold-form-input:focus {
-  border-color: #6a64f1;
+  border-color: #00C78C;
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
 }
 .formbold-form-label {
@@ -106,7 +106,7 @@
   line-height: 24px;
   color: #536387;
   margin-bottom: 22px;
-  width: 75%;
+  /* width: 75%; */
 }
 .formbold-form-confirm > div {
   display: flex;
@@ -127,11 +127,20 @@
   padding: 10px 20px;
   transition: all 0.3s ease-in-out;
 }
+
+.inlineLine {
+  display: inline-block;
+  width: 70px;
+  height: 1px; /* Adjust height to match the desired thickness of the line */
+  background-color: black; /* Adjust the color as needed */
+  vertical-align: bottom; /* This helps align it with the text */
+  margin: 0 5px; /* Optional: adds spacing around the line */
+}
 .formbold-confirm-btn {
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.12);
 }
 .formbold-confirm-btn.active {
-  background: #6a64f1;
+  background: #00C78C;
   color: #ffffff;
 }
 
@@ -184,7 +193,8 @@
   padding: 10px 25px;
   border: none;
   font-weight: 500;
-  background-color: #6a64f1;
+ justify-content: center;
+  background-color: #00C78C;
   color: white;
   cursor: pointer;
 }
@@ -192,10 +202,45 @@
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
 }
 
+.formbold-form-enquiries-text{
+  text-align: center;
+  margin-top: 1rem;
+}
+.fontBoldMainHeaders {
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    text-align: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid;
+}
+
+.declarationTxt{
+  font-weight: 700 !important;
+  text-align: justify;
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
   .formbold-main-wrapper {
     padding: 10px;
+  }
+  .formbold-steps {
+    padding-bottom: 15px;
+    margin-bottom: 5px;
+  }
+  .formbold-form-label {
+    margin-bottom: 1px;
+  }
+  .fontBoldMainHeaders {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    text-align: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid;
   }
 
   .formbold-steps ul {

@@ -1,10 +1,25 @@
 .formboldInputFlex {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
     margin-bottom: 22px;
   }
   
+  .fontBoldMainHeaders {
+    text-transform: uppercase;
+    text-align: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid;
+  }
+  .fontBoldMainHeadersTxt, .foreignNoteTxt {
+    text-align: center;
+    font-size: 14px;
+  }
+  .foreignNoteTxt {
+    display: block;
+    font-size: 12px;
+    text-transform: capitalize;
+  }
   .formboldInputField {
     width: 100%;
     padding: 13px 22px;
@@ -18,7 +33,7 @@
     resize: none;
   }
   .formboldInputField:focus {
-    border-color: #6a64f1;
+    border-color: #00C78C;
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
   }
   
@@ -62,6 +77,7 @@
   .formboldTable th {
     background-color: #f4f4f4;
     color: #07074D;
+    text-align: center;
   }
   .formboldTable input,
   .formboldTable select {
@@ -72,13 +88,16 @@
     font-size: 14px;
     color: #536387;
   }
-  
+  .notBold{
+    font-weight: 300;
+    font-size: small;
+  }
   .awaitingCell {
     width: 50px;
   }
   
   .subjectCell {
-    width: 40%;
+    width: 20%;
   }
   
   .gradeCell {

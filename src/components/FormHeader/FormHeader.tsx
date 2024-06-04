@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./formHeader.module.css";
-import schoolLogo from "../../../public/assets/logo/crest.jpeg";
+import schoolLogo from "../../../public/assets/logo/modal_logo.png";
 import Image from "next/image";
 import { Dancing_Script } from "next/font/google";
 
