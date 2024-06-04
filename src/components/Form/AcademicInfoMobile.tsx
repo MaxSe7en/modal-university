@@ -34,15 +34,15 @@ export default function AcademicInfoMobile({
             <div className={styles.formboldGridRow} key={row}>
               <div className={styles.formboldGridColumn}>
                 <span>EXAMINATION TITLE</span>
-                <input type="text" placeholder="eg. WASSCE" />
+                <input type="text" placeholder="e.g. WASSCE" />
               </div>
               <div className={styles.formboldGridColumn}>
                 <span>MONTH AND YEAR ATTEMPTED</span>
-                <input type="text" placeholder="eg. June 2006" />
+                <input type="text" placeholder="e.g. June, 2006" />
               </div>
               <div className={styles.formboldGridColumn}>
                 <span>INDEX NUMBER</span>
-                <input type="text" placeholder="eg 00103620202" />
+                <input type="text" placeholder="e.g. 00103620202" />
               </div>
               <div className={`${styles.formboldGridColumn} ${styles.awaitingColumn}`}>
                 <div>AWAITING</div>
