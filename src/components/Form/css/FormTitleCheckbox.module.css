@@ -32,8 +32,8 @@
 }
 
 .formboldCheckboxInput:checked {
-  background-color: #00C78C;
-  border-color: #00C78C;
+  background-color: hsl(143.18deg 36.07% 23.92%);
+  border-color: hsl(143.18deg 36.07% 23.92%);
 }
 
 .formboldCheckboxLabel {

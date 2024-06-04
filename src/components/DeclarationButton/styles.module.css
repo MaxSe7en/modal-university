@@ -33,7 +33,7 @@
   }
 
   .formbold-confirm-btn.active {
-    background: #00C78C;
+    background: hsl(143.18deg 36.07% 23.92%);
     transition: all 0.3s ease-in-out;
     color: #ffffff;
   }

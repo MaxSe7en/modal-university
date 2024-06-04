@@ -94,7 +94,7 @@ export default function AcademicInfoMobile({
               </div>
               <div className={styles.formboldGridColumn}>
                 <span className={styles.careerFieldsTxt}>DATE</span>
-                <input type="month" placeholder="mon - year" />
+                <input type="month" className={styles.fixDateWidth} placeholder="mon - year" />
               </div>
               <div className={styles.formboldGridColumn}>
                 <span className={styles.careerFieldsTxt}>QUALIFICATION</span>
