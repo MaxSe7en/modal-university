@@ -22,6 +22,7 @@ const FormTitleCheckbox = ({ information }: FormTitleCheckboxProps) => {
                 name={information.title.toLowerCase()}
                 value={option}
                 className={styles.formboldCheckboxInput}
+                defaultChecked={index === 0}
               />
               <label
                 htmlFor={lowerCaseOption}
