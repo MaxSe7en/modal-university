@@ -114,8 +114,7 @@ export default function AcademicInformation({
 
       <div className={styles.formboldInputFlex}>
         <div className={`${styles.fontBoldMainHeaders} ${parentStyles["formbold-form-label"]}`}>
-          NON-WAEC EXAMINATION and FOREIGN APPLICANTS ONLY
-          <span className={styles.foreignNoteTxt}>(Post Diploma - Diploma in Education-International Baccalaureate)</span>
+          NON-WAEC EXAMINATION and FOREIGN APPLICANTS ONLY<span className={styles.foreignNoteTxt}>(Post Diploma - Diploma in Education-International Baccalaureate)</span>
         </div>
         <table className={styles.formboldTable}>
           <thead>

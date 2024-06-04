@@ -57,9 +57,9 @@
 .form-academic-year {
   font-size: 14px;
   text-align: center;
-  font-family: monospace;
+  /* font-family: monospace; */
   font-weight: bold;
-  border-bottom: 1px solid;
+  border-bottom: 2px solid;
   width: fit-content;
   margin: 1rem auto;
 }

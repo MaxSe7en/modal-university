@@ -25,6 +25,7 @@ const Form = () => {
   const handleNext = () => {
     if (activeStep < 3) {
       setActiveStep(activeStep + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth'})
     } else {
       // Submit form logic
       alert("Form submitted");

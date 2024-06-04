@@ -108,7 +108,7 @@
 
 .qualificationNote {
   font-size: 12px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 
 .formboldGrid .formboldGridRow:nth-child(even) {
