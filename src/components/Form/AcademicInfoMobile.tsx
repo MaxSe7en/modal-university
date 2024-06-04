@@ -46,8 +46,8 @@ export default function AcademicInfoMobile({
               </div>
               <div className={`${styles.formboldGridColumn} ${styles.awaitingColumn}`}>
                 <div>AWAITING</div>
-                <label htmlFor="awaitingLabel" className={styles["formbold-awaiting-info"]}>
-                  <input type="checkbox" id='awaitingLabel' className={`awaitingLabel ${styles.awaitingChecbox}`} />(check if awaiting results)</label>
+                <label htmlFor={`awaitingLabel${row}`} className={styles["formbold-awaiting-info"]}>
+                  <input type="checkbox" id={`awaitingLabel${row}`} className={`awaitingLabel ${styles.awaitingChecbox}`} />(check if awaiting results)</label>
               </div>
             </div>
           ))}
