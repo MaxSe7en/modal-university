@@ -27,7 +27,7 @@
 .closeButton {
   margin-top: 20px;
   padding: 8px 16px;
-  background-color: #4caf50;
+  background-color: hsl(143.18deg 36.07% 23.92%);
   color: white;
   border: none;
   cursor: pointer;
