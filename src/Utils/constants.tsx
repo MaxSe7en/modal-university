@@ -1,5 +1,5 @@
 export const requiredInfo = {
-  title: { title: "Title", options: ["Miss", "Mr", "Mrs."] },
+  title: { title: "Title", options: ["Mr", "Miss", "Mrs."] },
   status: {
     title: "Marital Status",
     options: ["Single", "Married"],
@@ -18,13 +18,13 @@ export const studentInformation = {
     required: true,
   },
   firstname: {
-    title: "Firstname",
+    title: "First Name",
     type: "text",
     placeholder: "Type your first name here",
     required: true,
   },
   othernames: {
-    title: "Othernames",
+    title: "Other Names",
     type: "text",
     placeholder: "Type your other names here",
     required: true,
