@@ -87,7 +87,7 @@ const Form = () => {
             </div>
             <div className={styles["formbold-form-confirm"]}>
               <p style={{marginTop: "1rem"}}>
-                <span className={styles.declarationTxt}>Declaration and signature of the applicant.</span> I<span className={styles.inlineLine}></span>declare that the statements on this form are correct. I understand that any offer of admission may be withdrawn if the information provided is fraudulent or if I cannot provide documentary evidence.
+                <span className={styles.declarationTxt}>Declaration</span> I<span className={styles.inlineLine}></span>declare that the statements on this form are correct. I understand that any offer of admission may be withdrawn if the information provided is fraudulent or if I cannot provide documentary evidence.
               </p>
 
 
