@@ -12,23 +12,17 @@ const FormHeader = () => {
       <div className={styles["header-container"]}>
         <Image src={schoolLogo} alt="school logo" className={styles["school-logo"]} />
         <div className={styles["school-details"]}>
-          <h1 className={`${dancingFont.className} ${styles["school-name"]}`}>
+          <h1 className={`${styles["school-name"]}`}>
             Modal University College
           </h1>
           <p>
             The Admission Office, P.O. Box SK 172 Sogakope, Volta Region, Ghana
           </p>
           <p>Mob. +233 552482220, +233 207686304</p>
-          <p>Website: www.mocalcollege.com</p>
+          <p>Website: www.modalcollege.com</p>
         </div>
         <div className={styles["spacer"]}></div>
       </div>
-      {/* <div className={styles["general-info"]}>
-        <h4 className={`${styles["form-title"]}`}>
-        GENERAL INSTRUCTIONS
-        </h4>
-        <p className={styles["general-info-instructions"]}>Please read all information on this form carefully before completing the form. Apply as early as possible to avoid disappointment as competition is keen.</p>
-      </div> */}
     </>
   );
 };

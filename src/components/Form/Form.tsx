@@ -7,6 +7,7 @@ import { getYear } from "@/Utils/utils";
 import FormInput from "./FormInput";
 import { requiredInfo, studentInformation } from "@/Utils/constants";
 import { useMediaQuery } from "react-responsive";
+import DateOfBirthInput from "./DateOfBirth";
 // import AcademicInformation from "./AcademicInformation";
 // import AcademicInfoMobile from "./AcademicInfoMobile";
 
@@ -258,14 +259,15 @@ function PersonalInformation({
         {/* <FormTitleCheckbox information={requiredInfo.title} /> */}
       </div>
       <div className={styles["formbold-input-flex"]}>
-        <FormInput styles={styles} formField={dob} />
+        {/* <FormInput styles={styles} formField={dob} /> */}
+        <DateOfBirthInput />
         <FormInput styles={styles} formField={placeOfBirth} />
         <FormInput styles={styles} formField={nationality} />
       </div>
 
       <div className={styles["formbold-input-flex"]}>
-        <FormTitleCheckbox information={requiredInfo.status} />
         <FormTitleCheckbox information={requiredInfo.gender} />
+        <FormTitleCheckbox information={requiredInfo.status} />
       </div>
 
       <div className={styles["formbold-input-flex"]}>

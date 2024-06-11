@@ -1,3 +1,3 @@
-export function getYear(){
-    return new Date().getUTCFullYear();
+export function getYear() {
+  return new Date().getUTCFullYear() + 1;
 }
