@@ -4,9 +4,9 @@ const FormContext = createContext({});
 
 export const FormProvider = ({ children }: any) => {
   const bet = {};
-  const values = useMemo(() => {bet}, [bet]);
+  const values = useMemo(() => ({bet}), [bet]);
 
-  return <FormContext.Provider value={{values}}>{children}</FormContext.Provider>;
+  return <FormContext.Provider value={values}>{children}</FormContext.Provider>;
 };
 
 export const useFormController = () => useContext(FormContext);
