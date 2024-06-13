@@ -26,7 +26,7 @@ const DateOfBirthInput = () => {
 
   return (
     <div className={styles.dateOfBirthContainer}>
-      <div className={styles["formbold-form-label"]}>Day:</div>
+      <div className={styles["formbold-form-label"]}>Date of Birth:</div>
       <div className={styles["selectWrapper"]}>
         <div className={styles.selectContainer}>
           <select

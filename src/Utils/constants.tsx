@@ -108,12 +108,20 @@ export const examsType = [
 
 
 export const subjects = [
-    "English",
-    "Mathematics",
-    "Kiswahili",
-    "Biology",
-    "Chemistry",
-    "Physics",
+  "English",
+  "Mathematics",
+  "Kiswahili",
+  "Biology",
+  "Chemistry",
+  "Physics",
 ]
 
 export const gradeOptions = ["A1", "B2", "B3", "C4", "C5", "C6", "D7", "E8", "F9"];
+
+// Utils/constants.ts
+export const validationRules:any = {
+  examinationTitle: /^[a-zA-Z\s]+$/,
+  monthYear: /^(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4}$/,
+  indexNumber: /^\d+$/,
+  subject: /^[a-zA-Z\s]+$/,
+};
