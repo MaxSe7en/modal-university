@@ -21,7 +21,7 @@ const AcademicInformation = dynamic(() => import("./AcademicInformation"), {
 });
 
 const Form = () => {
-  const [activeStep, setActiveStep] = useState(2);
+  const [activeStep, setActiveStep] = useState(1);
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [declareState, setDeclareState] = useState(false);
   const {
