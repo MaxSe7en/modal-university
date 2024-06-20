@@ -11,3 +11,13 @@ body {
 p {
   font-size: 0.7rem;
 }
+
+.formbold-error {
+  color: red;
+  font-size: 0.6rem;
+  margin-top: 0.25rem;
+}
+
+.error {
+  border-color: red;
+}

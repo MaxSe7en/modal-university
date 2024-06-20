@@ -216,6 +216,17 @@
     border-bottom: 1px solid;
 }
 
+.formbold-error {
+  color: red;
+  font-size: 0.6rem;
+  margin-top: 0.25rem;
+}
+
+.error {
+  border-color: red;
+}
+
+
 .declarationTxt{
   font-weight: 700 !important;
   text-align: justify;

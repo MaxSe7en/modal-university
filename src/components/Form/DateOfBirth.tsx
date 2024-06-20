@@ -19,10 +19,10 @@ const months = [
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
-const DateOfBirthInput = () => {
-  const [day, setDay] = useState("");
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
+const DateOfBirthInput = ({ day, month, year, setDay, setMonth, setYear,error}:any) => {
+  // const [day, setDay] = useState("");
+  // const [month, setMonth] = useState("");
+  // const [year, setYear] = useState("");
 
   return (
     <div className={styles.dateOfBirthContainer}>
@@ -78,6 +78,7 @@ const DateOfBirthInput = () => {
           </select>
         </div>
       </div>
+      {error && <p className={'formbold-error'}>{error}</p>}
     </div>
   );
 };

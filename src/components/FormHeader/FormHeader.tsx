@@ -8,8 +8,7 @@ const dancingFont = Dancing_Script({ subsets: ["latin"] });
 
 const FormHeader = () => {
   return (
-    <>
-      <div className={styles["header-container"]}>
+    <div className={styles["header-container"]}>
         <Image src={schoolLogo} alt="school logo" className={styles["school-logo"]} />
         <div className={styles["school-details"]}>
           <h1 className={`${styles["school-name"]}`}>
@@ -23,7 +22,6 @@ const FormHeader = () => {
         </div>
         <div className={styles["spacer"]}></div>
       </div>
-    </>
   );
 };
 
