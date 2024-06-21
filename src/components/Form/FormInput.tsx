@@ -18,7 +18,7 @@ const FormInput = ({ styles, formField }: FormInputProps) => {
   return (
     <div>
       <label htmlFor={title.replace(/\s/g, "").toLowerCase()} className={styles["formbold-form-label"]}>
-        {title}{inputValue}
+        {title}
       </label>
       <input
         type={type}

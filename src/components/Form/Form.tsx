@@ -21,9 +21,7 @@ const AcademicInformation = dynamic(() => import("./AcademicInformation"), {
 });
 
 const Form = () => {
-  const [activeStep, setActiveStep] = useState(1);
   const isMobile = useMediaQuery({ maxWidth: 767 });
-  const [declareState, setDeclareState] = useState(false);
   const {
     inputValues,
     errors,
@@ -31,23 +29,71 @@ const Form = () => {
     handleChange,
     handleSubmit,
     validate,
+    academicInfo,
+    validateAcademicInfo,
+    activeStep,
+    setActiveStep,
+    declarationError,
+    declareState,
+    setDeclareState,
   }: any = useForm();
   const handleNext = () => {
     const validationErrors = validate(inputValues);
+    const academicValidationErrors = validateAcademicInfo(academicInfo);
+    const combinedErrors = { ...validationErrors, ...academicValidationErrors };
 
-    if (Object.keys(validationErrors).length === 0) {
-      if (activeStep < 3) {
-        setActiveStep(activeStep + 1);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      } else {
-        // Submit form logic
-        alert("Form submitted");
+
+    switch (activeStep) {
+      case 1: {
+        if (Object.keys(validationErrors).length === 0) {
+          // if (activeStep < 3) {
+          setActiveStep(activeStep + 1);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          // }
+        } else {
+          setErrors(validationErrors);
+          // setErrors(combinedErrors);
+          // Handle errors, e.g., show a message to the user
+          console.log("Please fill in all required fields.");
+        }
+        break;
       }
-    } else {
-      setErrors(validationErrors);
-      // Handle errors, e.g., show a message to the user
-      console.log("Please fill in all required fields.");
+      case 2: {
+        if (Object.keys(academicValidationErrors).length === 0) {
+          // if (activeStep < 3) {
+          setActiveStep(activeStep + 1);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          // }
+        } else {
+          setErrors(academicValidationErrors);
+          // setErrors(combinedErrors);
+          // Handle errors, e.g., show a message to the user
+          console.log("Please fill in all required fields.");
+        }
+        break;
+      }
+      default:
+        return "nothing";
     }
+
+    // if (Object.keys(combinedErrors).length === 0) {
+
+
+
+    //   // if (Object.keys(validationErrors).length === 0) {
+    //   if (activeStep < 3) {
+    //     setActiveStep(activeStep + 1);
+    //     window.scrollTo({ top: 0, behavior: "smooth" });
+    //   } else {
+    //     // Submit form logic
+    //     alert("Form submitted");
+    //   }
+    // } else {
+    //   // setErrors(validationErrors);
+    //   setErrors(combinedErrors);
+    //   // Handle errors, e.g., show a message to the user
+    //   console.log("Please fill in all required fields.");
+    // }
   };
 
   const handleBack = () => {
@@ -67,23 +113,20 @@ const Form = () => {
           <div className={styles["formbold-steps"]}>
             <ul>
               <li
-                className={`${styles["formbold-step-menu1"]} ${
-                  activeStep === 1 ? styles["active"] : ""
-                }`}
+                className={`${styles["formbold-step-menu1"]} ${activeStep === 1 ? styles["active"] : ""
+                  }`}
               >
                 <span>1</span>PERSONAL INFORMATION
               </li>
               <li
-                className={`${styles["formbold-step-menu2"]} ${
-                  activeStep === 2 ? styles["active"] : ""
-                }`}
+                className={`${styles["formbold-step-menu2"]} ${activeStep === 2 ? styles["active"] : ""
+                  }`}
               >
                 <span>2</span>ACADEMIC INFORMATION
               </li>
               <li
-                className={`${styles["formbold-step-menu3"]} ${
-                  activeStep === 3 ? styles["active"] : ""
-                }`}
+                className={`${styles["formbold-step-menu3"]} ${activeStep === 3 ? styles["active"] : ""
+                  }`}
               >
                 <span>3</span>DECLARATION
               </li>
@@ -99,9 +142,8 @@ const Form = () => {
             />
           )}
           <div
-            className={`${styles["formbold-form-step-3"]} ${
-              activeStep === 3 ? styles["active"] : ""
-            }`}
+            className={`${styles["formbold-form-step-3"]} ${activeStep === 3 ? styles["active"] : ""
+              }`}
           >
             <div className={styles["formbold-form-label"]}>
               <span
@@ -112,8 +154,9 @@ const Form = () => {
             </div>
             <div className={styles["formbold-form-confirm"]}>
               <p style={{ marginTop: "1rem" }}>
-                <span className={styles.declarationTxt}>Declaration</span> I
-                <span className={styles.inlineLine}></span>declare that the
+                <span className={styles.declarationTxt}>Declaration by applicant.</span> I {" "}
+                {/* <span className={styles.inlineLine}></span> */}
+                declare that the
                 statements on this form are correct. I understand that any offer
                 of admission may be withdrawn if the information provided is
                 fraudulent or if I cannot provide documentary evidence.
@@ -157,7 +200,7 @@ const Form = () => {
                         </clipPath>
                       </defs>
                     </svg>
-                    Yes! I want it.
+                    Yes! I declare.
                   </button>
                 ) : (
                   <button
@@ -193,19 +236,20 @@ const Form = () => {
                     Yes! I declare.
                   </button>
                 )}
+                {/* {JSON.stringify(declarationError)} */}
               </div>
+              {declarationError && <p style={{ textAlign: "center", color: "red" }} className={styles['formbold-error']}>Accept to complete application</p>}
             </div>
           </div>
 
           <div className={styles["formbold-form-enquiries-text"]}>
-            For more enquiries, please contact 0234113444
+            For assistance filling forms, call: 0234113444
           </div>
           <div className={styles["formbold-form-btn-wrapper"]}>
             <button
               type="button"
-              className={`${styles["formbold-back-btn"]} ${
-                activeStep > 1 ? styles["active"] : ""
-              }`}
+              className={`${styles["formbold-back-btn"]} ${activeStep > 1 ? styles["active"] : ""
+                }`}
               onClick={handleBack}
             >
               Back
@@ -214,7 +258,7 @@ const Form = () => {
             <button
               type="button"
               className={styles["formbold-btn"]}
-              onClick={handleNext}
+              onClick={activeStep === 3 ? handleSubmit : handleNext}
             >
               {activeStep === 3 ? "Submit" : "Next Step"}
               <svg
@@ -273,9 +317,8 @@ function PersonalInformation({
 
   return (
     <div
-      className={`${styles["formbold-form-step-1"]} ${
-        activeStep === 1 ? styles["active"] : ""
-      }`}
+      className={`${styles["formbold-form-step-1"]} ${activeStep === 1 ? styles["active"] : ""
+        }`}
     >
       <div className={styles["formbold-form-label"]}>
         <span
@@ -398,21 +441,13 @@ function PersonalInformation({
           <FormInput
             styles={styles}
             formField={{
-              ...emergencyContact,
-              inputValue: inputValues.emergencycontactnumber,
-              onChange: handleChange,
-              error: errors.emergencycontactnumber,
-            }}
-          />
-          <FormInput
-            styles={styles}
-            formField={{
               ...emergencyContactName,
               inputValue: inputValues.emergencycontactname,
               onChange: handleChange,
               error: errors.emergencycontactname,
             }}
           />
+
           <FormInput
             styles={styles}
             formField={{
@@ -422,6 +457,17 @@ function PersonalInformation({
               error: errors.emergencycontactrelationship,
             }}
           />
+
+          <FormInput
+            styles={styles}
+            formField={{
+              ...emergencyContact,
+              inputValue: inputValues.emergencycontactnumber,
+              onChange: handleChange,
+              error: errors.emergencycontactnumber,
+            }}
+          />
+
         </div>
       </div>
     </div>
@@ -434,17 +480,3 @@ type PersonalInformationProp = {
   // handleBack: () => void,
 };
 
-{
-  /* <div>
-          <label htmlFor="email" className={styles["formbold-form-label"]}>
-            Email Address
-          </label>
-          <input
-            type="email"
-            name="email"
-            placeholder="example@mail.com"
-            id="email"
-            className={`${styles["formbold-form-input"]}`}
-          />
-        </div> */
-}

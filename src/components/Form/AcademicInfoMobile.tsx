@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./css/AcademicInfoMobile.module.css";
 import { gradeOptions, validationRules } from "@/Utils/constants";
 import { validateInput } from "@/Utils/utils";
+import { useForm } from "@/contexts/FormContext";
 
 
 type AcademicInfoMobileProp = {
@@ -20,87 +21,61 @@ type SlipData = {
   subjects: { subject: string; grade: string }[];
 };
 
+
 export default function AcademicInfoMobile({
   activeStep,
   parentStyles,
 }: Readonly<AcademicInfoMobileProp>) {
-  const [numRows, setNumRows] = useState(0);
-  const [slips, setSlips] = useState<SlipData[]>([]);
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const { academicInfo, handleAcademicChange, errors }: any = useForm();
 
-  const handleResultSlipsChange = (event: { target: { value: string } }) => {
+  const handleResultSlipsChange = (event: { target: { value: string; }; }) => {
     const numSlips = parseInt(event.target.value);
-    setNumRows(numSlips);
-    setSlips(
-      Array.from({ length: numSlips }, () => ({
-        examinationTitle: "",
-        monthYear: "",
-        indexNumber: "",
-        awaiting: false,
-        numSubjects: 0,
-        subjects: [],
-      }))
-    );
+    const newSlips = Array.from({ length: numSlips }, () => ({
+      examinationTitle: "",
+      monthYear: "",
+      indexNumber: "",
+      awaiting: false,
+      numSubjects: 0,
+      subjects: [],
+    }));
+    handleAcademicChange({ ...academicInfo, numRows: numSlips, slips: newSlips });
   };
 
-  const handleSlipChange = (
-    slipIndex: number,
-    field: keyof SlipData,
-    value: string | boolean | number
-  ) => {
-    setSlips((prevSlips) => {
-      const updatedSlips = [...prevSlips];
-      updatedSlips[slipIndex] = {
-        ...updatedSlips[slipIndex],
-        [field]: value,
-      };
+  const handleSlipChange = (slipIndex: any, field: string, value: any) => {
+    const updatedSlips: any = [...academicInfo.slips];
+    updatedSlips[slipIndex] = { ...updatedSlips[slipIndex], [field]: value };
+    const updatedSubjects = [...updatedSlips[slipIndex].subjects];
+    console.log("jjjjjjjjjjjjjjjjjjjjjjj", updatedSubjects, field, value)
+    if (field == "numSubjects") {
 
-      // Validate the input field
-      const isValid = validateInput(value.toString(), validationRules[field]);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [`${field}_${slipIndex}`]: isValid ? "" : `Invalid ${field}`,
-      }));
+      for (let index = 0; index < value; index++) {
+        updatedSubjects[index] = { subject: "", grade: "" };
 
-      return updatedSlips;
-    });
+      }
+    }
+    updatedSlips[slipIndex].subjects = updatedSubjects;
+    // if (!updatedSubjects[subjectIndex]) {
+    // updatedSubjects[subjectIndex] = { subject: "", grade: "" };
+    // }
+    handleAcademicChange({ ...academicInfo, slips: updatedSlips });
   };
 
-  const handleSubjectChange = (
-    slipIndex: number,
-    subjectIndex: number,
-    field: "subject" | "grade",
-    value: string
-  ) => {
-    setSlips((prevSlips) => {
-      const updatedSlips = [...prevSlips];
-      const updatedSubjects = [...updatedSlips[slipIndex].subjects];
-      if (!updatedSubjects[subjectIndex]) {
-        updatedSubjects[subjectIndex] = { subject: "", grade: "" };
-      }
-      updatedSubjects[subjectIndex][field] = value;
-      updatedSlips[slipIndex].subjects = updatedSubjects;
-
-      // Validate the subject field
-      if (field === "subject") {
-        const isValid = validateInput(value, validationRules.subject);
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [`subject_${slipIndex}_${subjectIndex}`]: isValid
-            ? ""
-            : "Invalid subject",
-        }));
-      }
-
-      return updatedSlips;
-    });
+  const handleSubjectChange = (slipIndex: any, subjectIndex: number, field: string, value: string) => {
+    const updatedSlips: any = [...academicInfo.slips];
+    const updatedSubjects = [...updatedSlips[slipIndex].subjects];
+    console.log("jjjjjjjjdsffffffffffffffffffffffffjjjjjjjjjjjjjjj", updatedSubjects, subjectIndex, field)
+    if (!updatedSubjects[subjectIndex]) {
+      updatedSubjects[subjectIndex] = { subject: "", grade: "" };
+    }
+    updatedSubjects[subjectIndex][field] = value;
+    updatedSlips[slipIndex].subjects = updatedSubjects;
+    handleAcademicChange({ ...academicInfo, slips: updatedSlips });
   };
 
   return (
     <div
-      className={`${parentStyles["formbold-form-step-2"]} ${
-        activeStep === 2 ? parentStyles["active"] : ""
-      }`}
+      className={`${parentStyles["formbold-form-step-2"]} ${activeStep === 2 ? parentStyles["active"] : ""
+        }`}
     >
       <div className={styles.formboldInputFlex}>
         <div className={parentStyles["formbold-form-label"]}>
@@ -123,7 +98,7 @@ export default function AcademicInfoMobile({
           </label>
           <select
             id="rowSelect"
-            value={numRows}
+            value={academicInfo?.numRows}
             onChange={handleResultSlipsChange}
           >
             {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
@@ -132,9 +107,14 @@ export default function AcademicInfoMobile({
               </option>
             ))}
           </select>
+          {errors.numRows && <span className={`${styles.error} ${styles["formbold-error"]}`}>{errors.numRows}</span>}
         </div>
         <div className={styles.formboldGrid}>
-          {slips.map((slip, slipIndex) => (
+          {academicInfo?.slips.map((slip: {
+            numSubjects: any;
+            awaiting: boolean | undefined;
+            subjects: any; examinationTitle: any; monthYear: any; indexNumber: any
+          }, slipIndex: React.Key) => (
             <div className={styles.formboldGridRow} key={slipIndex}>
               <div className={styles.formboldGridColumn}>
                 <span>EXAMINATION TITLE</span>
@@ -152,9 +132,7 @@ export default function AcademicInfoMobile({
                   required
                 />
                 {errors[`examinationTitle_${slipIndex}`] && (
-                  <span className="error">
-                    {errors[`examinationTitle_${slipIndex}`]}
-                  </span>
+                  <span className={`${styles.error} ${styles["formbold-error"]}`}>{errors[`examinationTitle_${slipIndex}`]}</span>
                 )}
               </div>
               <div className={styles.formboldGridColumn}>
@@ -169,9 +147,7 @@ export default function AcademicInfoMobile({
                   required
                 />
                 {errors[`monthYear_${slipIndex}`] && (
-                  <span className="error">
-                    {errors[`monthYear_${slipIndex}`]}
-                  </span>
+                  <span className={`${styles.error} ${styles["formbold-error"]}`}>{errors[`monthYear_${slipIndex}`]}</span>
                 )}
               </div>
               <div className={styles.formboldGridColumn}>
@@ -186,9 +162,7 @@ export default function AcademicInfoMobile({
                   required
                 />
                 {errors[`indexNumber_${slipIndex}`] && (
-                  <span className="error">
-                    {errors[`indexNumber_${slipIndex}`]}
-                  </span>
+                  <span className={`${styles.error} ${styles["formbold-error"]}`}>{errors[`indexNumber_${slipIndex}`]}</span>
                 )}
               </div>
               <div
@@ -212,6 +186,9 @@ export default function AcademicInfoMobile({
                     </option>
                   ))}
                 </select>
+                {errors[`numSubjects_${slipIndex}`] && (
+                  <span className={`${styles.error} ${styles["formbold-error"]}`}>{errors[`numSubjects_${slipIndex}`]}</span>
+                )}
               </div>
               <div
                 className={`${styles.formboldGridColumn} ${styles.awaitingColumn}`}
@@ -243,7 +220,7 @@ export default function AcademicInfoMobile({
                   <table className={styles.subjectGradeTable}>
                     <thead>
                       <tr>
-                        <th>Subject Taken</th>
+                        <th>Subject</th>
                         <th>Grade</th>
                       </tr>
                     </thead>
@@ -271,16 +248,8 @@ export default function AcademicInfoMobile({
                                 }
                                 required
                               />
-                              {errors[
-                                `subject_${slipIndex}_${subjectIndex}`
-                              ] && (
-                                <span className="error">
-                                  {
-                                    errors[
-                                      `subject_${slipIndex}_${subjectIndex}`
-                                    ]
-                                  }
-                                </span>
+                              {errors[`subject_${slipIndex}_${subjectIndex}`] && (
+                                <span className={`${styles.error} ${styles["formbold-error"]}`}>{errors[`subject_${slipIndex}_${subjectIndex}`]}</span>
                               )}
                             </td>
                             <td>
@@ -306,6 +275,9 @@ export default function AcademicInfoMobile({
                                   </option>
                                 ))}
                               </select>
+                              {errors[`grade_${slipIndex}_${subjectIndex}`] && (
+                                <span className={`${styles.error} ${styles["formbold-error"]}`}>{errors[`grade_${slipIndex}_${subjectIndex}`]}</span>
+                              )}
                             </td>
                           </tr>
                         )
@@ -318,45 +290,6 @@ export default function AcademicInfoMobile({
           ))}
         </div>
       </div>
-
-      {/* <div className={styles.formboldInputFlex}>
- <div className={parentStyles["formbold-form-label"]}>
-   <span className={`${styles.fontBoldMainHeaders} ${parentStyles["formbold-form-label"]} ${styles.lineHeight}`}>
-     NON-WAEC EXAMINATION and FOREIGN APPLICANTS ONLY<span className={styles.foreignNoteTxt}>(Post Diploma - Diploma in Education-International Baccalaureate)</span>
-   </span>
-   <div className={`${styles.formboldGrid} ${styles.addMargin}`}>
-     {[1, 2].map((row) => (
-       <div className={styles.formboldGridRow} key={row}>
-         <div className={styles.formboldGridColumn}>
-           <span className={styles.careerFieldsTxt}>NAME OF INSTITUTION</span>
-           <input type="text" placeholder="Enter name of Institution" />
-         </div>
-         <div className={styles.formboldGridColumn}>
-           <span className={styles.careerFieldsTxt}>DATE</span>
-           <input type="month" className={styles.fixDateWidth} placeholder="mon - year" />
-         </div>
-         <div className={styles.formboldGridColumn}>
-           <span className={styles.careerFieldsTxt}>QUALIFICATION</span>
-           <input type="text" placeholder="Enter your qualification" />
-         </div>
-         <div className={styles.formboldGridColumn}>
-           <span className={styles.careerFieldsTxt}>GRADE / GPA</span>
-           <input type="text" placeholder="Enter your grade" />
-         </div>
-         <div className={styles.formboldGridColumn}>
-           <span className={styles.careerFieldsTxt}>CLASS / HONOUR</span>
-           <input type="text" placeholder="Enter your class" />
-         </div>
-         <div className={`${styles.formboldGridColumn} ${styles.awaitingColumn}`}>
-         <div>AWAITING</div>
-         <label htmlFor="" className={styles["formbold-awaiting-info"]}>
-           <input type="checkbox" className={styles.awaitingChecbox} />(check if awaiting results)</label>
-       </div>
-       </div>
-     ))}
-   </div>
- </div>
-</div> */}
     </div>
   );
 }

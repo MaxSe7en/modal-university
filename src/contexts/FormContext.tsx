@@ -4,6 +4,9 @@ const FormContext = createContext({});
 
 export const FormProvider = ({ children }: any) => {
   const bet = {};
+  const [activeStep, setActiveStep] = useState(1);
+  const [declareState, setDeclareState] = useState(false);
+  const [declarationError, setDeclarationError] = useState(false);
 
   const [inputValues, setInputValues] = useState({
     surname: "",
@@ -25,6 +28,11 @@ export const FormProvider = ({ children }: any) => {
   });
 
   const [errors, setErrors] = useState({});
+
+  const [academicInfo, setAcademicInfo] = useState({
+    numRows: 0,
+    slips: [],
+  });
 
   const validate = (values: {
     day: any;
@@ -135,6 +143,59 @@ export const FormProvider = ({ children }: any) => {
     return errors;
   };
 
+  const validateAcademicInfo = (info: { numRows: any; slips: any }) => {
+    let errors: any = {};
+
+    if (info.numRows === 0) {
+      errors.numRows = "Number of result slips is required";
+    }
+
+    info.slips.forEach(
+      (
+        slip: {
+          examinationTitle: any;
+          monthYear: any;
+          indexNumber: any;
+          numSubjects: number;
+          subjects: any;
+        },
+        slipIndex: any
+      ) => {
+        if (!slip.examinationTitle) {
+          errors[`examinationTitle_${slipIndex}`] =
+            "Examination title is required";
+        }
+        if (!slip.monthYear) {
+          errors[`monthYear_${slipIndex}`] =
+            "Month and year attempted are required";
+        }
+        if (!slip.indexNumber) {
+          errors[`indexNumber_${slipIndex}`] = "Index number is required";
+        }
+        if (slip.numSubjects === 0) {
+          errors[`numSubjects_${slipIndex}`] = "Number of subjects is required";
+        }
+        // console.log(slip);
+        const slipSubject: any = slip.subjects;
+        slipSubject.forEach(
+          (subject: { subject: any; grade: any }, subjectIndex: any) => {
+            console.log("sdfkdasfdshfkhkdashfhdkashfkhasdkhfas");
+            if (!subject?.subject) {
+              errors[`subject_${slipIndex}_${subjectIndex}`] =
+                "Subject is required";
+            }
+            if (!subject?.grade) {
+              errors[`grade_${slipIndex}_${subjectIndex}`] =
+                "Grade is required";
+            }
+          }
+        );
+      }
+    );
+
+    return errors;
+  };
+
   const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
     console.log(value, name);
@@ -146,12 +207,24 @@ export const FormProvider = ({ children }: any) => {
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    const validationErrors = validate(inputValues);
-    setErrors(validationErrors);
-    if (Object.keys(validationErrors).length === 0) {
-      // Submit form
-      console.log("Form submitted successfully:", inputValues);
+    if (activeStep === 3 && !declareState) {
+      setDeclarationError(true);
+      return;
     }
+    const validationErrors = validate(inputValues);
+    const academicValidationErrors = validateAcademicInfo(academicInfo);
+    setErrors({ ...validationErrors, ...academicValidationErrors });
+
+    if (
+      Object.keys(validationErrors).length === 0 &&
+      Object.keys(academicValidationErrors).length === 0
+    ) {
+      console.log("Form submitted successfully:", inputValues, academicInfo);
+    }
+  };
+
+  const handleAcademicChange = (info: any) => {
+    setAcademicInfo(info);
   };
 
   const values = useMemo(
@@ -159,16 +232,31 @@ export const FormProvider = ({ children }: any) => {
       bet,
       errors,
       inputValues,
+      academicInfo,
+      activeStep,
+      declareState,
+      declarationError,
+      setDeclarationError,
+      setDeclareState,
+      setActiveStep,
       validate,
       setInputValues,
       setErrors,
       handleChange,
+      handleAcademicChange,
+      validateAcademicInfo,
       handleSubmit,
     }),
-    [bet, errors, inputValues]
+    [bet, errors, inputValues, activeStep, declareState, declarationError, academicInfo]
   );
 
   return <FormContext.Provider value={values}>{children}</FormContext.Provider>;
 };
 
 export const useForm = () => useContext(FormContext);
+// errors,
+//   inputValues,
+//   setInputValues,
+//   setErrors,
+//   handleChange,
+//   handleSubmit,

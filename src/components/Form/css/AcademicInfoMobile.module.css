@@ -88,6 +88,15 @@
   color: #536387;
 }
 
+.formbold-error {
+  color: red !important;
+  font-size: 0.6rem;
+  margin-top: 0.25rem;
+}
+.error {
+  border-color: red;
+}
+
 .formboldGridColumn,
 .subjectColumn,
 .gradeColumn {
