@@ -112,50 +112,7 @@ export default function AcademicInformation({
         </table>
       </div>
 
-      <div className={styles.formboldInputFlex}>
-        <div className={`${styles.fontBoldMainHeaders} ${parentStyles["formbold-form-label"]}`}>
-          NON-WAEC EXAMINATION and FOREIGN APPLICANTS ONLY<span className={styles.foreignNoteTxt}>(Post Diploma - Diploma in Education-International Baccalaureate)</span>
-        </div>
-        <table className={styles.formboldTable}>
-          <thead>
-            <tr>
-              <th rowSpan={2}>NAME OF INSTITUTION</th>
-              <th rowSpan={1} >DATE</th>
-              <th rowSpan={2}>QUALIFICATION <br /> <i className={styles.notBold}> e.g. Diploma in Nursing </i></th>
-              <th rowSpan={2}>GRADE / GPA</th>
-              <th rowSpan={2}>CLASS / HONOUR</th>
-            </tr>
-            {/* <tr>
-              <th>1st</th>
-              <th>2nd</th>
-              <th>3rd</th>
-            </tr> */}
-          </thead>
-          <tbody>
-            {Array.from({ length: 3 }, (_, index) => (
-              <tr key={index}>
-                <td className={styles.subjectCell}>
-                  <input type="text" placeholder="Enter name of Institution" />
-                </td>
-                <td className={styles.gradeCell}>
-                  <input type="month" placeholder="mon - year" />
-                </td>
-                <td className={styles.gradeCell}>
-                  <input type="text" placeholder="Enter your qualification" />
-
-                </td>
-                <td className={styles.gradeCell}>
-                  <input type="text" placeholder="Enter your grade" />
-
-                </td>
-                <td className={styles.gradeCell}>
-                  <input type="text" placeholder="Enter your class" />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      
     </div>
   );
 }
