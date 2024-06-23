@@ -1,3 +1,4 @@
+import { sendOtp } from "@/services/authService";
 import { createContext, useMemo, useContext, useState } from "react";
 
 const FormContext = createContext({});
@@ -7,6 +8,13 @@ export const FormProvider = ({ children }: any) => {
   const [activeStep, setActiveStep] = useState(1);
   const [declareState, setDeclareState] = useState(false);
   const [declarationError, setDeclarationError] = useState(false);
+
+  const [activeLoginStep, setActiveLoginStep] = useState(1);
+  const [loginInputValues, setLoginInputValues] = useState({
+    phone: "",
+    otp: "",
+  });
+  const [otpSent, setOtpSent] = useState(false); // State to track OTP sent status
 
   const [inputValues, setInputValues] = useState({
     surname: "",
@@ -196,35 +204,64 @@ export const FormProvider = ({ children }: any) => {
     return errors;
   };
 
-  const handleChange = (e: { target: { name: any; value: any } }) => {
-    const { name, value } = e.target;
-    console.log(value, name);
-    setInputValues({
-      ...inputValues,
-      [name]: value,
-    });
-  };
+  const handleChange = useMemo(
+    () => (e: { target: { name: any; value: any } }) => {
+      const { name, value } = e.target;
+      console.log(value, name);
+      setInputValues({
+        ...inputValues,
+        [name]: value,
+      });
+    },
+    [inputValues]
+  );
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    if (activeStep === 3 && !declareState) {
-      setDeclarationError(true);
-      return;
-    }
-    const validationErrors = validate(inputValues);
-    const academicValidationErrors = validateAcademicInfo(academicInfo);
-    setErrors({ ...validationErrors, ...academicValidationErrors });
+  const handleSubmit = useMemo(
+    () => (e: { preventDefault: () => void }) => {
+      e.preventDefault();
+      if (activeStep === 3 && !declareState) {
+        setDeclarationError(true);
+        return;
+      }
+      const validationErrors = validate(inputValues);
+      const academicValidationErrors = validateAcademicInfo(academicInfo);
+      setErrors({ ...validationErrors, ...academicValidationErrors });
 
-    if (
-      Object.keys(validationErrors).length === 0 &&
-      Object.keys(academicValidationErrors).length === 0
-    ) {
-      console.log("Form submitted successfully:", inputValues, academicInfo);
-    }
-  };
+      if (
+        Object.keys(validationErrors).length === 0 &&
+        Object.keys(academicValidationErrors).length === 0
+      ) {
+        console.log("Form submitted successfully:", inputValues, academicInfo);
+      }
+    },
+    [academicInfo, activeStep, declareState, inputValues]
+  );
 
   const handleAcademicChange = (info: any) => {
     setAcademicInfo(info);
+  };
+
+  const handleOtpContinue = async () => {
+    try {
+      const response = await sendOtp(loginInputValues.phone);
+      console.log("OTP sent successfully:", response);
+      setOtpSent(true);
+      setActiveLoginStep(2);
+    } catch (error) {
+      console.error("Failed to send OTP");
+    }
+  };
+
+  const handleLoginInputChange = (e: { target: { name: any; value: any } }) => {
+    setLoginInputValues({ ...loginInputValues, [e.target.name]: e.target.value });
+  };
+
+  const handleNumberOtpSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    if (activeLoginStep === 2) {
+      // Add your OTP verification logic here
+      console.log("OTP Submitted:", loginInputValues.otp);
+    }
   };
 
   const values = useMemo(
@@ -243,11 +280,33 @@ export const FormProvider = ({ children }: any) => {
       setInputValues,
       setErrors,
       handleChange,
+      activeLoginStep,
+      setActiveLoginStep,
+      loginInputValues,
+      setLoginInputValues,
+      otpSent,
+      setOtpSent,
+      handleOtpContinue,
+      handleLoginInputChange,
+      handleNumberOtpSubmit,
       handleAcademicChange,
       validateAcademicInfo,
       handleSubmit,
     }),
-    [bet, errors, inputValues, activeStep, declareState, declarationError, academicInfo]
+    [
+      bet,
+      errors,
+      inputValues,
+      academicInfo,
+      activeStep,
+      declareState,
+      declarationError,
+      handleChange,
+      activeLoginStep,
+      loginInputValues,
+      otpSent,
+      handleSubmit,
+    ]
   );
 
   return <FormContext.Provider value={values}>{children}</FormContext.Provider>;
