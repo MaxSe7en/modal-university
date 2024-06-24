@@ -1,0 +1,93 @@
+.dashboard {
+  background-color: #f0f8f0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  background-color: #006400;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  margin: 0;
+}
+
+.logoutBtn {
+  background-color: #004d00;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.navigation {
+  background-color: #008000;
+  padding: 10px;
+  margin-top: 20px;
+  display: flex;
+}
+
+.navItem {
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.navItem:hover {
+  background-color: #004d00;
+}
+
+.navItem.active {
+  background-color: #004d00;
+}
+
+.content {
+  display: flex;
+  margin-top: 20px;
+}
+
+.sidebar {
+  background-color: #e0f0e0;
+  width: 250px;
+  padding: 20px;
+}
+
+.mainContent {
+  flex-grow: 1;
+  background-color: white;
+  margin-left: 20px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.studentList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.studentItem {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.studentItem:last-child {
+  border-bottom: none;
+}
+
+.separator {
+  width: 1px;
+  background-color: #fff;
+  /* margin: 0 20px; */
+  margin-right: auto;
+  align-self: stretch;
+  height: 40px;
+  display: inline-flex;
+}
