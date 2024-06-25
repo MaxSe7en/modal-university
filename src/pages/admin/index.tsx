@@ -1,13 +1,29 @@
-import AdminDashboard from '@/components/Admin/AdminDashboard/AdminDashboard'
-import { AdminProvider } from '@/contexts/AdminContext'
-import React from 'react'
+// pages/admin/index.tsx
+import AdminDashboard from '@/components/Admin/AdminDashboard/AdminDashboard';
+import { useAuth } from '@/contexts/AdminAuthContext';
+import { AdminProvider } from '@/contexts/AdminContext';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
-type Props = {}
+const AdminPage = () => {
+    const { isAuthenticated }:any = useAuth();
+    const router = useRouter();
 
-const index = (props: Props) => {
-  return (
-    <AdminProvider><AdminDashboard /></AdminProvider>
-  )
-}
+    useEffect(() => {
+        if (!isAuthenticated) {
+            router.push('/login');
+        }
+    }, [isAuthenticated, router]);
 
-export default index
+    if (!isAuthenticated) {
+        return null; // or a loading spinner
+    }
+
+    return (
+        <AdminProvider>
+            <AdminDashboard />
+        </AdminProvider>
+    );
+};
+
+export default AdminPage;
