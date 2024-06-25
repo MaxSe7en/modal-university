@@ -46,6 +46,7 @@ export default function AcademicInfoMobile({
     updatedSlips[slipIndex] = { ...updatedSlips[slipIndex], [field]: value };
     const updatedSubjects = [...updatedSlips[slipIndex].subjects];
     console.log("jjjjjjjjjjjjjjjjjjjjjjj", updatedSubjects, field, value)
+    // updatedSubjects[index] = {};
     if (field == "numSubjects") {
 
       for (let index = 0; index < value; index++) {

@@ -68,7 +68,7 @@ const Form = () => {
           setErrors(academicValidationErrors);
           // setErrors(combinedErrors);
           // Handle errors, e.g., show a message to the user
-          console.log("Please fill in all required fields.");
+          console.log("Please fill in all required fields.", academicValidationErrors);
         }
         break;
       }

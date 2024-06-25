@@ -231,6 +231,21 @@ export const FormProvider = ({ children }: any) => {
         Object.keys(validationErrors).length === 0 &&
         Object.keys(academicValidationErrors).length === 0
       ) {
+       ( async () => {
+          try {
+            const response = await fetch('http://localhost:5000/api/form/submit', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(inputValues)
+            });
+            const data = await response.json();
+            console.log('Form submitted successfully:', data);
+          } catch (error) {
+            console.error('Error submitting form:', error);
+          }
+        })();
         console.log("Form submitted successfully:", inputValues, academicInfo);
       }
     },
@@ -243,8 +258,8 @@ export const FormProvider = ({ children }: any) => {
 
   const handleOtpContinue = async () => {
     try {
-      const response = await sendOtp(loginInputValues.phone);
-      console.log("OTP sent successfully:", response);
+      // const response = await sendOtp(loginInputValues.phone);
+      // console.log("OTP sent successfully:", response);
       setOtpSent(true);
       setActiveLoginStep(2);
     } catch (error) {
