@@ -238,7 +238,7 @@ export const FormProvider = ({ children }: any) => {
               headers: {
                 'Content-Type': 'application/json'
               },
-              body: JSON.stringify(inputValues)
+              body: JSON.stringify({userInfo:inputValues, academicInformation:academicInfo})
             });
             const data = await response.json();
             console.log('Form submitted successfully:', data);

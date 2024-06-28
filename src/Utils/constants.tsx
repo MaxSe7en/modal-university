@@ -116,7 +116,7 @@ export const subjects = [
   "Physics",
 ]
 
-export const gradeOptions = ["A1", "B2", "B3", "C4", "C5", "C6", "D7", "E8", "F9"];
+export const gradeOptions = ["Z0", "A1", "B2", "B3", "C4", "C5", "C6", "D7", "E8", "F9"];
 
 // Utils/constants.ts
 export const validationRules:any = {

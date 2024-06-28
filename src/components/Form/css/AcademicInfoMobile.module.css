@@ -149,6 +149,11 @@
   flex: 1;
 }
 
+.resultSlip{
+  margin-top: 1rem;
+  font-weight: bolder;
+}
+
 .awaitingColumn {
   /* width: 50px; */
   color: #536387;

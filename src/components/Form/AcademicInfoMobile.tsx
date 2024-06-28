@@ -94,7 +94,7 @@ export default function AcademicInfoMobile({
           Indicate if you are awaiting examination results.
         </span>
         <div className={styles.rowSelectContainer}>
-          <label htmlFor="rowSelect">
+          <label htmlFor="rowSelect" className={styles.resultSlip}>
             How many results slips are you applying with:
           </label>
           <select
@@ -271,8 +271,8 @@ export default function AcademicInfoMobile({
                                 }
                               >
                                 {gradeOptions.map((grade, i) => (
-                                  <option key={i} value={grade}>
-                                    {grade}
+                                  <option disabled={grade === "Z0"} key={grade} selected={grade === "Z0"}>
+                                    {grade === "Z0" ? "" : grade}
                                   </option>
                                 ))}
                               </select>
