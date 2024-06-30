@@ -1,6 +1,8 @@
 import { sendOtp, verifyOtp } from "@/services/authService";
 import { useRouter } from "next/router";
 import { createContext, useMemo, useContext, useState } from "react";
+import { useToast } from "./ToastContext"; // Import the useToast hook
+
 
 const FormContext = createContext({});
 
@@ -10,7 +12,7 @@ export const FormProvider = ({ children }: any) => {
   const [declareState, setDeclareState] = useState(false);
   const [declarationError, setDeclarationError] = useState(false);
   const router = useRouter();
-
+  const { showToast }:any = useToast();
   const [activeLoginStep, setActiveLoginStep] = useState(1);
   const [loginInputValues, setLoginInputValues] = useState({
     phone: "",
@@ -255,6 +257,7 @@ export const FormProvider = ({ children }: any) => {
               }
             );
             const data = await response.json();
+            showToast("Form submitted successfully!"); // Show success toast
             console.log("Form submitted successfully:", data);
           } catch (error) {
             console.error("Error submitting form:", error);
@@ -263,7 +266,7 @@ export const FormProvider = ({ children }: any) => {
         console.log("Form submitted successfully:", inputValues, academicInfo);
       }
     },
-    [academicInfo, activeStep, declareState, inputValues]
+    [academicInfo, activeStep, declareState, inputValues, showToast, studentDetails]
   );
 
   const handleAcademicChange = (info: any) => {
@@ -277,6 +280,8 @@ export const FormProvider = ({ children }: any) => {
         console.log(response.status, response);
         if (response.status == 200) {
           console.log("OTP sent successfully:", response.data.message);
+          showToast(response.data.message); // Show success toast
+
           setOtpSent(true);
           setActiveLoginStep(2);
         }
@@ -311,6 +316,7 @@ export const FormProvider = ({ children }: any) => {
           setInputValues(data?.userInfo);
           setAcademicInfo(data?.academicInformation);
           setDeclareState(JSON.parse(data?.declaration));
+          showToast("OTP verified successfully!"); // Show success toast
           setTimeout(() =>{
             router.push("/");
           }, 1000)
@@ -322,7 +328,7 @@ export const FormProvider = ({ children }: any) => {
         console.log("OTP Submitted:", loginInputValues.otp);
       }
     },
-    [activeLoginStep, loginInputValues.otp, loginInputValues.phone]
+    [activeLoginStep, loginInputValues.otp, loginInputValues.phone, router]
   );
 
   const values = useMemo(

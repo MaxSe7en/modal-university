@@ -26,3 +26,18 @@ select {
   padding: 0.5rem;
   height: 40px;
 }
+
+/* Add this to your global CSS file */
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: hsl(143.18deg 36.07% 23.92%);
+  color: #fff;
+  white-space: nowrap;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}

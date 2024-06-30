@@ -1,6 +1,9 @@
 import React from "react";
 import styles from "./Login.module.css";
 import { useForm } from "@/contexts/FormContext";
+import Image from "next/image";
+import schoolLogo from "../../../public/assets/logo/modal_logo.png";
+
 
 const Login = () => {
   const {
@@ -27,7 +30,7 @@ const Login = () => {
       <form className={styles.form_container} onSubmit={handleLogin}>
         {activeLoginStep === 1 && (
           <>
-            <div className={styles.logo_container}></div>
+            <div className={styles.logo_container}><Image src={schoolLogo} alt="school logo" width={80} className={styles["school-logo"]} /></div>
             <div className={styles.title_container}>
               <p className={styles.title}>Enter Your Number</p>
               <span className={styles.subtitle}>
