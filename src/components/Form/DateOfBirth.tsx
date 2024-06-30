@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./css/DateOfBirthInput.module.css";
 
-const days = Array.from({ length: 31 }, (_, i) => i + 1);
+const days = Array.from({ length: 31 }, (_, i) => (i + 1) < 10 ? (i + 1).toString().padStart(2, "0"):i + 1);
 const months = [
   "January",
   "February",
@@ -48,7 +48,7 @@ const DateOfBirthInput = ({ day, month, year, setDay, setMonth, setYear,error}:a
           {/* <label htmlFor="month" className={styles.label}>Month:</label> */}
           <select
             id="month"
-            value={month}
+            value={+month}
             onChange={(e) => setMonth(e.target.value)}
             className={styles.select}
           >

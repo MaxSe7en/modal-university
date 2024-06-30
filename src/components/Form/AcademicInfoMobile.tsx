@@ -203,7 +203,7 @@ export default function AcademicInfoMobile({
                     type="checkbox"
                     id={`awaitingLabel${slipIndex}`}
                     className={`awaitingLabel ${styles.awaitingChecbox}`}
-                    checked={slip.awaiting}
+                    checked={Boolean(slip?.awaiting == undefined ? 0 : +slip?.awaiting)}
                     onChange={(e) =>
                       handleSlipChange(slipIndex, "awaiting", e.target.checked)
                     }
@@ -271,7 +271,7 @@ export default function AcademicInfoMobile({
                                 }
                               >
                                 {gradeOptions.map((grade, i) => (
-                                  <option disabled={grade === "Z0"} key={grade} selected={grade === "Z0"}>
+                                  <option disabled={grade === "Z0"} key={grade} >
                                     {grade === "Z0" ? "" : grade}
                                   </option>
                                 ))}

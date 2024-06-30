@@ -37,7 +37,7 @@ const Login = () => {
             <br />
             <div className={styles.input_container}>
               <label className={styles.input_label} htmlFor="number_field">
-                Number
+                Enter your phone number
               </label>
               <svg
                 fill="none"
@@ -132,7 +132,7 @@ const Login = () => {
                 onChange={handleLoginInputChange}
               />
             </div>
-            <button type="submit" className={styles.sign_in_btn}>
+            <button type="submit" className={styles.sign_in_btn} onClick={handleNumberOtpSubmit}>
               Sign In
             </button>
           </>

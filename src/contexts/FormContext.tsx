@@ -1,4 +1,5 @@
-import { sendOtp } from "@/services/authService";
+import { sendOtp, verifyOtp } from "@/services/authService";
+import { useRouter } from "next/router";
 import { createContext, useMemo, useContext, useState } from "react";
 
 const FormContext = createContext({});
@@ -8,6 +9,7 @@ export const FormProvider = ({ children }: any) => {
   const [activeStep, setActiveStep] = useState(1);
   const [declareState, setDeclareState] = useState(false);
   const [declarationError, setDeclarationError] = useState(false);
+  const router = useRouter();
 
   const [activeLoginStep, setActiveLoginStep] = useState(1);
   const [loginInputValues, setLoginInputValues] = useState({
@@ -33,6 +35,11 @@ export const FormProvider = ({ children }: any) => {
     day: "",
     month: "",
     year: "",
+  });
+
+  const [studentDetails, setStudentDetails] = useState({
+    phoneNumber: "",
+    id: ""
   });
 
   const [errors, setErrors] = useState({});
@@ -231,19 +238,26 @@ export const FormProvider = ({ children }: any) => {
         Object.keys(validationErrors).length === 0 &&
         Object.keys(academicValidationErrors).length === 0
       ) {
-       ( async () => {
+        (async () => {
           try {
-            const response = await fetch('http://localhost:5000/api/form/submit', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({userInfo:inputValues, academicInformation:academicInfo})
-            });
+            const response = await fetch(
+              "http://localhost:5000/api/form/submit",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  details: studentDetails,
+                  userInfo: {...inputValues, declaration: ""+declareState},
+                  academicInformation: academicInfo,
+                }),
+              }
+            );
             const data = await response.json();
-            console.log('Form submitted successfully:', data);
+            console.log("Form submitted successfully:", data);
           } catch (error) {
-            console.error('Error submitting form:', error);
+            console.error("Error submitting form:", error);
           }
         })();
         console.log("Form submitted successfully:", inputValues, academicInfo);
@@ -256,28 +270,60 @@ export const FormProvider = ({ children }: any) => {
     setAcademicInfo(info);
   };
 
-  const handleOtpContinue = async () => {
-    try {
-      // const response = await sendOtp(loginInputValues.phone);
-      // console.log("OTP sent successfully:", response);
-      setOtpSent(true);
-      setActiveLoginStep(2);
-    } catch (error) {
-      console.error("Failed to send OTP");
-    }
-  };
+  const handleOtpContinue = useMemo(
+    () => async () => {
+      try {
+        const response = await sendOtp(loginInputValues.phone);
+        console.log(response.status, response);
+        if (response.status == 200) {
+          console.log("OTP sent successfully:", response.data.message);
+          setOtpSent(true);
+          setActiveLoginStep(2);
+        }
+      } catch (error) {
+        console.error("Failed to send OTP");
+      }
+    },
+    [loginInputValues.phone]
+  );
 
-  const handleLoginInputChange = (e: { target: { name: any; value: any } }) => {
-    setLoginInputValues({ ...loginInputValues, [e.target.name]: e.target.value });
-  };
+  const handleLoginInputChange = useMemo(
+    () => (e: { target: { name: any; value: any } }) => {
+      setLoginInputValues({
+        ...loginInputValues,
+        [e.target.name]: e.target.value,
+      });
+    },
+    [loginInputValues]
+  );
 
-  const handleNumberOtpSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    if (activeLoginStep === 2) {
-      // Add your OTP verification logic here
-      console.log("OTP Submitted:", loginInputValues.otp);
-    }
-  };
+  const handleNumberOtpSubmit = useMemo(
+    () => async (e: { preventDefault: () => void }) => {
+      e.preventDefault();
+      try {
+        const {data, status} = await verifyOtp(
+          loginInputValues.phone,
+          loginInputValues.otp
+        );
+        console.log("====== this is the data ===========>",data);
+        if (status === 200) {
+          setStudentDetails(data?.details);
+          setInputValues(data?.userInfo);
+          setAcademicInfo(data?.academicInformation);
+          setDeclareState(JSON.parse(data?.declaration));
+          setTimeout(() =>{
+            router.push("/");
+          }, 1000)
+        }
+      } catch (error) {}
+
+      if (activeLoginStep === 2) {
+        // Add your OTP verification logic here
+        console.log("OTP Submitted:", loginInputValues.otp);
+      }
+    },
+    [activeLoginStep, loginInputValues.otp, loginInputValues.phone]
+  );
 
   const values = useMemo(
     () => ({
@@ -320,6 +366,9 @@ export const FormProvider = ({ children }: any) => {
       activeLoginStep,
       loginInputValues,
       otpSent,
+      handleOtpContinue,
+      handleLoginInputChange,
+      handleNumberOtpSubmit,
       handleSubmit,
     ]
   );
@@ -328,9 +377,3 @@ export const FormProvider = ({ children }: any) => {
 };
 
 export const useForm = () => useContext(FormContext);
-// errors,
-//   inputValues,
-//   setInputValues,
-//   setErrors,
-//   handleChange,
-//   handleSubmit,

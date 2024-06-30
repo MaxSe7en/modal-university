@@ -26,7 +26,7 @@ const FormInput = ({ styles, formField }: FormInputProps) => {
         placeholder={placeholder}
         id={title.replace(/\s/g, "").toLowerCase()}
         required={required}
-        // value={inputValue}
+        value={inputValue}
         onChange={onChange}
         className={`${styles["formbold-form-input"]} ${placeholder == 'dob' ? styles["formbold-datetime"] : ""}`}
       />
