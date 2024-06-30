@@ -4,7 +4,7 @@ import axios from "axios";
 export const sendOtp = async (phone: any) => {
   try {
     const response = await axios.post(
-      `http://localhost:5000/api/form/send-otp`,
+      `${sendOtp}`,
       {
         phoneNumber: `${phone}`,
         countryCode: 'GH'
@@ -31,7 +31,7 @@ export const sendOtp = async (phone: any) => {
 export const verifyOtp = async (phone: any, otpCode:any) => {
   try {
     const response = await axios.post(
-      `http://localhost:5000/api/form/verify-otp`,
+      `${verifyOtp}`,
       {
         phoneNumber: `${phone}`,
         otp: `${otpCode}`,
