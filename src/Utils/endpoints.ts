@@ -5,5 +5,6 @@ const domain =
 
 export const base_url = `${domain}/api/form`;
 
-export const sendOtp = "/send-otp";
-export const verifyOtp = "/verify-otp";
+export const sendOtpUrl = `${base_url}/send-otp`;
+export const verifyOtpUrl = `${base_url}/verify-otp`;
+export const user_url = `${base_url}/users`;

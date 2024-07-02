@@ -1,10 +1,11 @@
 // services/authService.js
+import { sendOtpUrl, verifyOtpUrl } from "@/Utils/endpoints";
 import axios from "axios";
 
 export const sendOtp = async (phone: any) => {
   try {
     const response = await axios.post(
-      `${sendOtp}`,
+      `${sendOtpUrl}`,
       {
         phoneNumber: `${phone}`,
         countryCode: 'GH'
@@ -31,7 +32,7 @@ export const sendOtp = async (phone: any) => {
 export const verifyOtp = async (phone: any, otpCode:any) => {
   try {
     const response = await axios.post(
-      `${verifyOtp}`,
+      `${verifyOtpUrl}`,
       {
         phoneNumber: `${phone}`,
         otp: `${otpCode}`,

@@ -289,7 +289,7 @@ export const FormProvider = ({ children }: any) => {
         console.error("Failed to send OTP");
       }
     },
-    [loginInputValues.phone]
+    [loginInputValues.phone, showToast]
   );
 
   const handleLoginInputChange = useMemo(
@@ -328,7 +328,7 @@ export const FormProvider = ({ children }: any) => {
         console.log("OTP Submitted:", loginInputValues.otp);
       }
     },
-    [activeLoginStep, loginInputValues.otp, loginInputValues.phone, router]
+    [activeLoginStep, loginInputValues.otp, loginInputValues.phone, router, showToast]
   );
 
   const values = useMemo(
@@ -379,7 +379,10 @@ export const FormProvider = ({ children }: any) => {
     ]
   );
 
-  return <FormContext.Provider value={values}>{children}</FormContext.Provider>;
+  return <FormContext.Provider value={values}>
+    {JSON.stringify(studentDetails)}
+    {children}
+  </FormContext.Provider>;
 };
 
 export const useForm = () => useContext(FormContext);

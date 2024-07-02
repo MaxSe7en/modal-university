@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useMemo } from "react";
 const AdminAuthContext = createContext({});
 
 export const AdminAuthProvider = ({ children }: any) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
     const value = useMemo(() => ({
         isAuthenticated, setIsAuthenticated

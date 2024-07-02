@@ -86,7 +86,7 @@ const Login = () => {
         )}
         {activeLoginStep === 2 && (
           <>
-            <div className={styles.logo_container}></div>
+            <div className={styles.logo_container}><Image src={schoolLogo} alt="school logo" width={80} className={styles["school-logo"]} /></div>
             <div className={styles.title_container}>
               <p className={styles.title}>Enter OTP</p>
               <span className={styles.subtitle}>
