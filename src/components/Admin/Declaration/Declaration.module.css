@@ -1,0 +1,49 @@
+/* Declaration.module.css */
+.declaration {
+    padding: 20px;
+  }
+  
+  .sectionTitle {
+    color: #2e8b57;
+    margin-bottom: 20px;
+  }
+  
+  .declarationCard {
+    background-color: #f0f8f0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .studentName {
+    color: #2e8b57;
+    margin-top: 0;
+  }
+  
+  .declarationText {
+    margin-bottom: 15px;
+    line-height: 1.5;
+  }
+  
+  .declarationStatus,
+  .declarationDate {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .statusLabel,
+  .dateLabel {
+    font-weight: bold;
+    color: #2e8b57;
+    margin-right: 10px;
+  }
+  
+  .statusValue,
+  .dateValue {
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: #4caf50;
+  }

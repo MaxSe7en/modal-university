@@ -380,7 +380,7 @@ export const FormProvider = ({ children }: any) => {
   );
 
   return <FormContext.Provider value={values}>
-    {JSON.stringify(studentDetails)}
+    {/* {JSON.stringify(studentDetails)} */}
     {children}
   </FormContext.Provider>;
 };

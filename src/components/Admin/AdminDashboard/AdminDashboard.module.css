@@ -1,71 +1,58 @@
+/* AdminDashboard.module.css */
+
 .dashboard {
-  background-color: #f0f8f0;
-  min-height: 100vh;
   font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f0f8f0;
 }
 
 .header {
-  background-color: #006400;
-  color: white;
-  padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #2e8b57;
+  padding: 15px 20px;
+  border-radius: 8px 8px 0 0;
 }
 
 .title {
+  color: white;
   margin: 0;
 }
 
 .logoutBtn {
-  background-color: #004d00;
+  background-color: #4caf50;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 8px 16px;
+  border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.navigation {
-  background-color: #008000;
-  padding: 10px;
-  margin-top: 20px;
-  display: flex;
-}
-
-.navItem {
-  background-color: transparent;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-.navItem:hover {
-  background-color: #004d00;
-}
-
-.navItem.active {
-  background-color: #004d00;
+.logoutBtn:hover {
+  background-color: #45a049;
 }
 
 .content {
   display: flex;
-  margin-top: 20px;
+  background-color: white;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar {
-  background-color: #e0f0e0;
   width: 250px;
   padding: 20px;
+  background-color: #e8f5e9;
+  border-right: 1px solid #c8e6c9;
 }
 
-.mainContent {
-  flex-grow: 1;
-  background-color: white;
-  margin-left: 20px;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.sidebarTitle {
+  color: #2e8b57;
+  margin-top: 0;
 }
 
 .studentList {
@@ -75,19 +62,67 @@
 
 .studentItem {
   padding: 10px;
-  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.studentItem:last-child {
-  border-bottom: none;
+.studentItem:hover {
+  background-color: #c8e6c9;
 }
 
-.separator {
-  width: 1px;
-  background-color: #fff;
-  /* margin: 0 20px; */
-  margin-right: auto;
-  align-self: stretch;
-  height: 40px;
-  display: inline-flex;
+.mainContent {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 2px solid #4caf50;
+  margin-bottom: 20px;
+}
+
+.tab {
+  background-color: #e8f5e9;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.tab:hover {
+  background-color: #c8e6c9;
+}
+
+.activeTab {
+  background-color: #4caf50;
+  color: white;
+}
+
+.tabContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contentTitle {
+  color: #2e8b57;
+  margin-top: 0;
+}
+
+.printButton {
+  background-color: #fbbf19;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  margin-top: 1rem;
+  float: right;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.printButton:hover {
+  background-color: #45a049;
 }

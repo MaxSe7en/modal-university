@@ -1,0 +1,88 @@
+/* PersonalInfo.module.css */
+.personalInfo {
+  padding: 20px;
+}
+
+.sectionTitle {
+  color: #2e8b57;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.infoCard {
+  background-color: #f0f8f0;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.userHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #c8e6c9;
+}
+
+.userName {
+  margin: 0;
+  color: #2e8b57;
+  font-size: 1.3rem;
+}
+
+.studentId {
+  font-size: 1rem;
+  color: #4caf50;
+  background-color: #e8f5e9;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.infoColumns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.leftColumn,
+.rightColumn {
+  width: 48%; /* Adjust as needed */
+}
+
+.infoItem {
+  margin-bottom: 15px;
+}
+
+.label {
+  display: block;
+  font-weight: bold;
+  color: #2e8b57;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.value {
+  display: block;
+  color: #333;
+  background-color: white;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .infoColumns {
+    flex-direction: column;
+  }
+
+  .leftColumn,
+  .rightColumn {
+    width: 100%;
+  }
+
+  .rightColumn {
+    margin-top: 15px;
+  }
+}

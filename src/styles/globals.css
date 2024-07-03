@@ -21,7 +21,9 @@ p {
 .error {
   border-color: red;
 }
-
+em {
+  font-size: medium;
+}
 select {
   padding: 0.5rem;
   height: 40px;
