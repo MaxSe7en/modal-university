@@ -293,7 +293,7 @@ export default Form;
 function PersonalInformation({
   activeStep,
 }: Readonly<PersonalInformationProp>) {
-  const { inputValues, errors, handleChange, handleSubmit }: any = useForm();
+  const { inputValues, setInputValues, errors, handleChange, handleSubmit }: any = useForm();
 
   const {
     surname,
@@ -357,7 +357,7 @@ function PersonalInformation({
         />
       </div>
       <div className={styles["formbold-input-flex"]}>
-        <FormTitleCheckbox information={requiredInfo.title} />
+        <FormTitleCheckbox information={requiredInfo.title} setInputValues={setInputValues} />
         {/* <FormTitleCheckbox information={requiredInfo.title} /> */}
       </div>
       <div className={styles["formbold-input-flex"]}>
@@ -393,8 +393,8 @@ function PersonalInformation({
         />
       </div>
       <div className={styles["formbold-input-flex"]}>
-        <FormTitleCheckbox information={requiredInfo.gender} />
-        <FormTitleCheckbox information={requiredInfo.status} />
+        <FormTitleCheckbox information={requiredInfo.gender} setInputValues={setInputValues} />
+        <FormTitleCheckbox information={requiredInfo.status} setInputValues={setInputValues} />
       </div>
       <div className={styles["formbold-input-flex"]}>
         {/* <FormInput styles={styles} formField={religion} />

@@ -1,5 +1,5 @@
-import React, { forwardRef } from 'react';
-import styles from './PrintableStudentInfo.module.css';
+import React, { forwardRef } from "react";
+import styles from "./PrintableStudentInfo.module.css";
 
 interface Subject {
   id: number;
@@ -34,17 +34,28 @@ interface Props {
   user: any;
 }
 
-const PrintableStudentInfo: React.ForwardRefRenderFunction<HTMLDivElement, Props> = ({ user }, ref:any) => {
+const PrintableStudentInfo: React.ForwardRefRenderFunction<
+  HTMLDivElement,
+  Props
+> = ({ user }, ref: any) => {
+  const pageStyle = `
+    @page {
+      margin: 70pt 60pt 70pt;
+    }
+  `;
   return (
     <div ref={ref} className={styles.printable}>
+      <style>{pageStyle}</style>
       <h1 className={styles.title}>Student Information</h1>
-      
+
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Personal Information</h2>
         <div className={styles.infoGrid}>
           <div className={styles.infoItem}>
             <span className={styles.label}>Full Name:</span>
-            <span className={styles.value}>{`${user?.surname} ${user?.firstname} ${user?.othernames}`}</span>
+            <span
+              className={styles.value}
+            >{`${user?.surname} ${user?.firstname} ${user?.othernames}`}</span>
           </div>
           <div className={styles.infoItem}>
             <span className={styles.label}>Student ID:</span>
@@ -59,8 +70,12 @@ const PrintableStudentInfo: React.ForwardRefRenderFunction<HTMLDivElement, Props
             <span className={styles.value}>{user?.phone}</span>
           </div>
           <div className={styles.infoItem}>
+            <span className={styles.label}>Title:</span>
+            <span className={styles.value}>{user?.title}</span>
+          </div>
+          <div className={styles.infoItem}>
             <span className={styles.label}>Date of Birth:</span>
-            <span className={styles.value}>{user?.dateOfBirth}</span>
+            <span className={styles.value}>{user?.dob}</span>
           </div>
           <div className={styles.infoItem}>
             <span className={styles.label}>Gender:</span>
@@ -74,6 +89,11 @@ const PrintableStudentInfo: React.ForwardRefRenderFunction<HTMLDivElement, Props
             <span className={styles.label}>Address:</span>
             <span className={styles.value}>{user?.address}</span>
           </div>
+          <div className={styles.infoItem}>
+            <span className={styles.label}>Marital Status:</span>
+            <span className={styles.value}>{user?.maritalstatus}</span>
+          </div>
+          
         </div>
       </section>
 
@@ -82,15 +102,21 @@ const PrintableStudentInfo: React.ForwardRefRenderFunction<HTMLDivElement, Props
         <div className={styles.infoGrid}>
           <div className={styles.infoItem}>
             <span className={styles.label}>Examination Title:</span>
-            <span className={styles.value}>{user?.academicInformation?.examinationTitle}</span>
+            <span className={styles.value}>
+              {user?.academicInformation?.examinationTitle}
+            </span>
           </div>
           <div className={styles.infoItem}>
             <span className={styles.label}>Month/Year:</span>
-            <span className={styles.value}>{user?.academicInformation?.monthYear}</span>
+            <span className={styles.value}>
+              {user?.academicInformation?.monthYear}
+            </span>
           </div>
           <div className={styles.infoItem}>
             <span className={styles.label}>Index Number:</span>
-            <span className={styles.value}>{user?.academicInformation?.indexNumber}</span>
+            <span className={styles.value}>
+              {user?.academicInformation?.indexNumber}
+            </span>
           </div>
         </div>
         <h3 className={styles.subSectionTitle}>Subjects and Grades</h3>
@@ -102,12 +128,14 @@ const PrintableStudentInfo: React.ForwardRefRenderFunction<HTMLDivElement, Props
             </tr>
           </thead>
           <tbody>
-            {user?.academicInformation?.subjects.map((subject: { id: React.Key | null | undefined; subject: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; grade: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; }) => (
-              <tr key={subject.id}>
-                <td>{subject.subject}</td>
-                <td>{subject.grade}</td>
-              </tr>
-            ))}
+            {user?.academicInformation?.subjects.map(
+              (subject: { id: React.Key; subject: any; grade: any }) => (
+                <tr key={subject.id}>
+                  <td>{subject.subject}</td>
+                  <td>{subject.grade}</td>
+                </tr>
+              )
+            )}
           </tbody>
         </table>
       </section>
@@ -115,8 +143,12 @@ const PrintableStudentInfo: React.ForwardRefRenderFunction<HTMLDivElement, Props
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Declaration</h2>
         <p className={styles.declaration}>
-          I, <em>{user?.surname} {user?.firstname}</em>, hereby declare that all the information provided
-          in this application is true and correct to the best of my knowledge.
+          I,{" "}
+          <em>
+            {user?.surname} {user?.firstname}
+          </em>
+          , hereby declare that all the information provided in this application
+          is true and correct to the best of my knowledge.
         </p>
         <div className={styles.signature}>
           <div className={styles.signatureLine}></div>

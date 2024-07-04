@@ -29,6 +29,9 @@ export const FormProvider = ({ children }: any) => {
     nationality: "",
     phone: "",
     dob: "",
+    gender: "Male",
+    maritalstatus: "Single",
+    title: "Mr",
     placeofbirth: "",
     religion: "",
     emergencycontactnumber: "",
@@ -196,7 +199,7 @@ export const FormProvider = ({ children }: any) => {
         const slipSubject: any = slip.subjects;
         slipSubject.forEach(
           (subject: { subject: any; grade: any }, subjectIndex: any) => {
-            console.log("sdfkdasfdshfkhkdashfhdkashfkhasdkhfas");
+            console.log("sdfkdasfdshfkhkdashfhdkashfkhasdkhfas, SUBJECT: " , subject);
             if (!subject?.subject) {
               errors[`subject_${slipIndex}_${subjectIndex}`] =
                 "Subject is required";
@@ -241,6 +244,7 @@ export const FormProvider = ({ children }: any) => {
         Object.keys(academicValidationErrors).length === 0
       ) {
         (async () => {
+          console.log(inputValues);
           try {
             const response = await fetch(
               "http://localhost:5000/api/form/submit",

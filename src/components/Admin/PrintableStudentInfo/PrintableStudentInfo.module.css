@@ -1,8 +1,8 @@
 /* PrintableStudentInfo.module.css */
 .printable {
-    width: 210mm;
+    width: 230mm;
     min-height: 297mm;
-    padding: 5rem;
+    padding: 50mm;
     margin: 0 auto;
     background: white;
     font-size: 12pt;

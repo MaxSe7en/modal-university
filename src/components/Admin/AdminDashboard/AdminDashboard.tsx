@@ -120,7 +120,17 @@ const AdminDashboard: React.FC = () => {
         }
     };
 
-    const fetchUserDetails = async (userId: number) => {
+    const fetchUserDetails = (studentId: number) => {
+        console.log(`Fetching details for student ID: ${studentId}`);
+        const user = users.find((user:any) => user.studentId === studentId);
+        if (user) {
+            setSelectedUser(user);
+        } else {
+            console.error('User not found');
+        }
+    };
+
+    const fetchUserDetailsOld = async (userId: number) => {
         console.log(`sssssssssssssssssssssssssss============>${user_url}/${userId}`);
         try {
             const response = await fetch(`${user_url}/${userId}`);
