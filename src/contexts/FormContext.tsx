@@ -2,6 +2,7 @@ import { sendOtp, verifyOtp } from "@/services/authService";
 import { useRouter } from "next/router";
 import { createContext, useMemo, useContext, useState, useEffect } from "react";
 import { useToast } from "./ToastContext"; // Import the useToast hook
+import { submit_url } from "@/Utils/endpoints";
 
 
 const FormContext = createContext({});
@@ -54,11 +55,12 @@ export const FormProvider = ({ children }: any) => {
     slips: [],
   });
 
+    console.log(studentDetails);
   useEffect(() => {
     if (!studentDetails.phoneNumber || !studentDetails.id) {
       router.push("/login"); // Redirect to the home page if studentDetails is empty
     }
-  }, [studentDetails, router]);
+  }, [studentDetails]);
 
   const validate = (values: {
     day: any;
@@ -253,7 +255,7 @@ export const FormProvider = ({ children }: any) => {
           console.log(inputValues);
           try {
             const response = await fetch(
-              "http://localhost:5000/api/form/submit",
+              submit_url,
               {
                 method: "POST",
                 headers: {
@@ -390,7 +392,7 @@ export const FormProvider = ({ children }: any) => {
   );
 
   return <FormContext.Provider value={values}>
-    {/* {JSON.stringify(studentDetails)} */}
+    {JSON.stringify(studentDetails)}
     {children}
   </FormContext.Provider>;
 };
