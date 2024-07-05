@@ -8,7 +8,7 @@ const FormContext = createContext({});
 
 export const FormProvider = ({ children }: any) => {
   const bet = {};
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(3);
   const [declareState, setDeclareState] = useState(false);
   const [declarationError, setDeclarationError] = useState(false);
   const router = useRouter();

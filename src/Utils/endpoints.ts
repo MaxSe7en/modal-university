@@ -1,7 +1,7 @@
-const domain =
-  process.env.NODE_ENV === "production"
-    ? "https://www.easyopen1573.com"
-    : "http://localhost:5000";
+const domain = "https://apply.modalcollege.com/"
+  // process.env.NODE_ENV === "production"
+  //   ? "https://apply.modalcollege.com/"
+  //   : "http://localhost:5000";
 
 export const base_url = `${domain}/api/form`;
 
