@@ -1,6 +1,6 @@
 import { sendOtp, verifyOtp } from "@/services/authService";
 import { useRouter } from "next/router";
-import { createContext, useMemo, useContext, useState } from "react";
+import { createContext, useMemo, useContext, useState, useEffect } from "react";
 import { useToast } from "./ToastContext"; // Import the useToast hook
 
 
@@ -53,6 +53,12 @@ export const FormProvider = ({ children }: any) => {
     numRows: 0,
     slips: [],
   });
+
+  useEffect(() => {
+    if (!studentDetails.phoneNumber || !studentDetails.id) {
+      router.push("/login"); // Redirect to the home page if studentDetails is empty
+    }
+  }, [studentDetails, router]);
 
   const validate = (values: {
     day: any;

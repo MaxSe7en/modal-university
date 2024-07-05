@@ -1,4 +1,4 @@
-const domain = "https://apply.modalcollege.com/"
+const domain = "https://apply.modalcollege.com"
   // process.env.NODE_ENV === "production"
   //   ? "https://apply.modalcollege.com/"
   //   : "http://localhost:5000";
