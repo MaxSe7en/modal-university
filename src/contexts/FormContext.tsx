@@ -57,8 +57,10 @@ export const FormProvider = ({ children }: any) => {
 
   console.log(studentDetails);
   useEffect(() => {
-    if (!studentDetails.phoneNumber || !studentDetails.id) {
-      router.push("/login"); // Redirect to the home page if studentDetails is empty
+    if (!router.pathname.includes("/admin")) {
+      if (!studentDetails.phoneNumber || !studentDetails.id) {
+        router.push("/login"); // Redirect to the home page if studentDetails is empty
+      }
     }
   }, [studentDetails]);
 
