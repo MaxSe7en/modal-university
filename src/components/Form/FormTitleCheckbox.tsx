@@ -44,7 +44,7 @@ const FormTitleCheckbox: React.FC<FormTitleCheckboxProps> = ({ information, setI
                 htmlFor={lowerCaseOption}
                 className={styles.formboldCheckboxLabel}
               >
-                {option}{information.title.replace(/\s/g, "").toLowerCase()}
+                {option}
               </label>
             </div>
           );
