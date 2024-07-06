@@ -41,4 +41,4 @@ const ProtectedPage = () => {
 //   };
 // };
 
-// export default ProtectedPage;
+export default ProtectedPage;
