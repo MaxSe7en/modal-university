@@ -2,7 +2,7 @@
 // import { useEffect } from 'react';
 // import { useRouter } from 'next/router';
 
-// const ProtectedPage = () => {
+const ProtectedPage = () => {
 //   const { studentDetails } = useForm();
 //   const router = useRouter();
 
@@ -17,8 +17,8 @@
 //     return null; // or a loading spinner
 //   }
 
-//   return <div>Protected Content</div>;
-// };
+  return <div>Protected Content</div>;
+};
 
 // export const getServerSideProps = async (context) => {
 //   // Fetch studentDetails from a cookie, session, or database here
