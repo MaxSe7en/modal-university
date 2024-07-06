@@ -4,16 +4,16 @@ import { createContext, useMemo, useContext, useState, useEffect } from "react";
 import { useToast } from "./ToastContext"; // Import the useToast hook
 import { submit_url } from "@/Utils/endpoints";
 
-
 const FormContext = createContext({});
 
 export const FormProvider = ({ children }: any) => {
   const bet = {};
   const [activeStep, setActiveStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [declareState, setDeclareState] = useState(false);
   const [declarationError, setDeclarationError] = useState(false);
   const router = useRouter();
-  const { showToast }:any = useToast();
+  const { showToast }: any = useToast();
   const [activeLoginStep, setActiveLoginStep] = useState(1);
   const [loginInputValues, setLoginInputValues] = useState({
     phone: "",
@@ -45,7 +45,7 @@ export const FormProvider = ({ children }: any) => {
 
   const [studentDetails, setStudentDetails] = useState({
     phoneNumber: "",
-    id: ""
+    id: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -55,7 +55,7 @@ export const FormProvider = ({ children }: any) => {
     slips: [],
   });
 
-    console.log(studentDetails);
+  console.log(studentDetails);
   useEffect(() => {
     if (!studentDetails.phoneNumber || !studentDetails.id) {
       router.push("/login"); // Redirect to the home page if studentDetails is empty
@@ -207,7 +207,10 @@ export const FormProvider = ({ children }: any) => {
         const slipSubject: any = slip.subjects;
         slipSubject.forEach(
           (subject: { subject: any; grade: any }, subjectIndex: any) => {
-            console.log("sdfkdasfdshfkhkdashfhdkashfkhasdkhfas, SUBJECT: " , subject);
+            console.log(
+              "sdfkdasfdshfkhkdashfhdkashfkhasdkhfas, SUBJECT: ",
+              subject
+            );
             if (!subject?.subject) {
               errors[`subject_${slipIndex}_${subjectIndex}`] =
                 "Subject is required";
@@ -237,6 +240,58 @@ export const FormProvider = ({ children }: any) => {
   );
 
   const handleSubmit = useMemo(
+    () => async (e: { preventDefault: () => void }) => {
+      e.preventDefault();
+      if (activeStep === 3 && !declareState) {
+        setDeclarationError(true);
+        return;
+      }
+      const validationErrors = validate(inputValues);
+      const academicValidationErrors = validateAcademicInfo(academicInfo);
+      setErrors({ ...validationErrors, ...academicValidationErrors });
+
+      if (
+        Object.keys(validationErrors).length === 0 &&
+        Object.keys(academicValidationErrors).length === 0
+      ) {
+        setIsLoading(true);
+        try {
+          const response = await fetch(submit_url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              details: studentDetails,
+              userInfo: { ...inputValues, declaration: "" + declareState },
+              academicInformation: academicInfo,
+            }),
+          });
+          const data = await response.json();
+          showToast({
+            message: "Form submitted successfully!",
+            position: "top",
+          }); // Show success toast
+          console.log("Form submitted successfully:", data);
+        } catch (error) {
+          console.error("Error submitting form:", error);
+          showToast({ message: "Error submitting form", color: "#FF3333" });
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    },
+    [
+      academicInfo,
+      activeStep,
+      declareState,
+      inputValues,
+      showToast,
+      studentDetails,
+    ]
+  );
+
+  const handleSubmitOld = useMemo(
     () => (e: { preventDefault: () => void }) => {
       e.preventDefault();
       if (activeStep === 3 && !declareState) {
@@ -254,31 +309,43 @@ export const FormProvider = ({ children }: any) => {
         (async () => {
           console.log(inputValues);
           try {
-            const response = await fetch(
-              submit_url,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  details: studentDetails,
-                  userInfo: {...inputValues, declaration: ""+declareState},
-                  academicInformation: academicInfo,
-                }),
-              }
-            );
+            const response = await fetch(submit_url, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                details: studentDetails,
+                userInfo: { ...inputValues, declaration: "" + declareState },
+                academicInformation: academicInfo,
+              }),
+            });
             const data = await response.json();
-            showToast("Form submitted successfully!"); // Show success toast
+            showToast({
+              message: "Form submitted successfully!",
+              position: "top",
+            }); // Show success toast
             console.log("Form submitted successfully:", data);
           } catch (error) {
             console.error("Error submitting form:", error);
+            showToast({
+              message: "Error submitting form",
+              position: "bottom",
+              color: "#FF3333",
+            }); // Show success toast
           }
         })();
         console.log("Form submitted successfully:", inputValues, academicInfo);
       }
     },
-    [academicInfo, activeStep, declareState, inputValues, showToast, studentDetails]
+    [
+      academicInfo,
+      activeStep,
+      declareState,
+      inputValues,
+      showToast,
+      studentDetails,
+    ]
   );
 
   const handleAcademicChange = (info: any) => {
@@ -287,18 +354,34 @@ export const FormProvider = ({ children }: any) => {
 
   const handleOtpContinue = useMemo(
     () => async () => {
+      if (!loginInputValues.phone) {
+        showToast({
+          message: "Phone number cannot be empty",
+          position: "bottom",
+          color: "#FF3333",
+        });
+        return;
+      }
+      setIsLoading(true);
       try {
         const response = await sendOtp(loginInputValues.phone);
         console.log(response.status, response);
         if (response.status == 200) {
           console.log("OTP sent successfully:", response.data.message);
-          showToast(response.data.message); // Show success toast
+          showToast({ message: response.data.message, position: "top" }); // Show success toast
 
           setOtpSent(true);
           setActiveLoginStep(2);
         }
       } catch (error) {
         console.error("Failed to send OTP");
+        showToast({
+          message: "Failed to send OTP",
+          position: "bottom",
+          color: "#FF3333",
+        }); // Show success toast
+      } finally {
+        setIsLoading(false);
       }
     },
     [loginInputValues.phone, showToast]
@@ -317,30 +400,50 @@ export const FormProvider = ({ children }: any) => {
   const handleNumberOtpSubmit = useMemo(
     () => async (e: { preventDefault: () => void }) => {
       e.preventDefault();
+      if (!loginInputValues.phone) {
+        showToast({ message: "Phone number cannot be empty" });
+        return;
+      } else if (!loginInputValues.otp) {
+        showToast({ message: "OTP cannot be empty", color: "#FF3333" });
+        return;
+      }
+      setIsLoading(true);
+
       try {
-        const {data, status} = await verifyOtp(
+        const { data, status } = await verifyOtp(
           loginInputValues.phone,
           loginInputValues.otp
         );
-        console.log("====== this is the data ===========>",data);
+        console.log("====== this is the data ===========>", data);
         if (status === 200) {
           setStudentDetails(data?.details);
           setInputValues(data?.userInfo);
           setAcademicInfo(data?.academicInformation);
           setDeclareState(JSON.parse(data?.declaration));
-          showToast("OTP verified successfully!"); // Show success toast
-          setTimeout(() =>{
+          showToast({ message: "OTP verified successfully!", position: "top" }); // Show success toast
+          setTimeout(() => {
             router.push("/");
-          }, 1000)
+          }, 1000);
         }
-      } catch (error) {}
+      } catch (error) {
+        console.error("Failed to verify OTP");
+        showToast({ message: "Failed to verify OTP", color: "#FF3333" });
+      } finally {
+        setIsLoading(false);
+      }
 
       if (activeLoginStep === 2) {
         // Add your OTP verification logic here
         console.log("OTP Submitted:", loginInputValues.otp);
       }
     },
-    [activeLoginStep, loginInputValues.otp, loginInputValues.phone, router, showToast]
+    [
+      activeLoginStep,
+      loginInputValues.otp,
+      loginInputValues.phone,
+      router,
+      showToast,
+    ]
   );
 
   const values = useMemo(
@@ -352,6 +455,8 @@ export const FormProvider = ({ children }: any) => {
       activeStep,
       declareState,
       declarationError,
+      isLoading,
+      setIsLoading,
       setDeclarationError,
       setDeclareState,
       setActiveStep,
@@ -375,6 +480,7 @@ export const FormProvider = ({ children }: any) => {
     [
       bet,
       errors,
+      isLoading,
       inputValues,
       academicInfo,
       activeStep,
@@ -391,10 +497,13 @@ export const FormProvider = ({ children }: any) => {
     ]
   );
 
-  return <FormContext.Provider value={values}>
-    {/* {JSON.stringify(studentDetails)} */}
-    {children}
-  </FormContext.Provider>;
+  return (
+    <FormContext.Provider value={values}>
+      {/* {JSON.stringify(studentDetails)} */}
+      {process.env.NODE_ENV}
+      {children}
+    </FormContext.Provider>
+  );
 };
 
 export const useForm = () => useContext(FormContext);

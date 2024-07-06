@@ -3,7 +3,7 @@ import styles from "./Login.module.css";
 import { useForm } from "@/contexts/FormContext";
 import Image from "next/image";
 import schoolLogo from "../../../public/assets/logo/modal_logo.png";
-
+import Spinner from "../Spinner/Spinner";
 
 const Login = () => {
   const {
@@ -13,12 +13,11 @@ const Login = () => {
     setLoginInputValues,
     otpSent,
     setOtpSent,
+    isLoading,
     handleOtpContinue,
     handleLoginInputChange,
     handleNumberOtpSubmit,
   }: any = useForm();
-
-  
 
   const handleLogin = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -30,11 +29,19 @@ const Login = () => {
       <form className={styles.form_container} onSubmit={handleLogin}>
         {activeLoginStep === 1 && (
           <>
-            <div className={styles.logo_container}><Image src={schoolLogo} alt="school logo" width={80} className={styles["school-logo"]} /></div>
+            <div className={styles.logo_container}>
+              <Image
+                src={schoolLogo}
+                alt="school logo"
+                width={80}
+                className={styles["school-logo"]}
+              />
+            </div>
             <div className={styles.title_container}>
-              <p className={styles.title}>Enter Your Number</p>
+              <p className={styles.title}>ADMISSION PORTAL</p>
               <span className={styles.subtitle}>
-                Enter your phone number to receive an OTP.
+                Start or resume your application process by entering your phone
+                number
               </span>
             </div>
             <br />
@@ -50,22 +57,29 @@ const Login = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 className={styles.icon}
               >
-                <path
+                {/* <path
                   strokeLinejoin="round"
                   strokeLinecap="round"
                   strokeWidth="1.5"
                   stroke="#141B34"
                   d="M7 8.5L9.94202 10.2394C11.6572 11.2535 12.3428 11.2535 14.058 10.2394L17 8.5"
-                ></path>
+                ></path> */}
                 <path
+                  strokeLinejoin="round"
+                  strokeLinecap="round"
+                  strokeWidth="1.5"
+                  stroke="#141B34"
+                  d="M3 5.5C3 14.06 9.94 21 18.5 21c.386 0 .77-.018 1.148-.053.435-.04.802-.341.918-.754l1.5-5.345c.12-.427-.066-.882-.455-1.12l-4.145-2.527a1 1 0 00-1.188.142l-2.173 2.173a12.044 12.044 0 01-4.7-4.7l2.173-2.173a1 1 0 00.142-1.188L9.195 1.31C8.957.921 8.502.735 8.075.855L2.73 2.355c-.413.116-.714.483-.754.918C1.968 3.73 1.95 4.114 1.95 4.5"
+                />
+                {/* <path
                   strokeLinejoin="round"
                   strokeWidth="1.5"
                   stroke="#141B34"
                   d="M2.01577 13.4756C2.08114 16.5412 2.11383 18.0739 3.24496 19.2094C4.37608 20.3448 5.95033 20.3843 9.09883 20.4634C11.0393 20.5122 12.9607 20.5122 14.9012 20.4634C18.0497 20.3843 19.6239 20.3448 20.7551 19.2094C21.8862 18.0739 21.9189 16.5412 21.9842 13.4756C22.0053 12.4899 22.0053 11.5101 21.9842 10.5244C21.9189 7.45886 21.8862 5.92609 20.7551 4.79066C19.6239 3.65523 18.0497 3.61568 14.9012 3.53657C12.9607 3.48781 11.0393 3.48781 9.09882 3.53656C5.95033 3.61566 4.37608 3.65521 3.24495 4.79065C2.11382 5.92608 2.08114 7.45885 2.01576 10.5244C1.99474 11.5101 1.99475 12.4899 2.01577 13.4756Z"
-                ></path>
+                ></path> */}
               </svg>
               <input
-                placeholder="0123456789"
+                placeholder="025xxxxxxx"
                 title="Input title"
                 name="phone"
                 type="text"
@@ -80,13 +94,20 @@ const Login = () => {
               className={styles.sign_in_btn}
               onClick={handleOtpContinue}
             >
-              Continue
+              {isLoading ? <Spinner /> : "Continue"}
             </button>
           </>
         )}
         {activeLoginStep === 2 && (
           <>
-            <div className={styles.logo_container}><Image src={schoolLogo} alt="school logo" width={80} className={styles["school-logo"]} /></div>
+            <div className={styles.logo_container}>
+              <Image
+                src={schoolLogo}
+                alt="school logo"
+                width={80}
+                className={styles["school-logo"]}
+              />
+            </div>
             <div className={styles.title_container}>
               <p className={styles.title}>Enter OTP</p>
               <span className={styles.subtitle}>
@@ -135,8 +156,12 @@ const Login = () => {
                 onChange={handleLoginInputChange}
               />
             </div>
-            <button type="submit" className={styles.sign_in_btn} onClick={handleNumberOtpSubmit}>
-              Sign In
+            <button
+              type="submit"
+              className={styles.sign_in_btn}
+              onClick={handleNumberOtpSubmit}
+            >
+              {isLoading ? <Spinner /> : "Sign In"}
             </button>
           </>
         )}

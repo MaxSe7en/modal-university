@@ -31,11 +31,11 @@ select {
 
 /* Add this to your global CSS file */
 .toast {
-  position: fixed;
-  top: 20px;
+  /* position: fixed; */
+  /* top: 20px;
   left: 50%;
-  transform: translateX(-50%);
-  background-color: hsl(143.18deg 36.07% 23.92%);
+  transform: translateX(-50%); */
+  background-color: #275338;
   color: #fff;
   white-space: nowrap;
   padding: 10px 20px;

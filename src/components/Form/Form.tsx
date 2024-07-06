@@ -9,6 +9,7 @@ import { requiredInfo, studentInformation } from "@/Utils/constants";
 import { useMediaQuery } from "react-responsive";
 import DateOfBirthInput from "./DateOfBirth";
 import { useForm } from "@/contexts/FormContext";
+import Spinner from "../Spinner/Spinner";
 // import AcademicInformation from "./AcademicInformation";
 // import AcademicInfoMobile from "./AcademicInfoMobile";
 
@@ -26,6 +27,7 @@ const Form = () => {
     inputValues,
     errors,
     setErrors,
+    isLoading,
     handleChange,
     handleSubmit,
     validate,
@@ -260,7 +262,7 @@ const Form = () => {
               className={styles["formbold-btn"]}
               onClick={activeStep === 3 ? handleSubmit : handleNext}
             >
-              {activeStep === 3 ? "Submit" : "Next Step"}
+              {activeStep === 3 ? isLoading ? <Spinner /> : "Submit" : "Next Step"}
               <svg
                 width="16"
                 height="16"
