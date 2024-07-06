@@ -150,7 +150,7 @@ const AdminDashboard: React.FC = () => {
     return (
         <div className={styles.dashboard}>
             <header className={styles.header}>
-                <h1 className={styles.title}>Backend Page Display</h1>
+                <h1 className={styles.title}>MODAL COLLEGE APLLICANTS</h1>
                 <button className={styles.logoutBtn}>Logout</button>
             </header>
             <div className={styles.content}>

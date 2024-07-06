@@ -41,7 +41,7 @@ export default function AcademicInfoMobile({
     handleAcademicChange({ ...academicInfo, numRows: numSlips, slips: newSlips });
   };
 
-  const handleSlipChange = (slipIndex: any, field: string, value: any) => {
+  const handleSlipChangeOld = (slipIndex: any, field: string, value: any) => {
     const updatedSlips: any = [...academicInfo.slips];
     updatedSlips[slipIndex] = { ...updatedSlips[slipIndex], [field]: value };
     const updatedSubjects = [...updatedSlips[slipIndex].subjects];
@@ -58,6 +58,31 @@ export default function AcademicInfoMobile({
     // if (!updatedSubjects[subjectIndex]) {
     // updatedSubjects[subjectIndex] = { subject: "", grade: "" };
     // }
+    handleAcademicChange({ ...academicInfo, slips: updatedSlips });
+  };
+
+  const handleSlipChange = (slipIndex: number, field: string, value: any) => {
+    const updatedSlips = [...academicInfo.slips];
+    updatedSlips[slipIndex] = { ...updatedSlips[slipIndex], [field]: value };
+  
+    if (field === "numSubjects") {
+      const numSubjects = parseInt(value);
+      let updatedSubjects = [...updatedSlips[slipIndex].subjects];
+  
+      // Resize the subjects array based on the new number of subjects
+      if (numSubjects < updatedSubjects.length) {
+        // If reducing the number of subjects, remove excess entries
+        updatedSubjects = updatedSubjects.slice(0, numSubjects);
+      } else {
+        // If increasing the number of subjects, add new empty entries
+        for (let i = updatedSubjects.length; i < numSubjects; i++) {
+          updatedSubjects.push({ subject: "", grade: "" });
+        }
+      }
+  
+      updatedSlips[slipIndex].subjects = updatedSubjects;
+    }
+  
     handleAcademicChange({ ...academicInfo, slips: updatedSlips });
   };
 
@@ -115,7 +140,7 @@ export default function AcademicInfoMobile({
             numSubjects: any;
             awaiting: boolean | undefined;
             subjects: any; examinationTitle: any; monthYear: any; indexNumber: any
-          }, slipIndex: React.Key) => (
+          }, slipIndex: number) => (
             <div className={styles.formboldGridRow} key={slipIndex}>
               <div className={styles.formboldGridColumn}>
                 <span>EXAMINATION TITLE</span>
