@@ -20,7 +20,7 @@ export const FormProvider = ({ children }: any) => {
     otp: "",
   });
   const [otpSent, setOtpSent] = useState(false); // State to track OTP sent status
-
+  const [token, setToken] = useState('');
   const [inputValues, setInputValues] = useState({
     surname: "",
     firstname: "",
@@ -262,6 +262,7 @@ export const FormProvider = ({ children }: any) => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`,
             },
             body: JSON.stringify({
               details: studentDetails,
@@ -371,7 +372,7 @@ export const FormProvider = ({ children }: any) => {
         if (response.status == 200) {
           console.log("OTP sent successfully:", response.data.message);
           showToast({ message: response.data.message, position: "top" }); // Show success toast
-
+          setToken(response.data.tok);
           setOtpSent(true);
           setActiveLoginStep(2);
         }
@@ -390,10 +391,13 @@ export const FormProvider = ({ children }: any) => {
   );
 
   const handleLoginInputChange = useMemo(
-    () => (e: { target: { name: any; value: any } }) => {
+    () => (e: { target: { name: string; value: string } }) => {
+      const { name, value } = e.target;
+      const numericValue = value.replace(/\D/g, "");
+
       setLoginInputValues({
         ...loginInputValues,
-        [e.target.name]: e.target.value,
+        [name]: numericValue,
       });
     },
     [loginInputValues]
@@ -414,7 +418,8 @@ export const FormProvider = ({ children }: any) => {
       try {
         const { data, status } = await verifyOtp(
           loginInputValues.phone,
-          loginInputValues.otp
+          loginInputValues.otp,
+          token
         );
         console.log("====== this is the data ===========>", data);
         if (status === 200) {

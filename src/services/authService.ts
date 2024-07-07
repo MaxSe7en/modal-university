@@ -29,7 +29,7 @@ export const sendOtp = async (phone: any) => {
   }
 };
 
-export const verifyOtp = async (phone: any, otpCode:any) => {
+export const verifyOtp = async (phone: any, otpCode:any, token:string) => {
   try {
     const response = await axios.post(
       `${verifyOtpUrl}`,
@@ -37,6 +37,11 @@ export const verifyOtp = async (phone: any, otpCode:any) => {
         phoneNumber: `${phone}`,
         otp: `${otpCode}`,
         countryCode: 'GH'
+      },
+      {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
       }
     );
     // const response = await axios.post(
