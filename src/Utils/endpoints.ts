@@ -4,8 +4,10 @@ const domain = //"https://modalcollege.com:5000"
     : "http://localhost:5000";
 
 export const base_url = `${domain}/api/form`;
+export const admin_base_url = `${domain}/api/admin`;
 
 export const sendOtpUrl = `${base_url}/send-otp`;
 export const verifyOtpUrl = `${base_url}/verify-otp`;
-export const user_url = `${base_url}/users`;
+export const user_url = `${admin_base_url}/users`;
+export const admin_login_url =  `${admin_base_url}/login`
 export const submit_url = `${base_url}/submit`;

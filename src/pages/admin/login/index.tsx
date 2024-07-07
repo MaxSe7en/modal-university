@@ -1,26 +1,44 @@
-// pages/login.tsx
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from './login.module.css';
 import { useAuth } from '@/contexts/AdminAuthContext';
+import { useToast } from '@/contexts/ToastContext';
+import axios from 'axios';
+import { admin_login_url } from '@/Utils/endpoints';
 
 const Login = () => {
-    const { setIsAuthenticated }: any = useAuth();
+    const { setIsAuthenticated, adminToken, setAdminToken }: any = useAuth();
+    const { showToast } = useToast();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Implement actual authentication logic here
-        if (username === 'admin' && password === 'password') {
-            setIsAuthenticated(true);
-            router.push('/admin');
-        } else {
-            alert('Invalid credentials');
+
+        if (!username || !password) {
+            showToast({ message: 'Please fill in all fields', color: '#FF3333' });
+            return;
+        }
+
+        try {
+            const response = await axios.post(admin_login_url, { username, password });
+
+            if (response.data.success) {
+                setIsAuthenticated(true);
+                showToast({ message: 'Login successful!', color: '#275338' });
+                // setAdminToken(response.data.token)
+                localStorage.setItem('adminTz', response.data.token);
+                router.push('/admin');
+            } else {
+                showToast({ message: 'Invalid credentials', color: '#FF3333' });
+            }
+        } catch (error) {
+            console.error('Error logging in:', error);
+            showToast({ message: 'Error logging in', color: '#FF3333' });
         }
     };
-    console.log(username, password);
+
     return (
         <div className={styles.loginContainer}>
             <form className={styles.loginForm} onSubmit={handleLogin}>
