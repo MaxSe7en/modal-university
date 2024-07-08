@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #e0f7e9; /* Light green background */
+  background-color: #fff; /* Light green background */
 }
 
 .loginForm {
@@ -49,6 +49,7 @@
   border: none;
   border-radius: 4px;
   font-size: 1rem;
+  width: 100%;
   cursor: pointer;
   transition: background-color 0.3s;
 }
