@@ -1,117 +1,132 @@
-.formboldInputFlex {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 22px;
+.formContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.formHeader {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.fontBoldMainHeaders {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.qualificationNote {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.rowSelectContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.resultSlip {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+}
+
+.selectInput {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.formboldGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.formboldGridRow {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.formboldGridColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.formboldGridColumn span {
+  font-size: 16px;
+  font-weight: 500;
+  color: #555;
+}
+
+.formboldGridColumn input,
+.formboldGridColumn select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.awaitingColumn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.awaitingChecbox {
+  width: 20px;
+  height: 20px;
+}
+
+.subjectGradeTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.subjectGradeTable th,
+.subjectGradeTable td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.subjectGradeTable th {
+  background-color: #f2f2f2;
+  font-weight: 600;
+}
+
+.error {
+  color: #ff3333;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+@media (min-width: 768px) {
+  .formContainer {
+    padding: 0px 40px;
   }
-  
-  .fontBoldMainHeaders {
-    text-transform: uppercase;
-    text-align: center;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid;
+
+  .formboldGridRow {
+    transition: transform 0.3s ease;
   }
-  .fontBoldMainHeadersTxt, .foreignNoteTxt {
-    text-align: center;
-    font-size: 14px;
+
+  .formboldGridRow:hover {
+    transform: translateY(-5px);
   }
-  .foreignNoteTxt {
-    display: block;
-    font-size: 12px;
-    text-transform: capitalize;
-  }
-  .formboldInputField {
-    width: 100%;
-    padding: 13px 22px;
-    border-radius: 5px;
-    border: 1px solid #DDE3EC;
-    background: #FFFFFF;
-    font-weight: 500;
-    font-size: 16px;
-    color: #536387;
-    outline: none;
-    resize: none;
-  }
-  .formboldInputField:focus {
-    border-color: hsl(143.18deg 36.07% 23.92%);
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
-  }
-  
-  .formboldCheckboxGroup {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .formboldCheckboxItem {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .formboldCheckboxInput {
-    width: 20px;
-    height: 20px;
-    border: 1px solid #DDE3EC;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .formboldCheckboxLabel {
-    font-size: 16px;
-    color: #536387;
-    cursor: pointer;
-  }
-  
-  .formboldTable {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  .formboldTable th,
-  .formboldTable td {
-    border: 1px solid #DDE3EC;
-    padding: 12px;
-    text-align: left;
-    font-size: 14px;
-  }
-  .formboldTable th {
-    background-color: #f4f4f4;
-    color: #07074D;
-    text-align: center;
-  }
-  .formboldTable input,
-  .formboldTable select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #DDE3EC;
-    border-radius: 5px;
-    font-size: 14px;
-    color: #536387;
-  }
-  .notBold{
-    font-weight: 300;
-    font-size: small;
-  }
-  .awaitingCell {
-    width: 50px;
-  }
-  
-  .subjectCell {
-    width: 20%;
-  }
-  
-  .gradeCell {
-    width: 20%;
-  }
-  
-  @media (max-width: 768px) {
-    .formboldInputFlex {
-      flex-direction: column;
-    }
-  
-    .formboldTable th,
-    .formboldTable td {
-      font-size: 12px;
-    }
-  }
-  
+}
