@@ -43,3 +43,10 @@ select {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   z-index: 1000;
 }
+
+
+input[type='text'],
+input[type='number'],
+textarea {
+  font-size: 16px;
+}
