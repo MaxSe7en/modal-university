@@ -38,6 +38,7 @@ const Login = () => {
               />
             </div>
             <div className={styles.title_container}>
+            <p className={styles.school_name}>MODAL UNIVERSITY COLLEGE</p>
               <p className={styles.title}>ADMISSION PORTAL</p>
               <span className={styles.subtitle}>
                 Start or resume your application process by entering your phone
