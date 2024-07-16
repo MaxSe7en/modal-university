@@ -9,5 +9,6 @@ export const admin_base_url = `${domain}/api/admin`;
 export const sendOtpUrl = `${base_url}/send-otp`;
 export const verifyOtpUrl = `${base_url}/verify-otp`;
 export const user_url = `${admin_base_url}/users`;
+export const admission_status_url = `${admin_base_url}/academic-information`;
 export const admin_login_url =  `${admin_base_url}/login`
 export const submit_url = `${base_url}/submit`;

@@ -93,7 +93,7 @@ import Declaration from "../Declaration/Declaration";
 import PersonalInfo from "../PersonalInfo/PersonalInfo";
 import styles from "./AdminDashboard.module.css";
 import { useAdmin } from "@/contexts/AdminContext";
-import { user_url } from "@/Utils/endpoints";
+import { admission_status_url, user_url } from "@/Utils/endpoints";
 import { useReactToPrint } from "react-to-print";
 import PrintableStudentInfo from "../PrintableStudentInfo/PrintableStudentInfo";
 
@@ -151,14 +151,34 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
-  const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleStatusChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newStatus = event.target.value;
+    const userId = selectedUser?.id;
     setSelectedUser((prevUser: any) => ({
       ...prevUser,
       status: newStatus,
     }));
-    // You can also make an API call here to update the status in the backend
+    try {
+      const token = localStorage.getItem("adminTz");
+      const response = await fetch(`${admission_status_url}/${userId}/status`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (response.ok) {
+        console.log("Status updated successfully");
+      } else {
+        console.error("Failed to update status");
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
   };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Pending":
@@ -233,14 +253,17 @@ const AdminDashboard: React.FC = () => {
             {/* <h2 className={styles.contentTitle}>Student Application Details</h2> */}
             {renderContent(selectedUser)}
             {/* add update application status here */}
+            {/* {JSON.stringify(selectedUser.academicInformation.admissionStatus)} */}
             {selectedUser && (
               <div className={styles.statusSection}>
                 <label htmlFor="status">Update Status: </label>
                 <select
                   id="status"
-                  value={selectedUser?.status}
+                  value={selectedUser?.academicInformation?.admissionStatus}
                   onChange={handleStatusChange}
-                  style={{ backgroundColor: getStatusColor(selectedUser?.status) }}
+                  style={{
+                    backgroundColor: getStatusColor(selectedUser?.academicInformation?.admissionStatus),
+                  }}
                 >
                   <option value="Pending">Pending</option>
                   <option value="Under Review">Under Review</option>
