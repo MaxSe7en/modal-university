@@ -20,7 +20,7 @@ export const FormProvider = ({ children }: any) => {
     otp: "",
   });
   const [otpSent, setOtpSent] = useState(false); // State to track OTP sent status
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState("");
   const [inputValues, setInputValues] = useState({
     surname: "",
     firstname: "",
@@ -56,13 +56,26 @@ export const FormProvider = ({ children }: any) => {
   });
 
   console.log(studentDetails);
+  // useEffect(() => {
+  //   if (!router.pathname.includes("/admin")) {
+  //     if (!studentDetails.phoneNumber || !studentDetails.id) {
+  //       router.push("/login"); // Redirect to the home page if studentDetails is empty
+  //     }
+  //   }
+  // }, [studentDetails]);
+
   useEffect(() => {
     if (!router.pathname.includes("/admin")) {
-      if (!studentDetails.phoneNumber || !studentDetails.id) {
-        router.push("/login"); // Redirect to the home page if studentDetails is empty
+      const authData: any = localStorage.getItem('authData');
+      console.log("---------------->",authData)
+      if (!authData || !token) {
+        router.push("/login");
+      } else {
+        const { phoneNumber, id } = JSON.parse(authData);
+        setStudentDetails({ phoneNumber, id });
       }
     }
-  }, [studentDetails]);
+  }, [ token]);
 
   const validate = (values: {
     day: any;
@@ -188,6 +201,7 @@ export const FormProvider = ({ children }: any) => {
           indexNumber: any;
           numSubjects: number;
           subjects: any;
+          awaiting: boolean;
         },
         slipIndex: any
       ) => {
@@ -217,7 +231,7 @@ export const FormProvider = ({ children }: any) => {
               errors[`subject_${slipIndex}_${subjectIndex}`] =
                 "Subject is required";
             }
-            if (!subject?.grade) {
+            if (!slip.awaiting && !subject?.grade) {
               errors[`grade_${slipIndex}_${subjectIndex}`] =
                 "Grade is required";
             }
@@ -262,7 +276,7 @@ export const FormProvider = ({ children }: any) => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               details: studentDetails,
@@ -271,11 +285,32 @@ export const FormProvider = ({ children }: any) => {
             }),
           });
           const data = await response.json();
-          showToast({
-            message: "Form submitted successfully!",
-            position: "top",
-          }); // Show success toast
-          console.log("Form submitted successfully:", data);
+          if (response.ok) {
+            // Store authentication data in localStorage
+            localStorage.setItem(
+              "authData",
+              JSON.stringify({
+                phoneNumber: studentDetails.phoneNumber,
+                id: studentDetails.id,
+              })
+            );
+
+            showToast({
+              message: "Form submitted successfully!",
+              position: "top",
+            });
+            console.log("Form submitted successfully:", data);
+
+            // Redirect to the dashboard page
+            router.push(`/dashboard?studentId=${studentDetails.id}`);
+          } else {
+            showToast({
+              message: "Error submitting form, please try again.",
+              color: "#FF3333",
+            });
+
+            throw new Error(data.message || "Error submitting form");
+          }
         } catch (error) {
           console.error("Error submitting form:", error);
           showToast({ message: "Error submitting form", color: "#FF3333" });
@@ -427,14 +462,26 @@ export const FormProvider = ({ children }: any) => {
           setInputValues(data?.userInfo);
           setAcademicInfo(data?.academicInformation);
           setDeclareState(JSON.parse(data?.declaration));
-          showToast({ message: "OTP verified successfully!", position: "top" }); // Show success toast
+          showToast({ message: "OTP verified successfully!", position: "top" });
+          localStorage.setItem(
+            "authData",
+            JSON.stringify({
+              phoneNumber: data?.details.phoneNumber,
+              id: data?.details.sId,
+            })
+          );
           setTimeout(() => {
-            router.push("/");
+            if (data?.userInfo.email != "") {
+              // Redirect to the dashboard page if email is provided
+              router.push(`/dashboard?studentId=${data?.details.sId}`);
+            } else {
+              router.push("/");
+            }
           }, 1000);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Failed to verify OTP");
-        showToast({ message: "Failed to verify OTP", color: "#FF3333" });
+        showToast({ message: error.response.data.error, color: "#FF3333" });
       } finally {
         setIsLoading(false);
       }
@@ -506,7 +553,7 @@ export const FormProvider = ({ children }: any) => {
 
   return (
     <FormContext.Provider value={values}>
-      {/* {JSON.stringify(studentDetails)} */}
+      {JSON.stringify(token)}
       {/* {process.env.NODE_ENV} */}
       {children}
     </FormContext.Provider>

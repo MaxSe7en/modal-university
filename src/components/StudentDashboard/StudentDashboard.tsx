@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import styles from "./StudentDashboard.module.css";
+import { useForm } from "@/contexts/FormContext";
 
 interface ApplicationStatus {
   status: "Pending" | "Under Review" | "Accepted" | "Rejected";
@@ -11,6 +12,34 @@ interface ApplicationStatus {
 const StudentDashboard = () => {
   const router = useRouter();
   const { studentId } = router.query;
+  const {
+    inputValues,
+    errors,
+    setErrors,
+    isLoading,
+    handleChange,
+    handleSubmit,
+    validate,
+    academicInfo,
+    validateAcademicInfo,
+    activeStep,
+    setActiveStep,
+    declarationError,
+    declareState,
+    setDeclareState,
+  }: any = useForm();
+  useEffect(() => {
+    const authData = localStorage.getItem("authData");
+    console.log("---------------->", authData);
+    if (!authData) {
+      router.push("/login");
+    } else {
+      const { id } = JSON.parse(authData);
+      if (id) {
+        fetchApplicationStatus(id);
+      }
+    }
+  }, []);
 
   const [applicationStatus, setApplicationStatus] =
     useState<ApplicationStatus | null>({
@@ -58,6 +87,15 @@ const StudentDashboard = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("authData");
+    router.push("/login");
+  };
+  const handleUpdateDetails = () => {
+    // localStorage.removeItem("authData");
+    router.push("/");
+  };
+
   //   if (!applicationStatus) {
   //     return <div className={styles.loading}>Loading...</div>;
   //   }
@@ -66,7 +104,7 @@ const StudentDashboard = () => {
     <>
       <div className={styles.backgroundImage}></div>
       <div className={styles.container}>
-        <div className={styles.dashboard}>
+        <div className={styles.dashboard}>{JSON.stringify("token")}
           <h1 className={styles.title}>
             Modal University Application Dashboard
           </h1>
@@ -111,6 +149,12 @@ const StudentDashboard = () => {
             </ul>
           </div>
         </div>
+        <button className={styles.updateButton} onClick={handleUpdateDetails}>
+          Update
+        </button>
+        <button className={styles.logoutButton} onClick={handleLogout}>
+          Logout
+        </button>
       </div>
     </>
   );

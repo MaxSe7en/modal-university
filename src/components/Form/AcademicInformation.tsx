@@ -33,6 +33,14 @@ export default function AcademicInformation({
     const updatedSlips = [...academicInfo.slips];
     updatedSlips[slipIndex] = { ...updatedSlips[slipIndex], [field]: value };
   
+    if (field === "awaiting" && value === true) {
+      // Clear grades when awaiting is checked
+      updatedSlips[slipIndex].subjects = updatedSlips[slipIndex].subjects.map((subject: any) => ({
+        ...subject,
+        grade: ""
+      }));
+    }
+    
     if (field === "numSubjects") {
       const numSubjects = parseInt(value);
       let updatedSubjects = [...updatedSlips[slipIndex].subjects];
@@ -193,6 +201,7 @@ export default function AcademicInformation({
                             <select
                               value={slip.subjects[subjectIndex]?.grade || ""}
                               onChange={(e) => handleSubjectChange(slipIndex, subjectIndex, "grade", e.target.value)}
+                              disabled={slip.awaiting}
                             >
                               {gradeOptions.map((grade) => (
                                 <option disabled={grade === "Z0"} key={grade}>

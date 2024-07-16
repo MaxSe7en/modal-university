@@ -118,6 +118,12 @@ const PrintableStudentInfo: React.ForwardRefRenderFunction<
               {user?.academicInformation?.indexNumber}
             </span>
           </div>
+          <div className={styles.infoItem}>
+            <span className={styles.label}>Results Status:</span>
+            <span className={`${styles.value} ${styles.resultStatus} ${user?.academicInformation?.awaiting ? styles.awaiting : styles.released}`}>
+              {user?.academicInformation?.awaiting == "1" ? 'Awaiting' : 'Released'}
+            </span>
+          </div>
         </div>
         <h3 className={styles.subSectionTitle}>Subjects and Grades</h3>
         <table className={styles.subjectsTable}>

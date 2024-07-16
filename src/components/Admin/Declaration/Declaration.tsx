@@ -1,11 +1,13 @@
 import React from 'react';
 import styles from './Declaration.module.css';
+import { formatDate } from '@/Utils/utils';
 
 
 interface User {
   id: number;
   surname: string;
   firstname: string;
+  createdAt: any; // Replace with your actual timestamp field
   // Add any declaration-related fields
 }
 
@@ -41,6 +43,7 @@ interface Props {
 const Declaration: React.FC<Props> = ({ users }) => {
   return (
     <div className={styles.declaration}>
+      {/* {JSON.stringify(users) as string} */}
       <h3 className={styles.sectionTitle}>Declaration</h3>
       {users.map(user => (
         <div key={user.id} className={styles.declarationCard}>
@@ -54,7 +57,7 @@ const Declaration: React.FC<Props> = ({ users }) => {
           </div>
           <div className={styles.declarationDate}>
             <span className={styles.dateLabel}>Date:</span>
-            <span className={styles.dateValue}>April 15, 2024</span>
+            <span className={styles.dateValue}>{formatDate(user.createdAt)}</span>
           </div>
         </div>
       ))}

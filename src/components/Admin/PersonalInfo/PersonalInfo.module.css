@@ -3,6 +3,11 @@
   padding: 20px;
 }
 
+.personalInfoPrint{
+  display: flex;
+  justify-content: space-between;
+}
+
 .sectionTitle {
   color: #2e8b57;
   margin-bottom: 20px;
@@ -79,6 +84,21 @@
   padding: 10px;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.printButton {
+  padding: 1px 20px;
+  height: 30px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.printButton:hover {
+  background-color: #45a049;
 }
 
 /* Responsive design for smaller screens */

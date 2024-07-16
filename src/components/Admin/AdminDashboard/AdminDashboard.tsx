@@ -100,7 +100,7 @@ import PrintableStudentInfo from "../PrintableStudentInfo/PrintableStudentInfo";
 const AdminDashboard: React.FC = () => {
   const { activeTab, setActiveTab, renderContent }: any = useAdmin();
   const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState<any>(null);
 
   useEffect(() => {
     fetchUsers();
@@ -151,6 +151,28 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
+  const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newStatus = event.target.value;
+    setSelectedUser((prevUser: any) => ({
+      ...prevUser,
+      status: newStatus,
+    }));
+    // You can also make an API call here to update the status in the backend
+  };
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "Pending":
+        return "#90EE90"; // Light green
+      case "Under Review":
+        return "#32CD32"; // Lime green
+      case "Accepted":
+        return "#006400"; // Dark green
+      case "Rejected":
+        return "#8FBC8F"; // Dark sea green
+      default:
+        return "#2E8B57"; // Sea green
+    }
+  };
   const componentRef = useRef<any>(null);
 
   const handlePrint = useReactToPrint({
@@ -210,6 +232,23 @@ const AdminDashboard: React.FC = () => {
           <div className={styles.tabContent}>
             {/* <h2 className={styles.contentTitle}>Student Application Details</h2> */}
             {renderContent(selectedUser)}
+            {/* add update application status here */}
+            {selectedUser && (
+              <div className={styles.statusSection}>
+                <label htmlFor="status">Update Status: </label>
+                <select
+                  id="status"
+                  value={selectedUser?.status}
+                  onChange={handleStatusChange}
+                  style={{ backgroundColor: getStatusColor(selectedUser?.status) }}
+                >
+                  <option value="Pending">Pending</option>
+                  <option value="Under Review">Under Review</option>
+                  <option value="Accepted">Accepted</option>
+                  <option value="Rejected">Rejected</option>
+                </select>
+              </div>
+            )}
           </div>
           <button onClick={handlePrint} className={styles.printButton}>
             Print All Details

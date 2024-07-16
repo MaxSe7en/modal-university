@@ -64,7 +64,13 @@ export default function AcademicInfoMobile({
   const handleSlipChange = (slipIndex: number, field: string, value: any) => {
     const updatedSlips = [...academicInfo.slips];
     updatedSlips[slipIndex] = { ...updatedSlips[slipIndex], [field]: value };
-  
+    if (field === "awaiting" && value === true) {
+      // Clear grades when awaiting is checked
+      updatedSlips[slipIndex].subjects = updatedSlips[slipIndex].subjects.map((subject: any) => ({
+        ...subject,
+        grade: ""
+      }));
+    }
     if (field === "numSubjects") {
       const numSubjects = parseInt(value);
       let updatedSubjects = [...updatedSlips[slipIndex].subjects];
@@ -294,6 +300,7 @@ export default function AcademicInfoMobile({
                                     e.target.value
                                   )
                                 }
+                                disabled={slip.awaiting}
                               >
                                 {gradeOptions.map((grade, i) => (
                                   <option disabled={grade === "Z0"} key={grade} >
