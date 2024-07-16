@@ -176,3 +176,8 @@
 .smsSendAllButton:hover {
   background-color: #1e87db;
 }
+
+.selected {
+  background-color: #4caf50; 
+  color: #f0f8ff;
+}

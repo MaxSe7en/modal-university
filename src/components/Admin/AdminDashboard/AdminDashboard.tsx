@@ -114,6 +114,7 @@ const AdminDashboard: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const { showToast }: any = useToast();
+  const [selectedUserId, setSelectedUserId] = useState<any>();
 
   useEffect(() => {
     fetchUsers();
@@ -144,8 +145,10 @@ const AdminDashboard: React.FC = () => {
     const user = users.find((user: any) => user.studentId === studentId);
     if (user) {
       setSelectedUser(user);
+      setSelectedUserId(studentId);
     } else {
       console.error("User not found");
+
     }
   };
 
@@ -164,15 +167,51 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
+  // const handleStatusChange = async (
+  //   event: React.ChangeEvent<HTMLSelectElement>
+  // ) => {
+  //   const newStatus = event.target.value;
+  //   const userId = selectedUser?.id;
+  //   setSelectedUser((prevUser: any) => ({
+  //     ...prevUser,
+  //     status: newStatus,
+  //   }));
+  //   try {
+  //     const token = localStorage.getItem("adminTz");
+  //     const response = await fetch(`${admission_status_url}/${userId}/status`, {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify({ status: newStatus }),
+  //     });
+
+  //     if (response.ok) {
+  //       console.log("Status updated successfully");
+  //     } else {
+  //       console.error("Failed to update status");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error updating status:", error);
+  //   }
+  // };
+
   const handleStatusChange = async (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const newStatus = event.target.value;
     const userId = selectedUser?.id;
+  
+    // Update the selectedUser state optimistically
     setSelectedUser((prevUser: any) => ({
       ...prevUser,
-      status: newStatus,
+      academicInformation: {
+        ...prevUser.academicInformation,
+        admissionStatus: newStatus,
+      },
     }));
+  
     try {
       const token = localStorage.getItem("adminTz");
       const response = await fetch(`${admission_status_url}/${userId}/status`, {
@@ -183,14 +222,30 @@ const AdminDashboard: React.FC = () => {
         },
         body: JSON.stringify({ status: newStatus }),
       });
-
+  
       if (response.ok) {
         console.log("Status updated successfully");
       } else {
         console.error("Failed to update status");
+        // Optionally, you can revert the state update if the request fails
+        setSelectedUser((prevUser: any) => ({
+          ...prevUser,
+          academicInformation: {
+            ...prevUser.academicInformation,
+            admissionStatus: selectedUser?.academicInformation?.admissionStatus, // revert to previous status
+          },
+        }));
       }
     } catch (error) {
       console.error("Error updating status:", error);
+      // Optionally, revert the state update if there's an error
+      setSelectedUser((prevUser: any) => ({
+        ...prevUser,
+        academicInformation: {
+          ...prevUser.academicInformation,
+          admissionStatus: selectedUser?.academicInformation?.admissionStatus, // revert to previous status
+        },
+      }));
     }
   };
 
@@ -282,10 +337,10 @@ const AdminDashboard: React.FC = () => {
               ? users.map((user: any) => (
                   <li
                     key={user.id}
-                    className={styles.studentItem}
+                    className={`${styles.studentItem} ${selectedUserId === user.studentId ? styles.selected : 'www'}`}
                     onClick={() => fetchUserDetails(user.studentId)}
                   >
-                    {user.surname} {user.firstname}
+                    {user.surname} {user.firstname} {selectedUserId}
                   </li>
                 ))
               : null}
@@ -334,6 +389,9 @@ const AdminDashboard: React.FC = () => {
                     backgroundColor: getStatusColor(
                       selectedUser?.academicInformation?.admissionStatus
                     ),
+                    color: "white",
+                    fontWeight: "bold",
+                    outline: "none"
                   }}
                 >
                   <option value="Pending">Pending</option>
@@ -357,13 +415,13 @@ const AdminDashboard: React.FC = () => {
                 onClick={handleSendSingleSms}
                 className={styles.smsSendButton}
               >
-                Send to Selected User
+                Send to Selected Student
               </button>
               <button
                 onClick={handleSendAllSms}
                 className={styles.smsSendAllButton}
               >
-                Send to All Users
+                Send to All Students
               </button>
             </div>
           </div>

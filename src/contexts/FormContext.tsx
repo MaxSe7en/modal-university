@@ -20,6 +20,10 @@ export const FormProvider = ({ children }: any) => {
     phone: "",
     otp: "",
   });
+  const [admissionStatus, setAdmissionStatus] = useState({
+    admissionStatus: "",
+    createdAt: "",
+  });
   const [otpSent, setOtpSent] = useState(false); // State to track OTP sent status
   const [token, setToken] = useState("");
   const [inputValues, setInputValues] = useState({
@@ -310,7 +314,7 @@ Admissions Team
               position: "top",
             });
             console.log("Form submitted successfully:", data);
-            await sendSms(studentDetails.phoneNumber, message)
+            await sendSms(studentDetails.phoneNumber, message);
             // Redirect to the dashboard page
             router.push(`/dashboard?studentId=${studentDetails.id}`);
           } else {
@@ -469,6 +473,10 @@ Admissions Team
         console.log("====== this is the data ===========>", data);
         if (status === 200) {
           setStudentDetails(data?.details);
+          setAdmissionStatus({
+            admissionStatus: data?.academicInformation?.admissionStatus,
+            createdAt: data?.academicInformation?.createdAt,
+          });
           setInputValues(data?.userInfo);
           setAcademicInfo(data?.academicInformation);
           setDeclareState(JSON.parse(data?.declaration));
@@ -520,6 +528,7 @@ Admissions Team
       declareState,
       declarationError,
       isLoading,
+      admissionStatus,
       setIsLoading,
       setDeclarationError,
       setDeclareState,
@@ -549,6 +558,7 @@ Admissions Team
       academicInfo,
       activeStep,
       declareState,
+      admissionStatus,
       declarationError,
       handleChange,
       activeLoginStep,

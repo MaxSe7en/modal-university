@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import styles from "./StudentDashboard.module.css";
 import { useForm } from "@/contexts/FormContext";
+import { formatDate } from "@/Utils/utils";
 
 interface ApplicationStatus {
   status: "Pending" | "Under Review" | "Accepted" | "Rejected";
@@ -17,7 +18,7 @@ const StudentDashboard = () => {
     errors,
     setErrors,
     isLoading,
-    handleChange,
+    admissionStatus,
     handleSubmit,
     validate,
     academicInfo,
@@ -105,7 +106,7 @@ const StudentDashboard = () => {
       <div className={styles.backgroundImage}></div>
       <div className={styles.container}>
         <div className={styles.dashboard}>
-          {JSON.stringify(inputValues)}
+          {/* {JSON.stringify(inputValues)} */}
           <h1 className={styles.title}>
             Modal University Application Dashboard
           </h1>
@@ -121,18 +122,18 @@ const StudentDashboard = () => {
           <div
             className={styles.status}
             style={{
-              backgroundColor: getStatusColor(applicationStatus?.status),
+              backgroundColor: getStatusColor(admissionStatus?.admissionStatus),
             }}
           >
-            <h3>Application Status: {applicationStatus?.status}</h3>
+            <h3>Application Status: {admissionStatus?.admissionStatus}</h3>
           </div>
 
           <div className={styles.dates}>
             <div>
               <h4>Submission Date</h4>
-              <p>{applicationStatus?.submissionDate}</p>
+              <p>{formatDate(admissionStatus?.createdAt)}</p>
             </div>
-            <div>
+            <div style={{display: "none"}}>
               <h4>Expected Response Date</h4>
               <p>{applicationStatus?.expectedResponseDate}</p>
             </div>
