@@ -96,11 +96,24 @@ import { useAdmin } from "@/contexts/AdminContext";
 import { admission_status_url, user_url } from "@/Utils/endpoints";
 import { useReactToPrint } from "react-to-print";
 import PrintableStudentInfo from "../PrintableStudentInfo/PrintableStudentInfo";
+import { sendSms } from "@/Utils/utils";
+import { useToast } from "@/contexts/ToastContext";
+interface User {
+  id: number;
+  studentId: number;
+  surname: string;
+  firstname: string;
+  phone: string;
+  academicInformation: {
+    admissionStatus: string;
+  };
+}
 
 const AdminDashboard: React.FC = () => {
   const { activeTab, setActiveTab, renderContent }: any = useAdmin();
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<any>(null);
+  const { showToast }: any = useToast();
 
   useEffect(() => {
     fetchUsers();
@@ -151,7 +164,9 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
-  const handleStatusChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleStatusChange = async (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const newStatus = event.target.value;
     const userId = selectedUser?.id;
     setSelectedUser((prevUser: any) => ({
@@ -198,6 +213,60 @@ const AdminDashboard: React.FC = () => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+
+  const [smsMessage, setSmsMessage] = useState("");
+
+  const handleSendSingleSms = async () => {
+    if (!selectedUser) {
+      // alert("Please select a user first");
+      showToast({
+        message: "Please select a user first",
+        position: "top",
+      });
+      return;
+    }
+    try {
+      await sendSms(selectedUser.phone, smsMessage);
+
+      showToast({
+        message:
+          "SMS sent successfully to " +
+          selectedUser.surname +
+          " " +
+          selectedUser.firstname,
+        position: "top",
+      }); // Show success toast
+    } catch (error) {
+      console.error("Error sending SMS:", error);
+      // alert("Failed to send SMS. Please try again.");
+      showToast({
+        message: "Failed to send SMS. Please try again.",
+        position: "top",
+        color: "#FF3333" 
+      }); 
+    }
+  };
+
+  const handleSendAllSms = async () => {
+    try {
+      for (const user of users) {
+        await sendSms(user?.phone, smsMessage);
+      }
+      // alert("SMS sent successfully to all users");
+      showToast({
+        message: "SMS sent successfully to all users",
+        position: "top",
+      });
+    } catch (error) {
+      console.error("Error sending SMS to all users:", error);
+      alert("Failed to send SMS to all users. Please try again.");
+      showToast({
+        message: "Failed to send SMS to all users. Please try again.",
+        position: "top",
+        color: "#FF3333" 
+      }); 
+    }
+  };
 
   return (
     <div className={styles.dashboard}>
@@ -262,7 +331,9 @@ const AdminDashboard: React.FC = () => {
                   value={selectedUser?.academicInformation?.admissionStatus}
                   onChange={handleStatusChange}
                   style={{
-                    backgroundColor: getStatusColor(selectedUser?.academicInformation?.admissionStatus),
+                    backgroundColor: getStatusColor(
+                      selectedUser?.academicInformation?.admissionStatus
+                    ),
                   }}
                 >
                   <option value="Pending">Pending</option>
@@ -272,6 +343,29 @@ const AdminDashboard: React.FC = () => {
                 </select>
               </div>
             )}
+          </div>
+          <div className={styles.smsSection}>
+            <h3>Send SMS</h3>
+            <textarea
+              value={smsMessage}
+              onChange={(e) => setSmsMessage(e.target.value)}
+              placeholder="Enter SMS message"
+              className={styles.smsTextarea}
+            />
+            <div className={styles.smsButtons}>
+              <button
+                onClick={handleSendSingleSms}
+                className={styles.smsSendButton}
+              >
+                Send to Selected User
+              </button>
+              <button
+                onClick={handleSendAllSms}
+                className={styles.smsSendAllButton}
+              >
+                Send to All Users
+              </button>
+            </div>
           </div>
           <button onClick={handlePrint} className={styles.printButton}>
             Print All Details
