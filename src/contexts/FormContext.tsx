@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { createContext, useMemo, useContext, useState, useEffect } from "react";
 import { useToast } from "./ToastContext"; // Import the useToast hook
 import { submit_url } from "@/Utils/endpoints";
+import { sendSms } from "@/Utils/utils";
 
 const FormContext = createContext({});
 
@@ -55,6 +56,15 @@ export const FormProvider = ({ children }: any) => {
     slips: [],
   });
 
+  const message = `Dear ${inputValues.title} ${inputValues.firstname} ${inputValues.surname},
+
+Thank you for submitting your application to Modal College.
+We have received it and will review it soon. 
+
+Best regards,
+Admissions Team
+    `;
+
   console.log(studentDetails);
   // useEffect(() => {
   //   if (!router.pathname.includes("/admin")) {
@@ -66,8 +76,8 @@ export const FormProvider = ({ children }: any) => {
 
   useEffect(() => {
     if (!router.pathname.includes("/admin")) {
-      const authData: any = localStorage.getItem('authData');
-      console.log("---------------->",authData)
+      const authData: any = localStorage.getItem("authData");
+      console.log("---------------->", authData);
       if (!authData || !token) {
         router.push("/login");
       } else {
@@ -75,7 +85,7 @@ export const FormProvider = ({ children }: any) => {
         setStudentDetails({ phoneNumber, id });
       }
     }
-  }, [ token]);
+  }, [token]);
 
   const validate = (values: {
     day: any;
@@ -300,7 +310,7 @@ export const FormProvider = ({ children }: any) => {
               position: "top",
             });
             console.log("Form submitted successfully:", data);
-
+            await sendSms(studentDetails.phoneNumber, message)
             // Redirect to the dashboard page
             router.push(`/dashboard?studentId=${studentDetails.id}`);
           } else {

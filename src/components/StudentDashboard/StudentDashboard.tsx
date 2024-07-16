@@ -39,7 +39,7 @@ const StudentDashboard = () => {
         fetchApplicationStatus(id);
       }
     }
-  }, []);
+  }, [router.pathname]);
 
   const [applicationStatus, setApplicationStatus] =
     useState<ApplicationStatus | null>({
@@ -104,13 +104,14 @@ const StudentDashboard = () => {
     <>
       <div className={styles.backgroundImage}></div>
       <div className={styles.container}>
-        <div className={styles.dashboard}>{JSON.stringify("token")}
+        <div className={styles.dashboard}>
+          {JSON.stringify(inputValues)}
           <h1 className={styles.title}>
             Modal University Application Dashboard
           </h1>
 
           <div className={styles.welcome}>
-            <h2>Welcome, Student {studentId}</h2>
+            <h2>Welcome, {inputValues?.surname}</h2>
             <p>
               Thank you for submitting your application. You can check your
               application status here.
