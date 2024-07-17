@@ -15,19 +15,7 @@ const StudentDashboard = () => {
   const { studentId } = router.query;
   const {
     inputValues,
-    errors,
-    setErrors,
-    isLoading,
     admissionStatus,
-    handleSubmit,
-    validate,
-    academicInfo,
-    validateAcademicInfo,
-    activeStep,
-    setActiveStep,
-    declarationError,
-    declareState,
-    setDeclareState,
   }: any = useForm();
   useEffect(() => {
     const authData = localStorage.getItem("authData");
@@ -90,8 +78,10 @@ const StudentDashboard = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("authData");
+    window.location.reload();
     router.push("/login");
   };
+
   const handleUpdateDetails = () => {
     // localStorage.removeItem("authData");
     router.push("/");

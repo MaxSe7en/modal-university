@@ -108,6 +108,7 @@ interface User {
     admissionStatus: string;
   };
 }
+const ITEMS_PER_PAGE = 3; // Number of users per page
 
 const AdminDashboard: React.FC = () => {
   const { activeTab, setActiveTab, renderContent }: any = useAdmin();
@@ -115,6 +116,7 @@ const AdminDashboard: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const { showToast }: any = useToast();
   const [selectedUserId, setSelectedUserId] = useState<any>();
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     fetchUsers();
@@ -148,7 +150,6 @@ const AdminDashboard: React.FC = () => {
       setSelectedUserId(studentId);
     } else {
       console.error("User not found");
-
     }
   };
 
@@ -202,7 +203,7 @@ const AdminDashboard: React.FC = () => {
   ) => {
     const newStatus = event.target.value;
     const userId = selectedUser?.id;
-  
+
     // Update the selectedUser state optimistically
     setSelectedUser((prevUser: any) => ({
       ...prevUser,
@@ -211,7 +212,7 @@ const AdminDashboard: React.FC = () => {
         admissionStatus: newStatus,
       },
     }));
-  
+
     try {
       const token = localStorage.getItem("adminTz");
       const response = await fetch(`${admission_status_url}/${userId}/status`, {
@@ -222,7 +223,7 @@ const AdminDashboard: React.FC = () => {
         },
         body: JSON.stringify({ status: newStatus }),
       });
-  
+
       if (response.ok) {
         console.log("Status updated successfully");
       } else {
@@ -297,8 +298,8 @@ const AdminDashboard: React.FC = () => {
       showToast({
         message: "Failed to send SMS. Please try again.",
         position: "top",
-        color: "#FF3333" 
-      }); 
+        color: "#FF3333",
+      });
     }
   };
 
@@ -318,10 +319,20 @@ const AdminDashboard: React.FC = () => {
       showToast({
         message: "Failed to send SMS to all users. Please try again.",
         position: "top",
-        color: "#FF3333" 
-      }); 
+        color: "#FF3333",
+      });
     }
   };
+  // const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const currentUsers = users.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(users.length / ITEMS_PER_PAGE);
 
   return (
     <div className={styles.dashboard}>
@@ -332,19 +343,53 @@ const AdminDashboard: React.FC = () => {
       <div className={styles.content}>
         <aside className={styles.sidebar}>
           <h3 className={styles.sidebarTitle}>Prospective Students</h3>
-          <ul className={styles.studentList}>
+          {/* <ul className={styles.studentList}>
             {users !== undefined
               ? users.map((user: any) => (
                   <li
                     key={user.id}
-                    className={`${styles.studentItem} ${selectedUserId === user.studentId ? styles.selected : 'www'}`}
+                    className={`${styles.studentItem} ${
+                      selectedUserId === user.studentId
+                        ? styles.selected
+                        : "www"
+                    }`}
                     onClick={() => fetchUserDetails(user.studentId)}
                   >
                     {user.surname} {user.firstname} {selectedUserId}
                   </li>
                 ))
               : null}
-          </ul>
+          </ul> */}
+           <div className={styles.container}>
+      <ul className={styles.studentList}>
+        {currentUsers.map((user: any) => (
+          <li
+            key={user.id}
+            className={`${styles.studentItem} ${selectedUserId === user.studentId ? styles.selected : ''}`}
+            onClick={() => fetchUserDetails(user.studentId)}
+          >
+            {user.surname} {user.firstname}
+          </li>
+        ))}
+      </ul>
+      <div className={styles.pagination}>
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
+    </div>
         </aside>
         <main className={styles.mainContent}>
           <nav className={styles.tabs}>
@@ -380,7 +425,7 @@ const AdminDashboard: React.FC = () => {
             {/* {JSON.stringify(selectedUser.academicInformation.admissionStatus)} */}
             {selectedUser && (
               <div className={styles.statusSection}>
-                <label htmlFor="status">Update Status: </label>
+                <label htmlFor="status">Update Application Status: </label>
                 <select
                   id="status"
                   value={selectedUser?.academicInformation?.admissionStatus}
@@ -391,7 +436,7 @@ const AdminDashboard: React.FC = () => {
                     ),
                     color: "white",
                     fontWeight: "bold",
-                    outline: "none"
+                    outline: "none",
                   }}
                 >
                   <option value="Pending">Pending</option>
