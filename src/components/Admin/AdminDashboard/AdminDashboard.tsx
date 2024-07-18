@@ -460,7 +460,7 @@ const AdminDashboard: React.FC = () => {
                 onClick={handleSendSingleSms}
                 className={styles.smsSendButton}
               >
-                Send to Selected Student
+                Send sms to {selectedUser?.surname} {selectedUser?.firstname}
               </button>
               <button
                 onClick={handleSendAllSms}
