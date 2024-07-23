@@ -3,7 +3,7 @@
   padding: 20px;
 }
 
-.personalInfoPrint{
+.personalInfoPrint {
   display: flex;
   justify-content: space-between;
 }
@@ -89,7 +89,7 @@
 .printButton {
   padding: 1px 20px;
   height: 30px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 5px;
@@ -98,6 +98,25 @@
 }
 
 .printButton:hover {
+  background-color: #45a049;
+}
+
+.printButton2 {
+  background-color: #fbbf19;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  display: flex;
+  border-radius: 4px;
+  margin-top: 1rem;
+  align-items: flex-end;
+  margin-left: auto;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.printButton2:hover {
   background-color: #45a049;
 }
 

@@ -87,33 +87,29 @@
 
 // export default AdminDashboard;
 
-import React, { ReactInstance, useEffect, useRef, useState } from "react";
-import AcademicInfo from "../AcademicInfo/AcademicInfo";
-import Declaration from "../Declaration/Declaration";
-import PersonalInfo from "../PersonalInfo/PersonalInfo";
-import styles from "./AdminDashboard.module.css";
 import { useAdmin } from "@/contexts/AdminContext";
-import { admission_status_url, user_url } from "@/Utils/endpoints";
-import { useReactToPrint } from "react-to-print";
-import PrintableStudentInfo from "../PrintableStudentInfo/PrintableStudentInfo";
-import { sendSms } from "@/Utils/utils";
 import { useToast } from "@/contexts/ToastContext";
-interface User {
-  id: number;
-  studentId: number;
-  surname: string;
-  firstname: string;
-  phone: string;
-  academicInformation: {
-    admissionStatus: string;
-  };
-}
-const ITEMS_PER_PAGE = 3; // Number of users per page
+import { user_url } from "@/Utils/endpoints";
+import { sendSms } from "@/Utils/utils";
+import React, { useEffect, useRef, useState } from "react";
+import { useReactToPrint } from "react-to-print";
+import styles from "./AdminDashboard.module.css";
+
+const ITEMS_PER_PAGE = 10; // Number of users per page
 
 const AdminDashboard: React.FC = () => {
-  const { activeTab, setActiveTab, renderContent }: any = useAdmin();
-  const [users, setUsers] = useState<User[]>([]);
-  const [selectedUser, setSelectedUser] = useState<any>(null);
+  const {
+    activeTab,
+    setActiveTab,
+    renderContent,
+    selectedUser,
+    setSelectedUser,
+    smsMessage,
+    setSmsMessage,
+    users,
+    setUsers,
+  }: any = useAdmin();
+
   const { showToast }: any = useToast();
   const [selectedUserId, setSelectedUserId] = useState<any>();
   const [currentPage, setCurrentPage] = useState(1);
@@ -198,132 +194,6 @@ const AdminDashboard: React.FC = () => {
   //   }
   // };
 
-  const handleStatusChange = async (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const newStatus = event.target.value;
-    const userId = selectedUser?.id;
-
-    // Update the selectedUser state optimistically
-    setSelectedUser((prevUser: any) => ({
-      ...prevUser,
-      academicInformation: {
-        ...prevUser.academicInformation,
-        admissionStatus: newStatus,
-      },
-    }));
-
-    try {
-      const token = localStorage.getItem("adminTz");
-      const response = await fetch(`${admission_status_url}/${userId}/status`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ status: newStatus }),
-      });
-
-      if (response.ok) {
-        console.log("Status updated successfully");
-      } else {
-        console.error("Failed to update status");
-        // Optionally, you can revert the state update if the request fails
-        setSelectedUser((prevUser: any) => ({
-          ...prevUser,
-          academicInformation: {
-            ...prevUser.academicInformation,
-            admissionStatus: selectedUser?.academicInformation?.admissionStatus, // revert to previous status
-          },
-        }));
-      }
-    } catch (error) {
-      console.error("Error updating status:", error);
-      // Optionally, revert the state update if there's an error
-      setSelectedUser((prevUser: any) => ({
-        ...prevUser,
-        academicInformation: {
-          ...prevUser.academicInformation,
-          admissionStatus: selectedUser?.academicInformation?.admissionStatus, // revert to previous status
-        },
-      }));
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Pending":
-        return "#90EE90"; // Light green
-      case "Under Review":
-        return "#32CD32"; // Lime green
-      case "Accepted":
-        return "#006400"; // Dark green
-      case "Rejected":
-        return "#8FBC8F"; // Dark sea green
-      default:
-        return "#2E8B57"; // Sea green
-    }
-  };
-  const componentRef = useRef<any>(null);
-
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
-
-  const [smsMessage, setSmsMessage] = useState("");
-
-  const handleSendSingleSms = async () => {
-    if (!selectedUser) {
-      // alert("Please select a user first");
-      showToast({
-        message: "Please select a user first",
-        position: "top",
-      });
-      return;
-    }
-    try {
-      await sendSms(selectedUser.phone, smsMessage);
-
-      showToast({
-        message:
-          "SMS sent successfully to " +
-          selectedUser.surname +
-          " " +
-          selectedUser.firstname,
-        position: "top",
-      }); // Show success toast
-    } catch (error) {
-      console.error("Error sending SMS:", error);
-      // alert("Failed to send SMS. Please try again.");
-      showToast({
-        message: "Failed to send SMS. Please try again.",
-        position: "top",
-        color: "#FF3333",
-      });
-    }
-  };
-
-  const handleSendAllSms = async () => {
-    try {
-      for (const user of users) {
-        await sendSms(user?.phone, smsMessage);
-      }
-      // alert("SMS sent successfully to all users");
-      showToast({
-        message: "SMS sent successfully to all users",
-        position: "top",
-      });
-    } catch (error) {
-      console.error("Error sending SMS to all users:", error);
-      alert("Failed to send SMS to all users. Please try again.");
-      showToast({
-        message: "Failed to send SMS to all users. Please try again.",
-        position: "top",
-        color: "#FF3333",
-      });
-    }
-  };
-  // const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -360,36 +230,38 @@ const AdminDashboard: React.FC = () => {
                 ))
               : null}
           </ul> */}
-           <div className={styles.container}>
-      <ul className={styles.studentList}>
-        {currentUsers.map((user: any) => (
-          <li
-            key={user.id}
-            className={`${styles.studentItem} ${selectedUserId === user.studentId ? styles.selected : ''}`}
-            onClick={() => fetchUserDetails(user.studentId)}
-          >
-            {user.surname} {user.firstname}
-          </li>
-        ))}
-      </ul>
-      <div className={styles.pagination}>
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
-    </div>
+          <div className={styles.container}>
+            <ul className={styles.studentList}>
+              {currentUsers.map((user: any) => (
+                <li
+                  key={user.id}
+                  className={`${styles.studentItem} ${
+                    selectedUserId === user.studentId ? styles.selected : ""
+                  }`}
+                  onClick={() => fetchUserDetails(user.studentId)}
+                >
+                  {user.surname} {user.firstname}
+                </li>
+              ))}
+            </ul>
+            <div className={styles.pagination}>
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </button>
+              <span>
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </button>
+            </div>
+          </div>
         </aside>
         <main className={styles.mainContent}>
           <nav className={styles.tabs}>
@@ -423,60 +295,11 @@ const AdminDashboard: React.FC = () => {
             {renderContent(selectedUser)}
             {/* add update application status here */}
             {/* {JSON.stringify(selectedUser.academicInformation.admissionStatus)} */}
-            {selectedUser && (
-              <div className={styles.statusSection}>
-                <label htmlFor="status">Update Application Status: </label>
-                <select
-                  id="status"
-                  value={selectedUser?.academicInformation?.admissionStatus}
-                  onChange={handleStatusChange}
-                  style={{
-                    backgroundColor: getStatusColor(
-                      selectedUser?.academicInformation?.admissionStatus
-                    ),
-                    color: "white",
-                    fontWeight: "bold",
-                    outline: "none",
-                  }}
-                >
-                  <option value="Pending">Pending</option>
-                  <option value="Under Review">Under Review</option>
-                  <option value="Accepted">Accepted</option>
-                  <option value="Rejected">Rejected</option>
-                </select>
-              </div>
-            )}
           </div>
-          <div className={styles.smsSection}>
-            <h3>Send SMS</h3>
-            <textarea
-              value={smsMessage}
-              onChange={(e) => setSmsMessage(e.target.value)}
-              placeholder="Enter SMS message"
-              className={styles.smsTextarea}
-            />
-            <div className={styles.smsButtons}>
-              <button
-                onClick={handleSendSingleSms}
-                className={styles.smsSendButton}
-              >
-                Send sms to {selectedUser?.surname} {selectedUser?.firstname}
-              </button>
-              <button
-                onClick={handleSendAllSms}
-                className={styles.smsSendAllButton}
-              >
-                Send to All Students
-              </button>
-            </div>
-          </div>
-          <button onClick={handlePrint} className={styles.printButton}>
-            Print All Details
-          </button>
         </main>
-        <div style={{ display: "none" }}>
+        {/* <div style={{ display: "none" }}>
           <PrintableStudentInfo ref={componentRef} user={selectedUser} />
-        </div>
+        </div> */}
       </div>
     </div>
   );

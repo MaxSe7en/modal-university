@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import styles from "./StudentDashboard.module.css";
 import { useForm } from "@/contexts/FormContext";
 import { formatDate } from "@/Utils/utils";
-
+import schoolLogo from "../../../public/assets/logo/modal_logo.png";
+import Image from "next/image";
 interface ApplicationStatus {
-  status: "Pending" | "Under Review" | "Accepted" | "Rejected";
+  status: "Awaiting results" | "Under Review" | "Accepted" | "Rejected";
   submissionDate: string;
   expectedResponseDate: string;
 }
@@ -13,10 +14,7 @@ interface ApplicationStatus {
 const StudentDashboard = () => {
   const router = useRouter();
   const { studentId } = router.query;
-  const {
-    inputValues,
-    admissionStatus,
-  }: any = useForm();
+  const { inputValues, admissionStatus, academicInfo }: any = useForm();
   useEffect(() => {
     const authData = localStorage.getItem("authData");
     console.log("---------------->", authData);
@@ -63,7 +61,7 @@ const StudentDashboard = () => {
 
   const getStatusColor = (status?: string) => {
     switch (status) {
-      case "Pending":
+      case "Awaiting results":
         return "#90EE90"; // Light green
       case "Under Review":
         return "#32CD32"; // Lime green
@@ -92,54 +90,47 @@ const StudentDashboard = () => {
   //   }
 
   return (
-    <>
-      <div className={styles.backgroundImage}></div>
-      <div className={styles.container}>
-        <div className={styles.dashboard}>
-          {/* {JSON.stringify(inputValues)} */}
-          <h1 className={styles.title}>
-            Modal University Application Dashboard
-          </h1>
-
-          <div className={styles.welcome}>
-            <h2>Welcome, {inputValues?.surname}</h2>
-            <p>
-              Thank you for submitting your application. You can check your
-              application status here.
-            </p>
+    <div className={styles.container}>
+      <div className={styles.dashboard}>
+        <div className={styles.logo_container}>
+          <Image src={schoolLogo} alt="school logo" width={80} height={80} />
+        </div>
+        {/* {JSON.stringify(academicInfo.slips[0]?.awaiting)} */}
+        <div className={styles.title_container}>
+          <p className={styles.school_name}>MODAL UNIVERSITY COLLEGE</p>
+          <h1 className={styles.title}>Application Dashboard</h1>
+          <p className={styles.subtitle}>
+            Welcome, {inputValues?.surname}. Thank you for submitting your
+            application. You can check your application status here.
+          </p>
+        </div>
+        <div
+          className={styles.status}
+          style={{
+            backgroundColor: getStatusColor(admissionStatus?.admissionStatus),
+          }}
+        >
+          <h3>Application Status: {admissionStatus?.admissionStatus}</h3>
+        </div>
+        <div className={styles.dates}>
+          <div>
+            <h4>Submission Date</h4>
+            <p>{formatDate(admissionStatus?.createdAt)}</p>
           </div>
-
-          <div
-            className={styles.status}
-            style={{
-              backgroundColor: getStatusColor(admissionStatus?.admissionStatus),
-            }}
-          >
-            <h3>Application Status: {admissionStatus?.admissionStatus}</h3>
-          </div>
-
-          <div className={styles.dates}>
-            <div>
-              <h4>Submission Date</h4>
-              <p>{formatDate(admissionStatus?.createdAt)}</p>
-            </div>
-            <div style={{display: "none"}}>
-              <h4>Expected Response Date</h4>
-              <p>{applicationStatus?.expectedResponseDate}</p>
-            </div>
-          </div>
-
-          <div className={styles.nextSteps}>
-            <h3>Next Steps</h3>
-            <ul>
-              <li>
-                Keep checking this dashboard for updates on your application
-                status.
-              </li>
-              <li>Ensure your contact information is up to date.</li>
-              <li>Prepare any additional documents that may be requested.</li>
-            </ul>
-          </div>
+        </div>
+        <div className={styles.nextSteps}>
+          <h3>Next Steps</h3>
+          <ul>
+            <li>
+              Keep checking this dashboard for updates on your application
+              status.
+            </li>
+            <li>Ensure your contact information is up to date.</li>
+            <li>Prepare any additional documents that may be requested.</li>
+            {academicInfo.slips[0]?.awaiting == 1 && (
+              <li>Update your grades once results are available.</li>
+            )}
+          </ul>
         </div>
         <button className={styles.updateButton} onClick={handleUpdateDetails}>
           Update
@@ -148,7 +139,7 @@ const StudentDashboard = () => {
           Logout
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

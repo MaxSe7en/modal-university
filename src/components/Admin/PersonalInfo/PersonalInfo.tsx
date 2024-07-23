@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 import styles from "./PersonalInfo.module.css";
 import PrintPersonalInfo from "./PrintPersonalInfo";
 import { useReactToPrint } from "react-to-print";
+import PrintableStudentInfo from "../PrintableStudentInfo/PrintableStudentInfo";
+import { useAdmin } from "@/contexts/AdminContext";
 
 interface User {
   id: number;
@@ -28,17 +30,23 @@ interface Props {
 }
 
 const PersonalInfo = ({ users }: Props) => {
-  const componentRef = useRef<any>(null);
-
-  const handlePrint = useReactToPrint({
-    content: () => (componentRef.current ? componentRef.current : null),
+  const personalInfoRef = useRef<any>(null);
+  const allDetailsRef = useRef(null);
+  const { selectedUser }: any = useAdmin();
+  const handlePrintPersonalInfo = useReactToPrint({
+    content: () => (personalInfoRef.current ? personalInfoRef.current : null),
   });
-
+  const handlePrintAllDetails = useReactToPrint({
+    content: () => allDetailsRef.current,
+  });
   return (
     <div className={styles.personalInfo}>
       <div className={styles.personalInfoPrint}>
         <h3 className={styles.sectionTitle}>Personal Information</h3>
-        <button onClick={handlePrint} className={styles.printButton}>
+        <button
+          onClick={handlePrintPersonalInfo}
+          className={styles.printButton}
+        >
           Print
         </button>
       </div>
@@ -129,8 +137,17 @@ const PersonalInfo = ({ users }: Props) => {
               </div>
             </div>
           </div>
+          <button
+            onClick={handlePrintAllDetails}
+            className={styles.printButton2}
+          >
+            Print All Details
+          </button>
           <div style={{ display: "none" }}>
-            <PrintPersonalInfo user={user} ref={componentRef} />
+            <PrintableStudentInfo ref={allDetailsRef} user={selectedUser} />
+          </div>
+          <div style={{ display: "none" }}>
+            <PrintPersonalInfo user={user} ref={personalInfoRef} />
           </div>
         </div>
       ))}

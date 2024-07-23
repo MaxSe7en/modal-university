@@ -113,11 +113,6 @@
   margin-top: 0;
 }
 
-.statusSection{
-  display: flex;
-  justify-content: end;
-  align-items: center;
-}
 
 .printButton {
   background-color: #fbbf19;
