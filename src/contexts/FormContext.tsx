@@ -313,8 +313,8 @@ Admissions Team
               message: "Form submitted successfully!",
               position: "top",
             });
-            console.log("Form submitted successfully:", data);
-            await sendSms(studentDetails.phoneNumber, message);
+            console.log("Form submitted successfully:", data, studentDetails);
+            // await sendSms(studentDetails.phoneNumber, message);
             // Redirect to the dashboard page
             router.push(`/dashboard?studentId=${studentDetails.id}`);
           } else {
@@ -490,7 +490,10 @@ Admissions Team
         );
         console.log("====== this is the data ===========>", data);
         if (status === 200) {
-          setStudentDetails(data?.details);
+          setStudentDetails({
+            phoneNumber: data?.details?.phoneNumber,
+            id: data?.details?.sId,
+          });
           setAdmissionStatus({
             admissionStatus: data?.academicInformation?.admissionStatus,
             createdAt: data?.academicInformation?.createdAt,

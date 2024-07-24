@@ -35,25 +35,10 @@ export default function AcademicInformation({
   
     if (field === "awaiting" && value === true) {
       // Clear grades when awaiting is checked
-      updatedSlips[slipIndex].subjects = updatedSlips[slipIndex].subjects.map((subject: any) => ({
+      updatedSlips[slipIndex].subjects = updatedSlips[slipIndex].subjects.map((subject: any)  => ({
         ...subject,
         grade: ""
       }));
-    }
-    
-    if (field === "numSubjects") {
-      const numSubjects = parseInt(value);
-      let updatedSubjects = [...updatedSlips[slipIndex].subjects];
-  
-      if (numSubjects < updatedSubjects.length) {
-        updatedSubjects = updatedSubjects.slice(0, numSubjects);
-      } else {
-        for (let i = updatedSubjects.length; i < numSubjects; i++) {
-          updatedSubjects.push({ subject: "", grade: "" });
-        }
-      }
-  
-      updatedSlips[slipIndex].subjects = updatedSubjects;
     }
   
     handleAcademicChange({ ...academicInfo, slips: updatedSlips });
@@ -66,6 +51,12 @@ export default function AcademicInformation({
       updatedSubjects[subjectIndex] = { subject: "", grade: "" };
     }
     updatedSubjects[subjectIndex][field] = value;
+    
+    // If a grade is being added, uncheck the awaiting checkbox
+    if (field === "grade" && value !== "") {
+      updatedSlips[slipIndex].awaiting = false;
+    }
+    
     updatedSlips[slipIndex].subjects = updatedSubjects;
     handleAcademicChange({ ...academicInfo, slips: updatedSlips });
   };
@@ -201,7 +192,7 @@ export default function AcademicInformation({
                             <select
                               value={slip.subjects[subjectIndex]?.grade || ""}
                               onChange={(e) => handleSubjectChange(slipIndex, subjectIndex, "grade", e.target.value)}
-                              disabled={slip.awaiting}
+                              // disabled={slip.awaiting}
                             >
                               {gradeOptions.map((grade) => (
                                 <option disabled={grade === "Z0"} key={grade}>

@@ -41,65 +41,36 @@ export default function AcademicInfoMobile({
     handleAcademicChange({ ...academicInfo, numRows: numSlips, slips: newSlips });
   };
 
-  const handleSlipChangeOld = (slipIndex: any, field: string, value: any) => {
-    const updatedSlips: any = [...academicInfo.slips];
-    updatedSlips[slipIndex] = { ...updatedSlips[slipIndex], [field]: value };
-    const updatedSubjects = [...updatedSlips[slipIndex].subjects];
-    console.log("jjjjjjjjjjjjjjjjjjjjjjj", updatedSubjects, field, value)
-    // updatedSubjects[index] = {};
-    if (field == "numSubjects") {
-
-      for (let index = 0; index < value; index++) {
-        updatedSubjects[index] = { subject: "", grade: "" };
-
-      }
-    }
-    updatedSlips[slipIndex].subjects = updatedSubjects;
-    // if (!updatedSubjects[subjectIndex]) {
-    // updatedSubjects[subjectIndex] = { subject: "", grade: "" };
-    // }
-    handleAcademicChange({ ...academicInfo, slips: updatedSlips });
-  };
+ 
 
   const handleSlipChange = (slipIndex: number, field: string, value: any) => {
     const updatedSlips = [...academicInfo.slips];
     updatedSlips[slipIndex] = { ...updatedSlips[slipIndex], [field]: value };
+  
     if (field === "awaiting" && value === true) {
       // Clear grades when awaiting is checked
-      updatedSlips[slipIndex].subjects = updatedSlips[slipIndex].subjects.map((subject: any) => ({
+      updatedSlips[slipIndex].subjects = updatedSlips[slipIndex].subjects.map((subject: any)  => ({
         ...subject,
         grade: ""
       }));
-    }
-    if (field === "numSubjects") {
-      const numSubjects = parseInt(value);
-      let updatedSubjects = [...updatedSlips[slipIndex].subjects];
-  
-      // Resize the subjects array based on the new number of subjects
-      if (numSubjects < updatedSubjects.length) {
-        // If reducing the number of subjects, remove excess entries
-        updatedSubjects = updatedSubjects.slice(0, numSubjects);
-      } else {
-        // If increasing the number of subjects, add new empty entries
-        for (let i = updatedSubjects.length; i < numSubjects; i++) {
-          updatedSubjects.push({ subject: "", grade: "" });
-        }
-      }
-  
-      updatedSlips[slipIndex].subjects = updatedSubjects;
     }
   
     handleAcademicChange({ ...academicInfo, slips: updatedSlips });
   };
 
-  const handleSubjectChange = (slipIndex: any, subjectIndex: number, field: string, value: string) => {
-    const updatedSlips: any = [...academicInfo.slips];
+  const handleSubjectChange = (slipIndex: number, subjectIndex: number, field: string, value: string) => {
+    const updatedSlips = [...academicInfo.slips];
     const updatedSubjects = [...updatedSlips[slipIndex].subjects];
-    console.log("jjjjjjjjdsffffffffffffffffffffffffjjjjjjjjjjjjjjj", updatedSubjects, subjectIndex, field)
     if (!updatedSubjects[subjectIndex]) {
       updatedSubjects[subjectIndex] = { subject: "", grade: "" };
     }
     updatedSubjects[subjectIndex][field] = value;
+    
+    // If a grade is being added, uncheck the awaiting checkbox
+    if (field === "grade" && value !== "") {
+      updatedSlips[slipIndex].awaiting = false;
+    }
+    
     updatedSlips[slipIndex].subjects = updatedSubjects;
     handleAcademicChange({ ...academicInfo, slips: updatedSlips });
   };
@@ -300,7 +271,7 @@ export default function AcademicInfoMobile({
                                     e.target.value
                                   )
                                 }
-                                disabled={slip.awaiting}
+                                // disabled={slip.awaiting}
                               >
                                 {gradeOptions.map((grade, i) => (
                                   <option disabled={grade === "Z0"} key={grade} >
@@ -326,3 +297,67 @@ export default function AcademicInfoMobile({
     </div>
   );
 }
+
+
+// const handleSlipChangeOld = (slipIndex: any, field: string, value: any) => {
+//   const updatedSlips: any = [...academicInfo.slips];
+//   updatedSlips[slipIndex] = { ...updatedSlips[slipIndex], [field]: value };
+//   const updatedSubjects = [...updatedSlips[slipIndex].subjects];
+//   console.log("jjjjjjjjjjjjjjjjjjjjjjj", updatedSubjects, field, value)
+//   // updatedSubjects[index] = {};
+//   if (field == "numSubjects") {
+
+//     for (let index = 0; index < value; index++) {
+//       updatedSubjects[index] = { subject: "", grade: "" };
+
+//     }
+//   }
+//   updatedSlips[slipIndex].subjects = updatedSubjects;
+//   // if (!updatedSubjects[subjectIndex]) {
+//   // updatedSubjects[subjectIndex] = { subject: "", grade: "" };
+//   // }
+//   handleAcademicChange({ ...academicInfo, slips: updatedSlips });
+// };
+
+// const handleSlipChange = (slipIndex: number, field: string, value: any) => {
+//   const updatedSlips = [...academicInfo.slips];
+//   updatedSlips[slipIndex] = { ...updatedSlips[slipIndex], [field]: value };
+//   if (field === "awaiting" && value === true) {
+//     // Clear grades when awaiting is checked
+//     updatedSlips[slipIndex].subjects = updatedSlips[slipIndex].subjects.map((subject: any) => ({
+//       ...subject,
+//       grade: ""
+//     }));
+//   }
+//   if (field === "numSubjects") {
+//     const numSubjects = parseInt(value);
+//     let updatedSubjects = [...updatedSlips[slipIndex].subjects];
+
+//     // Resize the subjects array based on the new number of subjects
+//     if (numSubjects < updatedSubjects.length) {
+//       // If reducing the number of subjects, remove excess entries
+//       updatedSubjects = updatedSubjects.slice(0, numSubjects);
+//     } else {
+//       // If increasing the number of subjects, add new empty entries
+//       for (let i = updatedSubjects.length; i < numSubjects; i++) {
+//         updatedSubjects.push({ subject: "", grade: "" });
+//       }
+//     }
+
+//     updatedSlips[slipIndex].subjects = updatedSubjects;
+//   }
+
+//   handleAcademicChange({ ...academicInfo, slips: updatedSlips });
+// };
+
+// const handleSubjectChange = (slipIndex: any, subjectIndex: number, field: string, value: string) => {
+//   const updatedSlips: any = [...academicInfo.slips];
+//   const updatedSubjects = [...updatedSlips[slipIndex].subjects];
+//   console.log("jjjjjjjjdsffffffffffffffffffffffffjjjjjjjjjjjjjjj", updatedSubjects, subjectIndex, field)
+//   if (!updatedSubjects[subjectIndex]) {
+//     updatedSubjects[subjectIndex] = { subject: "", grade: "" };
+//   }
+//   updatedSubjects[subjectIndex][field] = value;
+//   updatedSlips[slipIndex].subjects = updatedSubjects;
+//   handleAcademicChange({ ...academicInfo, slips: updatedSlips });
+// };
