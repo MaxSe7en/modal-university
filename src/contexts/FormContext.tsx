@@ -2,7 +2,7 @@ import { sendOtp, verifyOtp } from "@/services/authService";
 import { useRouter } from "next/router";
 import { createContext, useMemo, useContext, useState, useEffect } from "react";
 import { useToast } from "./ToastContext"; // Import the useToast hook
-import { submit_url } from "@/Utils/endpoints";
+import { active_academic_year_url, submit_url } from "@/Utils/endpoints";
 import { sendSms } from "@/Utils/utils";
 
 const FormContext = createContext({});
@@ -404,6 +404,24 @@ Admissions Team
     setAcademicInfo(info);
   };
 
+  const fetchCurrentActiveAcademicYear = async () => {
+    try {
+      const response = await fetch(`${active_academic_year_url}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch current active academic year");
+      }
+      const data = await response.json();
+      return data.data;
+    } catch (error) {
+      console.error("Error fetching current active academic year:", error);
+      throw error;
+    }
+  };
+
   const handleOtpContinue = useMemo(
     () => async () => {
       if (!loginInputValues.phone) {
@@ -538,6 +556,7 @@ Admissions Team
       setErrors,
       handleChange,
       activeLoginStep,
+      fetchCurrentActiveAcademicYear,
       setActiveLoginStep,
       loginInputValues,
       setLoginInputValues,

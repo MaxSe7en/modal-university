@@ -10,6 +10,7 @@ import { useMediaQuery } from "react-responsive";
 import DateOfBirthInput from "./DateOfBirth";
 import { useForm } from "@/contexts/FormContext";
 import Spinner from "../Spinner/Spinner";
+import AcademicYearDisplay from "./AcademicYearDisplay";
 // import AcademicInformation from "./AcademicInformation";
 // import AcademicInfoMobile from "./AcademicInfoMobile";
 
@@ -38,6 +39,7 @@ const Form = () => {
     declarationError,
     declareState,
     setDeclareState,
+    fetchCurrentActiveAcademicYear
   }: any = useForm();
   const handleNext = () => {
     const validationErrors = validate(inputValues);
@@ -109,9 +111,10 @@ const Form = () => {
       <div className={styles["formbold-form-wrapper"]}>
         <form action="https://formbold.com/s/FORM_ID" method="POST">
           <FormHeader />
-          <div className={styles["form-academic-year"]}>
+          {/* <div className={styles["form-academic-year"]}>
             {getYear()} ACADEMIC YEAR
-          </div>
+          </div> */}
+          <AcademicYearDisplay />
           <div className={styles["formbold-steps"]}>
             <ul>
               <li

@@ -94,6 +94,7 @@ import { sendSms } from "@/Utils/utils";
 import React, { useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import styles from "./AdminDashboard.module.css";
+import router from "next/router";
 
 const ITEMS_PER_PAGE = 10; // Number of users per page
 
@@ -108,6 +109,9 @@ const AdminDashboard: React.FC = () => {
     setSmsMessage,
     users,
     setUsers,
+    handleAcademicYearFilter,
+    handleAdmissionStatusFilter,
+    filteredUsers,
   }: any = useAdmin();
 
   const { showToast }: any = useToast();
@@ -194,7 +198,6 @@ const AdminDashboard: React.FC = () => {
   //   }
   // };
 
-
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
@@ -208,6 +211,13 @@ const AdminDashboard: React.FC = () => {
     <div className={styles.dashboard}>
       <header className={styles.header}>
         <h1 className={styles.title}>MODAL COLLEGE APLLICANTS</h1>
+        <div className={styles.logoutBtnMa}></div>
+        <button
+          className={styles.settingsBtn}
+          onClick={() => router.push("/admin/settings")}
+        >
+          Settings
+        </button>
         <button className={styles.logoutBtn}>Logout</button>
       </header>
       <div className={styles.content}>
@@ -230,8 +240,35 @@ const AdminDashboard: React.FC = () => {
                 ))
               : null}
           </ul> */}
+
+          <div className={styles.filter}>
+            <h3>Filters</h3>
+            <select
+              onChange={handleAcademicYearFilter}
+              className={styles.filterSelect}
+            >
+              <option value="">All Academic Years</option>
+              {/* Add options dynamically based on available years */}
+            </select>
+            <select
+              onChange={handleAdmissionStatusFilter}
+              className={styles.filterSelect}
+            >
+              <option value="">All Admission Statuses</option>
+              <option value="Awaiting results">Awaiting results</option>
+              <option value="Under Review">Under Review</option>
+              <option value="Accepted">Accepted</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+
+          <div className={styles.studentCount}>
+            Total Students: <span>{filteredUsers.length}</span>
+          </div>
+          {/* {JSON.stringify(filteredUsers)} */}
+
           <div className={styles.container}>
-            <ul className={styles.studentList}>
+            {/* <ul className={styles.studentList}>
               {currentUsers.map((user: any) => (
                 <li
                   key={user.id}
@@ -241,6 +278,19 @@ const AdminDashboard: React.FC = () => {
                   onClick={() => fetchUserDetails(user.studentId)}
                 >
                   {user.surname} {user.firstname}
+                </li>
+              ))}
+            </ul> */}
+            <ul className={styles.studentList}>
+              {filteredUsers.map((user: any) => (
+                <li
+                  key={user.id}
+                  className={`${styles.studentItem} ${
+                    selectedUser?.id === user.id ? styles.selected : ""
+                  }`}
+                  onClick={() => setSelectedUser(user)}
+                >
+                  {user.firstname} {user.lastname}dd
                 </li>
               ))}
             </ul>

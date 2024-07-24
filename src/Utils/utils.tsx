@@ -1,6 +1,9 @@
 export function getYear() {
   return new Date().getUTCFullYear() + 1;
 }
+export function getActiveAcademicYear() {
+  return new Date().getUTCFullYear() + 1;
+}
 
 // Utils/validation.ts
 export const validateInput = (value: string, validationRules: { [key: string]: RegExp }) => {

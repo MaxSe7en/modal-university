@@ -28,6 +28,7 @@
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
+  margin-right: 0.5rem;
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -211,7 +212,20 @@
 }
 
 
+.settingsBtn {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 10px;
+}
 
+.settingsBtn:hover {
+  background-color: #1e87db;
+}
 
 .pagination {
   display: flex;
@@ -227,4 +241,35 @@
 
 .pagination span {
   margin: 0 10px;
+}
+
+.filter {
+  margin-bottom: 20px;
+}
+
+.filterSelect {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #c8e6c9;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.studentCount {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.studentCount span {
+  font-size: 1.2em;
+}
+
+.logoutBtnMa{
+  margin-left: auto;
 }

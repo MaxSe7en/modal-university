@@ -10,45 +10,49 @@ const PrintAcademicInfo = forwardRef<HTMLDivElement, Props>(({ user }, ref) => {
     <div className={styles.printAcademicInfo} ref={ref}>
       <h2 className={styles.printTitle}>Academic Information</h2>
       <div className={styles.academicCard}>
-        <h3
-          className={styles.studentName}
-        >{`${user.surname} ${user.firstname}`}</h3>
+        <h3 className={styles.studentName}>
+          {`${user.surname} ${user.firstname}`}
+        </h3>
         <div className={styles.examInfo}>
           <p>
-            <strong>Examination:</strong>{" "}
-            {user.academicInformation.examinationTitle}
+            <strong>Examination:</strong> {user.academicInformation.examinationTitle}
           </p>
           <p>
             <strong>Month/Year:</strong> {user.academicInformation.monthYear}
           </p>
           <p>
-            <strong>Index Number:</strong>{" "}
-            {user.academicInformation.indexNumber}
+            <strong>Index Number:</strong> {user.academicInformation.indexNumber}
           </p>
           <p>
             <strong>Results Status:</strong>
             <span
               className={`${styles.resultStatus} ${
                 user.academicInformation.awaiting == "1"
-                  ? styles.awaiting
-                  : styles.released
+                  ? styles.awaitinga
+                  : styles.releaseda
               }`}
             >
-              {user.academicInformation.awaiting == "1"
-                ? "Awaiting"
-                : "Released"}
+              {user.academicInformation.awaiting == "1" ? "Awaiting" : "Released"}
             </span>
           </p>
         </div>
         <h4 className={styles.subjectsTitle}>Subjects and Grades</h4>
-        <div className={styles.subjectsGrid}>
-          {user.academicInformation.subjects.map((subject: any) => (
-            <div key={subject.id} className={styles.subjectItem}>
-              <span className={styles.subjectName}>{subject.subject}</span>
-              <span className={styles.subjectGrade}>{subject.grade}</span>
-            </div>
-          ))}
-        </div>
+        <table className={styles.subjectsTable}>
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Grade</th>
+            </tr>
+          </thead>
+          <tbody>
+            {user.academicInformation.subjects.map((subject: any) => (
+              <tr key={subject.id}>
+                <td>{subject.subject}</td>
+                <td>{subject.grade}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

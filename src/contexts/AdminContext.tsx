@@ -13,6 +13,7 @@ export interface User {
   firstname: string;
   phone: string;
   academicInformation: {
+    academicYear: string;
     admissionStatus: string;
   };
 }
@@ -22,6 +23,23 @@ export const AdminProvider = ({ children }: any) => {
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [users, setUsers] = useState<User[]>([]);
   const [smsMessage, setSmsMessage] = useState("");
+  const [academicYearFilter, setAcademicYearFilter] = useState("");
+  const [admissionStatusFilter, setAdmissionStatusFilter] = useState("");
+
+  const handleAcademicYearFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setAcademicYearFilter(event.target.value);
+  };
+
+  const handleAdmissionStatusFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setAdmissionStatusFilter(event.target.value);
+  };
+
+  const filteredUsers = useMemo(() => {
+    return users.filter(user => 
+      (academicYearFilter === "" || user.academicInformation.academicYear === academicYearFilter) &&
+      (admissionStatusFilter === "" || user.academicInformation.admissionStatus === admissionStatusFilter)
+    );
+  }, [users, academicYearFilter, admissionStatusFilter]);
   // const renderContent = () => {
   //     switch (activeTab) {
   //         case 'personal':
@@ -127,8 +145,11 @@ export const AdminProvider = ({ children }: any) => {
       setActiveTab,
       handleStatusChange,
       getStatusColor,
+      filteredUsers,
+      handleAcademicYearFilter,
+      handleAdmissionStatusFilter,
     }),
-    [activeTab, selectedUser, smsMessage, users]
+    [activeTab, selectedUser, smsMessage, users, filteredUsers]
   );
 
   return (
