@@ -290,7 +290,7 @@ const AdminDashboard: React.FC = () => {
                   }`}
                   onClick={() => setSelectedUser(user)}
                 >
-                  {user.firstname} {user.lastname}dd
+                  {user.firstname} {user.lastname}
                 </li>
               ))}
             </ul>
