@@ -61,16 +61,16 @@ const StudentDashboard = () => {
 
   const getStatusColor = (status?: string) => {
     switch (status) {
-      case "Awaiting results":
-        return "#90EE90"; // Light green
-      case "Under Review":
-        return "#32CD32"; // Lime green
-      case "Accepted":
-        return "#006400"; // Dark green
-      case "Rejected":
-        return "#8FBC8F"; // Dark sea green
+      // case "Awaiting results":
+      //   return "#90EE90"; // Light green
+      // case "Under Review":
+      //   return "#32CD32"; // Lime green
+      // case "Accepted":
+      //   return "#006400"; // Dark green
+      // case "Rejected":
+      //   return "#8FBC8F"; // Dark sea green
       default:
-        return "#2E8B57"; // Sea green
+        return "#fec76f"; // Sea green
     }
   };
 
@@ -108,6 +108,7 @@ const StudentDashboard = () => {
           className={styles.status}
           style={{
             backgroundColor: getStatusColor(admissionStatus?.admissionStatus),
+            color: "black"
           }}
         >
           <h3>Application Status: {admissionStatus?.admissionStatus}</h3>
@@ -121,17 +122,20 @@ const StudentDashboard = () => {
         <div className={styles.nextSteps}>
           <h3>Next Steps</h3>
           <ul>
+            {academicInfo.slips[0]?.awaiting == 1 && (
+              <li>Update your grades once results are available.</li>
+            )}
             <li>
               Keep checking this dashboard for updates on your application
               status.
             </li>
             <li>Ensure your contact information is up to date.</li>
             <li>Prepare any additional documents that may be requested.</li>
-            {academicInfo.slips[0]?.awaiting == 1 && (
-              <li>Update your grades once results are available.</li>
-            )}
           </ul>
         </div>
+        <button className={styles.updateButton} onClick={handleUpdateDetails}>
+          Review
+        </button>
         <button className={styles.updateButton} onClick={handleUpdateDetails}>
           Update
         </button>
