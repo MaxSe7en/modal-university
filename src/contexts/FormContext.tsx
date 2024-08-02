@@ -314,7 +314,7 @@ Admissions Team
               position: "top",
             });
             console.log("Form submitted successfully:", data, studentDetails);
-            // await sendSms(studentDetails.phoneNumber, message);
+            await sendSms(studentDetails.phoneNumber, message);
             // Redirect to the dashboard page
             router.push(`/dashboard?studentId=${studentDetails.id}`);
           } else {
