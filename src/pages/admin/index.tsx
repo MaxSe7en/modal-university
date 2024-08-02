@@ -1,9 +1,11 @@
 // pages/admin/index.tsx
 import AdminDashboard from "@/components/Admin/AdminDashboard/AdminDashboard";
+import AdminSettings from "@/components/Admin/AdminSettings/AdminSettings";
 import { AdminAuthProvider, useAuth } from "@/contexts/AdminAuthContext";
 import { AdminProvider } from "@/contexts/AdminContext";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import SettingsPage from "./settings";
 
 const AdminPage = () => {
   const { isAuthenticated }: any = useAuth();
@@ -21,9 +23,10 @@ const AdminPage = () => {
 
   return (
     // <AdminAuthProvider>
-      <AdminProvider>
-        <AdminDashboard />
-      </AdminProvider>
+    <AdminProvider>
+      <AdminDashboard />
+      {/* <SettingsPage /> */}
+    </AdminProvider>
     // </AdminAuthProvider>
   );
 };

@@ -124,7 +124,7 @@
 }
 
 .setActiveBtn {
-  background-color: #4caf50;
+  background-color: #10ca17 !important;
   color: white;
 }
 
@@ -146,20 +146,53 @@
   font-weight: bold;
 }
 
-
 .activeIcon {
   display: inline-block;
   width: 20px;
   height: 20px;
-  background-color: #4caf50; 
+  background-color: #4caf50;
   border-radius: 50%;
   margin-left: 10px;
   /* animation: blink 1s infinite; */
 }
 
+/* .setActiveBtn,
+.removeBtn  */
+.editBtn {
+  background-color: #0ebbf0 !important;
+  border: none;
+  cursor: pointer;
+}
 
+.backButton {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.backButton:hover {
+  background-color: #0056b3;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #ddd;
+}
+
+.editBtn:hover,
+.setActiveBtn:hover,
+.removeBtn:hover {
+  background-color: #ccc;
+}
 @keyframes blink {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {

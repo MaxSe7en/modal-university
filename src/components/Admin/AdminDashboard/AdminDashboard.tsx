@@ -1,92 +1,3 @@
-// import { useAdmin } from '@/contexts/AdminContext';
-// import React, { useEffect, useState } from 'react';
-// import AcademicInfo from '../AcademicInfo/AcademicInfo';
-// import Declaration from '../Declaration/Declaration';
-// import PersonalInfo from '../PersonalInfo/PersonalInfo';
-// import styles from './AdminDashboard.module.css';
-
-// const AdminDashboard: React.FC = () => {
-//     const { activeTab, setActiveTab, renderContent }: any = useAdmin();
-//     const [users, setUsers] = useState([]);
-//     const [selectedUser, setSelectedUser] = useState(null);
-
-//     useEffect(() => {
-//         fetchUsers();
-//     }, []);
-
-//     const fetchUsers = async () => {
-//         try {
-//             const response = await fetch('/api/users');
-//             const data = await response.json();
-//             setUsers(data);
-//         } catch (error) {
-//             console.error('Error fetching users:', error);
-//         }
-//     };
-
-//     const fetchUserDetails = async (userId: number) => {
-//         try {
-//             const response = await fetch(`/api/users/${userId}`);
-//             const data = await response.json();
-//             setSelectedUser(data);
-//         } catch (error) {
-//             console.error('Error fetching user details:', error);
-//         }
-//     };
-
-//     return (
-//         <div className={styles.dashboard}>
-//             <header className={styles.header}>
-//                 <h1 className={styles.title}>Backend Page Display</h1>
-//                 <button className={styles.logoutBtn}>Logout</button>
-//             </header>
-//             <nav className={styles.navigation}>
-//                 <button className={styles.navItem}>Prospective Students</button>
-//                 <div className={styles.separator}></div>
-//                 <button
-//                     className={`${styles.navItem} ${activeTab === 'personal' ? styles.active : ''}`}
-//                     onClick={() => setActiveTab('personal')}
-//                 >
-//                     Personal Information
-//                 </button>
-//                 <button
-//                     className={`${styles.navItem} ${activeTab === 'academic' ? styles.active : ''}`}
-//                     onClick={() => setActiveTab('academic')}
-//                 >
-//                     Academic Information
-//                 </button>
-//                 <button
-//                     className={`${styles.navItem} ${activeTab === 'declaration' ? styles.active : ''}`}
-//                     onClick={() => setActiveTab('declaration')}
-//                 >
-//                     Declaration
-//                 </button>
-//             </nav>
-//             <main className={styles.content}>
-//                 <aside className={styles.sidebar}>
-//                     <h3>Prospective Students</h3>
-//                     <ul className={styles.studentList}>
-//                         {users.map((user: any) => (
-//                             <li
-//                                 key={user.id}
-//                                 className={styles.studentItem}
-//                                 onClick={() => fetchUserDetails(user.id)}
-//                             >
-//                                 {user.surname} {user.firstname}
-//                             </li>
-//                         ))}
-//                     </ul>
-//                 </aside>
-//                 <section className={styles.mainContent}>
-//                     {renderContent()}
-//                 </section>
-//             </main>
-//         </div>
-//     );
-// };
-
-// export default AdminDashboard;
-
 import { useAdmin } from "@/contexts/AdminContext";
 import { useToast } from "@/contexts/ToastContext";
 import { user_url } from "@/Utils/endpoints";
@@ -101,17 +12,21 @@ const ITEMS_PER_PAGE = 10; // Number of users per page
 const AdminDashboard: React.FC = () => {
   const {
     activeTab,
+    newYear,
     setActiveTab,
     renderContent,
     selectedUser,
     setSelectedUser,
+    academicYearFilter,
     smsMessage,
     setSmsMessage,
+    academicYears,
     users,
     setUsers,
     handleAcademicYearFilter,
     handleAdmissionStatusFilter,
     filteredUsers,
+    fetchAcademicYears,
   }: any = useAdmin();
 
   const { showToast }: any = useToast();
@@ -120,6 +35,7 @@ const AdminDashboard: React.FC = () => {
 
   useEffect(() => {
     fetchUsers();
+    fetchAcademicYears();
   }, []);
 
   const fetchUsers = async () => {
@@ -202,7 +118,10 @@ const AdminDashboard: React.FC = () => {
     setCurrentPage(newPage);
   };
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentUsers = users.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const currentUsers = filteredUsers.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
 
   // Calculate total pages
   const totalPages = Math.ceil(users.length / ITEMS_PER_PAGE);
@@ -242,13 +161,18 @@ const AdminDashboard: React.FC = () => {
           </ul> */}
 
           <div className={styles.filter}>
-            <h3>Filters</h3>
+            <h3>Filters</h3> 
+            {/* {JSON.stringify(academicYears)} */}
             <select
               onChange={handleAcademicYearFilter}
               className={styles.filterSelect}
             >
               <option value="">All Academic Years</option>
-              {/* Add options dynamically based on available years */}
+              {academicYears.map((year:any) => (
+                <option key={year.id} value={year.year}>
+                  {year.year}
+                </option>
+              ))}
             </select>
             <select
               onChange={handleAdmissionStatusFilter}
@@ -282,7 +206,7 @@ const AdminDashboard: React.FC = () => {
               ))}
             </ul> */}
             <ul className={styles.studentList}>
-              {filteredUsers.map((user: any) => (
+              {currentUsers.map((user: any) => (
                 <li
                   key={user.id}
                   className={`${styles.studentItem} ${
@@ -290,7 +214,7 @@ const AdminDashboard: React.FC = () => {
                   }`}
                   onClick={() => setSelectedUser(user)}
                 >
-                  {user.firstname} {user.lastname}
+                  {user.surname} {user.firstname} {user.othernames}
                 </li>
               ))}
             </ul>

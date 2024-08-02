@@ -67,6 +67,7 @@
 .studentItem {
   padding: 10px;
   cursor: pointer;
+  text-overflow: ellipsis;
   transition: background-color 0.3s;
 }
 

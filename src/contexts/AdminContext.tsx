@@ -1,7 +1,10 @@
 import AcademicInfo from "@/components/Admin/AcademicInfo/AcademicInfo";
 import Declaration from "@/components/Admin/Declaration/Declaration";
 import PersonalInfo from "@/components/Admin/PersonalInfo/PersonalInfo";
-import { admission_status_url } from "@/Utils/endpoints";
+import {
+  academic_year_admin_url,
+  admission_status_url,
+} from "@/Utils/endpoints";
 import React, { createContext, useContext, useMemo, useState } from "react";
 
 const AdminContext = createContext({});
@@ -17,7 +20,11 @@ export interface User {
     admissionStatus: string;
   };
 }
-
+interface AcademicYear {
+  id: number;
+  year: string;
+  isActive: boolean;
+}
 export const AdminProvider = ({ children }: any) => {
   const [activeTab, setActiveTab] = useState("personal");
   const [selectedUser, setSelectedUser] = useState<any>(null);
@@ -25,19 +32,34 @@ export const AdminProvider = ({ children }: any) => {
   const [smsMessage, setSmsMessage] = useState("");
   const [academicYearFilter, setAcademicYearFilter] = useState("");
   const [admissionStatusFilter, setAdmissionStatusFilter] = useState("");
+  const [academicYears, setAcademicYears] = useState<AcademicYear[]>([]);
+  const [newYear, setNewYear] = useState("");
+  const [error, setError] = useState("");
+  const [editYearId, setEditYearId] = useState<number | null>(null);
+  const [editYearValue, setEditYearValue] = useState<string>("");
 
-  const handleAcademicYearFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleAcademicYearFilter = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setAcademicYearFilter(event.target.value);
   };
 
-  const handleAdmissionStatusFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleAdmissionStatusFilter = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setAdmissionStatusFilter(event.target.value);
   };
 
   const filteredUsers = useMemo(() => {
-    return users.filter(user => 
-      (academicYearFilter === "" || user.academicInformation.academicYear === academicYearFilter) &&
-      (admissionStatusFilter === "" || user.academicInformation.admissionStatus === admissionStatusFilter)
+    return users.filter(
+      (user) =>
+       {
+        console.log("-------------->",user, user.academicInformation.academicYear, academicYearFilter)
+        return  (academicYearFilter === "" ||
+          user.academicInformation.academicYear == academicYearFilter) &&
+        (admissionStatusFilter === "" ||
+          user.academicInformation.admissionStatus === admissionStatusFilter)
+       }
     );
   }, [users, academicYearFilter, admissionStatusFilter]);
   // const renderContent = () => {
@@ -132,13 +154,140 @@ export const AdminProvider = ({ children }: any) => {
     );
   };
 
+  /*** -------------------- SETTINGS PAGE --------------------*/
+  const fetchAcademicYears = async () => {
+    try {
+      const response = await fetch(academic_year_admin_url, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("adminTz")}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch academic years");
+      }
+      const data = await response.json();
+      console.log(data);
+      setAcademicYears(data.data);
+    } catch (error) {
+      console.error("Error fetching academic years:", error);
+      setError("Failed to load academic years");
+    }
+  };
+
+  const handleAddYear = async () => {
+    if (newYear && !academicYears.some((year) => year.year === newYear)) {
+      try {
+        const response = await fetch(academic_year_admin_url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("adminTz")}`,
+          },
+          body: JSON.stringify({ year: newYear }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to add academic year");
+        }
+
+        await fetchAcademicYears(); // Refresh the list
+        setNewYear("");
+        setError("");
+      } catch (error) {
+        console.error("Error adding academic year:", error);
+        setError("Failed to add academic year");
+      }
+    } else if (academicYears.some((year) => year.year === newYear)) {
+      setError("This academic year already exists");
+    }
+  };
+
+  const handleRemoveYear = async (id: number) => {
+    try {
+      const response = await fetch(`${academic_year_admin_url}/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("adminTz")}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete academic year");
+      }
+
+      await fetchAcademicYears(); // Refresh the list
+      setError("");
+    } catch (error) {
+      console.error("Error deleting academic year:", error);
+      setError("Failed to delete academic year");
+    }
+  };
+
+  const handleSetActive = async (id: number) => {
+    try {
+      const response = await fetch(`${academic_year_admin_url}/${id}/active`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("adminTz")}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to set active academic year");
+      }
+
+      await fetchAcademicYears(); // Refresh the list
+      setError("");
+    } catch (error) {
+      console.error("Error setting active academic year:", error);
+      setError("Failed to set active academic year");
+    }
+  };
+
+  const handleUpdateYear = async () => {
+    if (!editYearId || !editYearValue) return;
+
+    try {
+      const response = await fetch(`${academic_year_admin_url}/${editYearId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("adminTz")}`,
+        },
+        body: JSON.stringify({ year: editYearValue }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update academic year");
+      }
+
+      await fetchAcademicYears(); // Refresh the list
+      setEditYearId(null);
+      setEditYearValue("");
+      setError("");
+    } catch (error) {
+      console.error("Error updating academic year:", error);
+      setError("Failed to update academic year");
+    }
+  };
+
   const value = useMemo(
     () => ({
       activeTab,
       renderContent,
       selectedUser,
+      newYear,
       smsMessage,
+      error,
       users,
+      editYearId,
+      academicYears,
+      editYearValue,
+      setAcademicYears,
+      setNewYear,
+      setError,
+      setEditYearId,
+      setEditYearValue,
       setUsers,
       setSmsMessage,
       setSelectedUser,
@@ -148,8 +297,30 @@ export const AdminProvider = ({ children }: any) => {
       filteredUsers,
       handleAcademicYearFilter,
       handleAdmissionStatusFilter,
+      handleAddYear,
+      handleRemoveYear,
+      handleSetActive,
+      handleUpdateYear,
+      fetchAcademicYears,
     }),
-    [activeTab, selectedUser, smsMessage, users, filteredUsers]
+    [
+      activeTab,
+      renderContent,
+      selectedUser,
+      newYear,
+      smsMessage,
+      error,
+      users,
+      editYearId,
+      academicYears,
+      editYearValue,
+      handleStatusChange,
+      filteredUsers,
+      handleAddYear,
+      handleRemoveYear,
+      handleSetActive,
+      handleUpdateYear,
+    ]
   );
 
   return (
