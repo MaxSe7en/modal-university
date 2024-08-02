@@ -20,6 +20,13 @@ const ReviewPage = ({ userInfo, academicInformation, onBack }: any) => {
       <section className={styles.section}>
         <h2>Academic Information</h2>
         <div className={styles.academicInfo}>
+        {/* {JSON.stringify(academicInformation)} */}
+        {academicInformation.schoolAttended && academicInformation.schoolAttended.trim() !== "" && (
+          <div className={styles.schoolNameDisplay}>
+            <span className={styles.schoolNameLabel}>School Name:</span>
+            <span className={styles.schoolNameValue}>{academicInformation.schoolAttended}</span>
+          </div>
+        )}
           <p><strong>Admission Status:</strong> {academicInformation.admissionStatus}</p>
           {/* <p><strong>Created At:</strong> {new Date(academicInformation.createdAt).toLocaleString()}</p> */}
           

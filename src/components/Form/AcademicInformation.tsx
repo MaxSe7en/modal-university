@@ -14,7 +14,7 @@ export default function AcademicInformation({
   activeStep,
   parentStyles,
 }: Readonly<AcademicInformationProp>) {
-  const { academicInfo, handleAcademicChange, errors }: any = useForm();
+  const { academicInfo, handleAcademicChange, errors, handleSchoolNameChange }: any = useForm();
 
   const handleResultSlipsChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const numSlips = parseInt(event.target.value);
@@ -73,6 +73,16 @@ export default function AcademicInformation({
           <p className={styles.qualificationNote}>
             Indicate if you are awaiting examination results.
           </p>
+        </div>
+        <div className={`${styles.formboldGridColumn} ${styles.schoolNameContainer}`}>
+          <span className={styles.inputLabel}>SCHOOL NAME (Optional)</span>
+          <input
+            type="text"
+            placeholder="e.g. Accra Academy"
+            value={academicInfo.schoolName}
+            onChange={handleSchoolNameChange}
+            className={styles.schoolNameInput}
+          />
         </div>
         <div className={styles.rowSelectContainer}>
           <label htmlFor="rowSelect" className={styles.resultSlip}>

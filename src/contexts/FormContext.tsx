@@ -58,6 +58,7 @@ export const FormProvider = ({ children }: any) => {
   const [academicInfo, setAcademicInfo] = useState({
     numRows: 0,
     slips: [],
+    schoolAttended: "",
   });
 
   const message = `Dear ${inputValues.title} ${inputValues.firstname} ${inputValues.surname},
@@ -269,6 +270,14 @@ Admissions Team
     [inputValues]
   );
 
+  const handleSchoolNameChange = (event:any) => {
+    const newSchoolAttended = event.target.value;
+    setAcademicInfo(prevState => ({
+      ...prevState,
+      schoolAttended: newSchoolAttended
+    }));
+  };
+
   const handleSubmit = useMemo(
     () => async (e: { preventDefault: () => void }) => {
       e.preventDefault();
@@ -295,7 +304,10 @@ Admissions Team
             body: JSON.stringify({
               details: studentDetails,
               userInfo: { ...inputValues, declaration: "" + declareState },
-              academicInformation: academicInfo,
+              academicInformation:  {
+                ...academicInfo,
+                schoolAttended: academicInfo.schoolAttended
+              },
             }),
           });
           const data = await response.json();
@@ -564,6 +576,7 @@ Admissions Team
       loginInputValues,
       setLoginInputValues,
       otpSent,
+      handleSchoolNameChange,
       setOtpSent,
       handleOtpContinue,
       handleLoginInputChange,

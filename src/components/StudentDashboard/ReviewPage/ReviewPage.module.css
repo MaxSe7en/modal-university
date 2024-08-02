@@ -144,7 +144,26 @@
   width: 24px;
   height: 24px;
 }
+.schoolNameDisplay {
+  margin: 15px 0;
+  padding: 10px 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
 
+.schoolNameLabel {
+  font-weight: 600;
+  color: #495057;
+  margin-right: 10px;
+}
+
+.schoolNameValue {
+  color: #212529;
+  font-size: 1.1em;
+}
 @media (max-width: 600px) {
   .fab {
     bottom: 16px;

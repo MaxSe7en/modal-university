@@ -26,7 +26,7 @@ export default function AcademicInfoMobile({
   activeStep,
   parentStyles,
 }: Readonly<AcademicInfoMobileProp>) {
-  const { academicInfo, handleAcademicChange, errors }: any = useForm();
+  const { academicInfo, handleAcademicChange, errors, handleSchoolNameChange }: any = useForm();
 
   const handleResultSlipsChange = (event: { target: { value: string; }; }) => {
     const numSlips = parseInt(event.target.value);
@@ -95,6 +95,15 @@ export default function AcademicInfoMobile({
         <span className={styles.qualificationNote}>
           Indicate if you are awaiting examination results.
         </span>
+        <div className={styles.formboldGridColumn}>
+          <span>SCHOOL NAME (Optional)</span>
+          <input
+            type="text"
+            placeholder="e.g. Accra Academy"
+            value={academicInfo.schoolName}
+            onChange={handleSchoolNameChange}
+          />
+        </div>
         <div className={styles.rowSelectContainer}>
           <label htmlFor="rowSelect" className={styles.resultSlip}>
             How many results slips are you applying with:
