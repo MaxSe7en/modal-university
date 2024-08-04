@@ -212,9 +212,25 @@
   min-height: 100%;
 }
 
-
-.settingsBtn {
+.settingsBtn{
   background-color: #2196f3;
+}
+
+.applicantInfoBtn{
+  background-color: #e90f51;
+}
+
+.smsBtn{
+  background-color: #fbbf19;
+}
+
+.printBtn{
+  background-color: #182f94;
+}
+
+.settingsBtn, .applicantInfoBtn,
+.smsBtn,
+.printBtn {
   color: white;
   border: none;
   padding: 8px 16px;

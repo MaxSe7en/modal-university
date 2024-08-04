@@ -18,6 +18,14 @@ const SmsView: React.FC = () => {
   const recipients = getRecipients();
 
   const handleSend = async () => {
+    if(recipients.length < 1) {
+      showToast({
+        message: "Please select recipients",
+        position: "top",
+        color: "#FF3333",
+      });
+      return;
+    }
     try {
       for (const user of recipients) {
         await sendSms(user?.student?.phoneNumber, message);
@@ -38,8 +46,10 @@ const SmsView: React.FC = () => {
 console.log(recipients, users)
   return (
     <div className={styles.smsView}>
-      <h2>Send SMS</h2>
+      <h2 className={styles.smsViewH1}>Send SMS</h2>
+      <hr  className={styles.printViewHr}/>
       <div className={styles.optionButtons}>
+      <h4 className={styles.selectPrint}>Choose SMS option</h4>
         <button
           onClick={() => setRecipientOption("selected")}
           className={recipientOption === "selected" ? styles.activeOption : ""}
@@ -61,7 +71,7 @@ console.log(recipients, users)
           All Filtered
         </button>
       </div>
-      <p>Recipients: {recipients.length}</p>
+      <h4>Number of Recipients: {recipients.length}</h4>
       <textarea
         value={message}
         onChange={(e) => setMessage(e.target.value)}
@@ -69,9 +79,6 @@ console.log(recipients, users)
         rows={5}
         className={styles.messageInput}
       />
-      <button onClick={handleSend} className={styles.sendButton}>
-        Send SMS
-      </button>
       <div className={styles.recipientList}>
         <h3>Recipients:</h3>
         <ul>
@@ -83,6 +90,9 @@ console.log(recipients, users)
           ))}
         </ul>
       </div>
+      <button onClick={handleSend} className={`${styles.printButton} ${styles["button-3"]}`}>
+        Send SMS
+      </button>
     </div>
   );
 };

@@ -144,7 +144,7 @@ const PersonalInfo = ({ users }: Props) => {
             Print All Details
           </button>
           <div style={{ display: "none" }}>
-            <PrintableStudentInfo ref={allDetailsRef} user={selectedUser} />
+            <PrintableStudentInfo ref={allDetailsRef} user={selectedUser} isLast={false} />
           </div>
           <div style={{ display: "none" }}>
             <PrintPersonalInfo user={user} ref={personalInfoRef} />

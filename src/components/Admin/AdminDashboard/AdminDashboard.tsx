@@ -95,7 +95,7 @@ const AdminDashboard: React.FC = () => {
         <h1 className={styles.title}>MODAL COLLEGE APLLICANTS</h1>
         <div className={styles.logoutBtnMa}></div>
         <button
-          className={styles.settingsBtn}
+          className={styles.applicantInfoBtn}
           onClick={() => {
             setActiveTab("applicantInfo");
             setSelectedUser(null);
@@ -104,10 +104,10 @@ const AdminDashboard: React.FC = () => {
         >
           Applicant Information
         </button>
-        <button className={styles.settingsBtn} onClick={handleSmsClick}>
+        <button className={styles.smsBtn} onClick={handleSmsClick}>
           Sms
         </button>
-        <button className={styles.settingsBtn} onClick={handlePrintClick}>
+        <button className={styles.printBtn} onClick={handlePrintClick}>
           Print
         </button>
         <button
