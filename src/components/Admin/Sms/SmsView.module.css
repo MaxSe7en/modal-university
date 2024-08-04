@@ -1,0 +1,58 @@
+.optionButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.optionButtons button {
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.optionButtons button.activeOption {
+  background-color: #4caf50;
+  color: white;
+}
+
+.smsView,
+.printView {
+  padding: 20px;
+}
+
+.messageInput {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.sendButton,
+.printButton {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.recipientList,
+.printableContent {
+  margin-top: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.userCard {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+@media print {
+  .printButton,
+  .optionButtons {
+    display: none;
+  }
+}

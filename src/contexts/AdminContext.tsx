@@ -1,6 +1,7 @@
 import AcademicInfo from "@/components/Admin/AcademicInfo/AcademicInfo";
 import Declaration from "@/components/Admin/Declaration/Declaration";
 import PersonalInfo from "@/components/Admin/PersonalInfo/PersonalInfo";
+
 import {
   academic_year_admin_url,
   admission_status_url,
@@ -37,7 +38,11 @@ export const AdminProvider = ({ children }: any) => {
   const [error, setError] = useState("");
   const [editYearId, setEditYearId] = useState<number | null>(null);
   const [editYearValue, setEditYearValue] = useState<string>("");
-
+  const [smsRecipients, setSmsRecipients] = useState<any[]>([]);
+  const [printUsers, setPrintUsers] = useState<any[]>([]);
+  const [printOption, setPrintOption] = useState("selected");
+  const [message, setMessage] = useState("");
+  const [recipientOption, setRecipientOption] = useState("selected");
   const handleAcademicYearFilter = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -51,16 +56,20 @@ export const AdminProvider = ({ children }: any) => {
   };
 
   const filteredUsers = useMemo(() => {
-    return users.filter(
-      (user) =>
-       {
-        console.log("-------------->",user, user.academicInformation.academicYear, academicYearFilter)
-        return  (academicYearFilter === "" ||
+    return users.filter((user) => {
+      console.log(
+        "-------------->",
+        user,
+        user.academicInformation.academicYear,
+        academicYearFilter
+      );
+      return (
+        (academicYearFilter === "" ||
           user.academicInformation.academicYear == academicYearFilter) &&
         (admissionStatusFilter === "" ||
           user.academicInformation.admissionStatus === admissionStatusFilter)
-       }
-    );
+      );
+    });
   }, [users, academicYearFilter, admissionStatusFilter]);
   // const renderContent = () => {
   //     switch (activeTab) {
@@ -126,6 +135,54 @@ export const AdminProvider = ({ children }: any) => {
     }
   };
 
+  const getUsersToPrint = () => {
+    switch (printOption) {
+      case "selected":
+        return selectedUser ? [selectedUser] : [];
+      case "topToSelected": {
+        const selectedIndex = filteredUsers.findIndex(
+          (user) => user.id === selectedUser?.id
+        );
+        return selectedUser ? filteredUsers.slice(0, selectedIndex + 1) : [];
+      }
+      case "all":
+        return filteredUsers;
+      default:
+        return [];
+    }
+  };
+  const getRecipients = () => {
+    switch (recipientOption) {
+      case "selected":
+        return selectedUser ? [selectedUser] : [];
+      case "topToSelected":
+        const selectedIndex = filteredUsers.findIndex(
+          (user) => user.id === selectedUser?.id
+        );
+        return selectedUser ? filteredUsers.slice(0, selectedIndex + 1) : [];
+      case "all":
+        return filteredUsers;
+      default:
+        return [];
+    }
+  };
+  const handleSmsClick = () => {
+    setActiveTab("sms");
+    const selectedIndex = filteredUsers.findIndex(
+      (user) => user.id === selectedUser?.id
+    );
+    setSmsRecipients(filteredUsers.slice(0, selectedIndex + 1));
+    console.log("sms clicked", smsRecipients, selectedIndex);
+  };
+
+  const handlePrintClick = () => {
+    setActiveTab("print");
+    const selectedIndex = filteredUsers.findIndex(
+      (user) => user.id === selectedUser?.id
+    );
+    setPrintUsers(filteredUsers.slice(0, selectedIndex + 1));
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Awaiting results":
@@ -140,6 +197,7 @@ export const AdminProvider = ({ children }: any) => {
         return "#2E8B57"; // Sea green
     }
   };
+
   const renderContent = (selectedUser: any) => {
     if (!selectedUser) {
       return <div>Please select a student to view details.</div>;
@@ -154,7 +212,7 @@ export const AdminProvider = ({ children }: any) => {
     );
   };
 
-  /*** -------------------- SETTINGS PAGE --------------------*/
+  /*** -------------------- SETTINGS PAGE -------------------- */
   const fetchAcademicYears = async () => {
     try {
       const response = await fetch(academic_year_admin_url, {
@@ -283,6 +341,20 @@ export const AdminProvider = ({ children }: any) => {
       editYearId,
       academicYears,
       editYearValue,
+      smsRecipients,
+      setSmsRecipients,
+      printUsers,
+      setPrintUsers,
+      handleSmsClick,
+      printOption,
+      setPrintOption,
+      getUsersToPrint,
+      handlePrintClick,
+      message,
+      setMessage,
+      recipientOption,
+      getRecipients,
+      setRecipientOption,
       setAcademicYears,
       setNewYear,
       setError,
@@ -320,6 +392,15 @@ export const AdminProvider = ({ children }: any) => {
       handleRemoveYear,
       handleSetActive,
       handleUpdateYear,
+      smsRecipients,
+      printUsers,
+      handleSmsClick,
+      printOption,
+      getUsersToPrint,
+      handlePrintClick,
+      message,
+      recipientOption,
+      getRecipients,
     ]
   );
 

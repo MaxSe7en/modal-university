@@ -6,6 +6,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import styles from "./AdminDashboard.module.css";
 import router from "next/router";
+import SmsView from "../Sms/SmsView";
+import PrintView from "../Print/PrintView";
 
 const ITEMS_PER_PAGE = 10; // Number of users per page
 
@@ -21,6 +23,12 @@ const AdminDashboard: React.FC = () => {
     smsMessage,
     setSmsMessage,
     academicYears,
+    smsRecipients,
+    setSmsRecipients,
+    printUsers,
+    setPrintUsers,
+    handleSmsClick,
+    handlePrintClick,
     users,
     setUsers,
     handleAcademicYearFilter,
@@ -69,51 +77,6 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
-  const fetchUserDetailsOld = async (userId: number) => {
-    console.log(
-      `sssssssssssssssssssssssssss============>${user_url}/${userId}`
-    );
-    try {
-      const response = await fetch(`${user_url}/${userId}`);
-      const data = await response.json();
-      if (response.status === 200) {
-        setSelectedUser(data);
-      }
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-    }
-  };
-
-  // const handleStatusChange = async (
-  //   event: React.ChangeEvent<HTMLSelectElement>
-  // ) => {
-  //   const newStatus = event.target.value;
-  //   const userId = selectedUser?.id;
-  //   setSelectedUser((prevUser: any) => ({
-  //     ...prevUser,
-  //     status: newStatus,
-  //   }));
-  //   try {
-  //     const token = localStorage.getItem("adminTz");
-  //     const response = await fetch(`${admission_status_url}/${userId}/status`, {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: JSON.stringify({ status: newStatus }),
-  //     });
-
-  //     if (response.ok) {
-  //       console.log("Status updated successfully");
-  //     } else {
-  //       console.error("Failed to update status");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating status:", error);
-  //   }
-  // };
-
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
@@ -133,6 +96,22 @@ const AdminDashboard: React.FC = () => {
         <div className={styles.logoutBtnMa}></div>
         <button
           className={styles.settingsBtn}
+          onClick={() => {
+            setActiveTab("applicantInfo");
+            setSelectedUser(null);
+            setActiveTab("personal");
+          }}
+        >
+          Applicant Information
+        </button>
+        <button className={styles.settingsBtn} onClick={handleSmsClick}>
+          Sms
+        </button>
+        <button className={styles.settingsBtn} onClick={handlePrintClick}>
+          Print
+        </button>
+        <button
+          className={styles.settingsBtn}
           onClick={() => router.push("/admin/settings")}
         >
           Settings
@@ -142,33 +121,14 @@ const AdminDashboard: React.FC = () => {
       <div className={styles.content}>
         <aside className={styles.sidebar}>
           <h3 className={styles.sidebarTitle}>Prospective Students</h3>
-          {/* <ul className={styles.studentList}>
-            {users !== undefined
-              ? users.map((user: any) => (
-                  <li
-                    key={user.id}
-                    className={`${styles.studentItem} ${
-                      selectedUserId === user.studentId
-                        ? styles.selected
-                        : "www"
-                    }`}
-                    onClick={() => fetchUserDetails(user.studentId)}
-                  >
-                    {user.surname} {user.firstname} {selectedUserId}
-                  </li>
-                ))
-              : null}
-          </ul> */}
-
           <div className={styles.filter}>
-            <h3>Filters</h3> 
-            {/* {JSON.stringify(academicYears)} */}
+            <h3>Filters</h3>
             <select
               onChange={handleAcademicYearFilter}
               className={styles.filterSelect}
             >
               <option value="">All Academic Years</option>
-              {academicYears.map((year:any) => (
+              {academicYears.map((year: any) => (
                 <option key={year.id} value={year.year}>
                   {year.year}
                 </option>
@@ -238,42 +198,44 @@ const AdminDashboard: React.FC = () => {
           </div>
         </aside>
         <main className={styles.mainContent}>
-          <nav className={styles.tabs}>
-            <button
-              className={`${styles.tab} ${
-                activeTab === "personal" ? styles.activeTab : ""
-              }`}
-              onClick={() => setActiveTab("personal")}
-            >
-              Personal Information
-            </button>
-            <button
-              className={`${styles.tab} ${
-                activeTab === "academic" ? styles.activeTab : ""
-              }`}
-              onClick={() => setActiveTab("academic")}
-            >
-              Academic Information
-            </button>
-            <button
-              className={`${styles.tab} ${
-                activeTab === "declaration" ? styles.activeTab : ""
-              }`}
-              onClick={() => setActiveTab("declaration")}
-            >
-              Declaration
-            </button>
-          </nav>
+          {activeTab !== "sms" && activeTab !== "print" && (
+            <nav className={styles.tabs}>
+              <button
+                className={`${styles.tab} ${
+                  activeTab === "personal" ? styles.activeTab : ""
+                }`}
+                onClick={() => setActiveTab("personal")}
+              >
+                Personal Information
+              </button>
+              <button
+                className={`${styles.tab} ${
+                  activeTab === "academic" ? styles.activeTab : ""
+                }`}
+                onClick={() => setActiveTab("academic")}
+              >
+                Academic Information
+              </button>
+              <button
+                className={`${styles.tab} ${
+                  activeTab === "declaration" ? styles.activeTab : ""
+                }`}
+                onClick={() => setActiveTab("declaration")}
+              >
+                Declaration
+              </button>
+            </nav>
+          )}
+
           <div className={styles.tabContent}>
-            {/* <h2 className={styles.contentTitle}>Student Application Details</h2> */}
-            {renderContent(selectedUser)}
-            {/* add update application status here */}
-            {/* {JSON.stringify(selectedUser.academicInformation.admissionStatus)} */}
+            {/* {renderContent(selectedUser)} */}
+            {activeTab === "sms" && <SmsView />}
+            {activeTab === "print" && <PrintView />}
+            {activeTab !== "sms" &&
+              activeTab !== "print" &&
+              renderContent(selectedUser)}
           </div>
         </main>
-        {/* <div style={{ display: "none" }}>
-          <PrintableStudentInfo ref={componentRef} user={selectedUser} />
-        </div> */}
       </div>
     </div>
   );

@@ -32,19 +32,20 @@ interface User {
 
 interface Props {
   user: any;
+  isLast:any
 }
 
 const PrintableStudentInfo: React.ForwardRefRenderFunction<
   HTMLDivElement,
   Props
-> = ({ user }, ref: any) => {
+> = ({ user, isLast }, ref: any) => {
   const pageStyle = `
     @page {
       margin: 70pt 60pt 70pt;
     }
   `;
   return (
-    <div ref={ref} className={styles.printable}>
+    <div ref={ref} className={`${styles.printable} ${!isLast ? styles.pageBreakAfter : ''}`}>
       <style>{pageStyle}</style>
       <h1 className={styles.title}>Student Information</h1>
 
@@ -122,6 +123,24 @@ const PrintableStudentInfo: React.ForwardRefRenderFunction<
             <span className={styles.label}>Results Status:</span>
             <span className={`${styles.value} ${styles.resultStatus} ${user?.academicInformation?.awaiting ? styles.awaiting : styles.released}`}>
               {user?.academicInformation?.awaiting == "1" ? 'Awaiting' : 'Released'}
+            </span>
+          </div>
+          <div className={styles.infoItem}>
+            <span className={styles.label}>School Attended:</span>
+            <span className={styles.value}>
+              {user?.academicInformation?.schoolAttended || 'N/A'}
+            </span>
+          </div>
+          <div className={styles.infoItem}>
+            <span className={styles.label}>Academic Year:</span>
+            <span className={styles.value}>
+              {user?.academicInformation?.academicYear}
+            </span>
+          </div>
+          <div className={styles.infoItem}>
+            <span className={styles.label}>Admission Status:</span>
+            <span className={styles.value}>
+              {user?.academicInformation?.admissionStatus}
             </span>
           </div>
         </div>
