@@ -50,7 +50,7 @@ const PrintView: React.FC = () => {
       <p>Users to print: {usersToPrint.length}</p>
       <div className={styles.printableContent}>
         {usersToPrint.map((user:any) => (
-          <UserCard key={user.id} user={user} />
+          <UserCard key={user?.id} user={user} />
         ))}
       </div>
       <button onClick={handlePrint} className={`${styles.printButton} ${styles["button-3"]}`}>
@@ -62,7 +62,7 @@ const PrintView: React.FC = () => {
             <PrintableStudentInfo
               key={user.id}
               user={user}
-              isLast={index === usersToPrint.length - 1}
+              isLast={index === usersToPrint?.length - 1}
             />
           ))}
         </div>
@@ -74,12 +74,12 @@ const PrintView: React.FC = () => {
 const UserCard: React.FC<{ user: any }> = ({ user }) => (
   <div className={styles.userCard}>
     <h3>
-      {user.surname} {user.firstname} {user.othernames}
+      {user.surname} {user?.firstname} {user?.othernames}
     </h3>
-    <p>Email: {user.email}</p>
-    <p>Phone: {user.phone}</p>
-    <p>Academic Year: {user.academicInformation.academicYear}</p>
-    <p>Admission Status: {user.academicInformation.admissionStatus}</p>
+    <p>Email: {user?.email}</p>
+    <p>Phone: {user?.phone}</p>
+    <p>Academic Year: {user?.academicInformation?.academicYear}</p>
+    <p>Admission Status: {user?.academicInformation?.admissionStatus}</p>
   </div>
 );
 

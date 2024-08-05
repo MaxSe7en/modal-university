@@ -129,7 +129,7 @@ const AdminDashboard: React.FC = () => {
             >
               <option value="">All Academic Years</option>
               {academicYears.map((year: any) => (
-                <option key={year.id} value={year.year}>
+                <option key={year.id} value={year?.year}>
                   {year.year}
                 </option>
               ))}
@@ -147,7 +147,7 @@ const AdminDashboard: React.FC = () => {
           </div>
 
           <div className={styles.studentCount}>
-            Total Students: <span>{filteredUsers.length}</span>
+            Total Students: <span>{filteredUsers?.length}</span>
           </div>
           {/* {JSON.stringify(filteredUsers)} */}
 
@@ -174,7 +174,7 @@ const AdminDashboard: React.FC = () => {
                   }`}
                   onClick={() => setSelectedUser(user)}
                 >
-                  {user.surname} {user.firstname} {user.othernames}
+                  {user?.surname} {user?.firstname} {user?.othernames}
                 </li>
               ))}
             </ul>

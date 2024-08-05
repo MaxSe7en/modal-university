@@ -85,7 +85,7 @@ console.log(recipients, users)
           {recipients.map((user: any) => (
             <li key={user.id}>
               {/* {JSON.stringify(user)} */}
-              {user.surname} {user.firstname} - {user.student.phoneNumber}
+              {user?.surname} {user?.firstname} - {user?.student?.phoneNumber}
             </li>
           ))}
         </ul>

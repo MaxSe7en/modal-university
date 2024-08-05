@@ -155,9 +155,9 @@ const PrintableStudentInfo: React.ForwardRefRenderFunction<
           <tbody>
             {user?.academicInformation?.subjects.map(
               (subject: { id: React.Key; subject: any; grade: any }) => (
-                <tr key={subject.id}>
-                  <td>{subject.subject}</td>
-                  <td>{subject.grade}</td>
+                <tr key={subject?.id}>
+                  <td>{subject?.subject}</td>
+                  <td>{subject?.grade}</td>
                 </tr>
               )
             )}
