@@ -43,6 +43,8 @@ export const AdminProvider = ({ children }: any) => {
   const [printOption, setPrintOption] = useState("selected");
   const [message, setMessage] = useState("");
   const [recipientOption, setRecipientOption] = useState("selected");
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleAcademicYearFilter = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -359,6 +361,8 @@ export const AdminProvider = ({ children }: any) => {
       setNewYear,
       setError,
       setEditYearId,
+      isLoading,
+      setIsLoading,
       setEditYearValue,
       setUsers,
       setSmsMessage,

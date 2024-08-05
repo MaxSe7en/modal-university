@@ -3,6 +3,7 @@ import styles from "./SmsView.module.css";
 import { useAdmin } from "@/contexts/AdminContext";
 import { sendSms } from "@/Utils/utils";
 import { useToast } from "@/contexts/ToastContext";
+import Spinner from "@/components/Spinner/Spinner";
 
 const SmsView: React.FC = () => {
   const {
@@ -12,6 +13,8 @@ const SmsView: React.FC = () => {
     setRecipientOption,
     filteredUsers,
     users,
+    isLoading,
+      setIsLoading,
     getRecipients
   }: any = useAdmin();
   const { showToast }: any = useToast();
@@ -26,6 +29,7 @@ const SmsView: React.FC = () => {
       });
       return;
     }
+    setIsLoading(true);
     try {
       for (const user of recipients) {
         await sendSms(user?.student?.phoneNumber, message);
@@ -41,6 +45,9 @@ const SmsView: React.FC = () => {
         position: "top",
         color: "#FF3333",
       });
+      setIsLoading(false);
+    } finally{
+      setIsLoading(false);
     }
   };
 console.log(recipients, users)
@@ -90,8 +97,12 @@ console.log(recipients, users)
           ))}
         </ul>
       </div>
-      <button onClick={handleSend} className={`${styles.printButton} ${styles["button-3"]}`}>
-        Send SMS
+      <button onClick={handleSend} disabled={isLoading} className={`${styles.printButton} ${styles["button-3"]}`}>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        "Send SMS"
+      )}
       </button>
     </div>
   );
