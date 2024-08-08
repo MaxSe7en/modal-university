@@ -248,7 +248,7 @@ const Form = () => {
           </div>
 
           <div className={styles["formbold-form-enquiries-text"]}>
-            For assistance filling forms, call: 0234113444
+            For assistance filling forms, call:  <em>0240766893</em>
           </div>
           <div className={styles["formbold-form-btn-wrapper"]}>
             <button

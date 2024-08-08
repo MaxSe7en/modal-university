@@ -120,9 +120,9 @@ Admissions Team
       errors.firstname = "First name is required";
     }
 
-    if (!values.othernames) {
-      errors.othernames = "Other name is required";
-    }
+    // if (!values.othernames) {
+    //   errors.othernames = "Other name is required";
+    // }
 
     if (!values.religion) {
       errors.religion = "Religion is required";

@@ -96,7 +96,7 @@ export default function AcademicInfoMobile({
           Indicate if you are awaiting examination results.
         </span>
         <div className={styles.formboldGridColumn}>
-          <span>SCHOOL NAME (Optional)</span>
+          <span>SCHOOL ATTENDED NAME (Optional)</span>
           <input
             type="text"
             placeholder="e.g. Accra Academy"
@@ -113,7 +113,7 @@ export default function AcademicInfoMobile({
             value={academicInfo?.numRows}
             onChange={handleResultSlipsChange}
           >
-            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+            {[0, 1, 2, 3].map((num) => (
               <option disabled={num === 0} key={num} value={num}>
                 {num === 0 ? "Select number of results slips" : num}
               </option>

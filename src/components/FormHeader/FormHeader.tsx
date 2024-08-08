@@ -17,7 +17,7 @@ const FormHeader = () => {
           <p>
             The Admission Office, P.O. Box SK 172 Sogakope, Volta Region, Ghana
           </p>
-          <p>Mob. +233 552482220, +233 207686304</p>
+          <p>Mob. +233 240766893, +233 207686304</p>
           <p>Website: www.modalcollege.com</p>
         </div>
         <div className={styles["spacer"]}></div>

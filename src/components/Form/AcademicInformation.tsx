@@ -75,7 +75,7 @@ export default function AcademicInformation({
           </p>
         </div>
         <div className={`${styles.formboldGridColumn} ${styles.schoolNameContainer}`}>
-          <span className={styles.inputLabel}>SCHOOL NAME (Optional)</span>
+          <span className={styles.inputLabel}>SCHOOL ATTENDED NAME (Optional)</span>
           <input
             type="text"
             placeholder="e.g. Accra Academy"
@@ -94,7 +94,7 @@ export default function AcademicInformation({
             onChange={handleResultSlipsChange}
             className={styles.selectInput}
           >
-            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+            {[0, 1, 2, 3].map((num) => (
               <option disabled={num === 0} key={num} value={num}>
                 {num === 0 ? "Select number of results slips" : num}
               </option>
