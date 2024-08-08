@@ -9,6 +9,16 @@
     font-family: Arial, sans-serif;
   }
   
+  .pageBreakAfter {
+    page-break-after: always;
+  }
+  
+  @media print {
+    .pageBreakAfter {
+      page-break-after: always;
+    }
+  }
+
   .title {
     text-align: center;
     color: #2e8b57;

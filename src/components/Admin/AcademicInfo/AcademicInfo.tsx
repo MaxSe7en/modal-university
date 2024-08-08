@@ -188,17 +188,19 @@ const AcademicInfo: React.FC<Props> = ({ users }) => {
               className={styles.smsTextarea}
             />
             <div className={styles.smsButtons}>
+              <button style={{opacity: 0, cursor: "unset"}}
+                disabled={true}
+                onClick={handleSendAllSms}
+                className={styles.smsSendAllButton}
+              >
+                Send to All Students
+              </button>
+
               <button
                 onClick={handleSendSingleSms}
                 className={styles.smsSendButton}
               >
                 Send sms to {selectedUser?.surname} {selectedUser?.firstname}
-              </button>
-              <button
-                onClick={handleSendAllSms}
-                className={styles.smsSendAllButton}
-              >
-                Send to All Students
               </button>
             </div>
           </div>

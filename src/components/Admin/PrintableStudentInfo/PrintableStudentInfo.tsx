@@ -32,19 +32,20 @@ interface User {
 
 interface Props {
   user: any;
+  isLast:any
 }
 
 const PrintableStudentInfo: React.ForwardRefRenderFunction<
   HTMLDivElement,
   Props
-> = ({ user }, ref: any) => {
+> = ({ user, isLast }, ref: any) => {
   const pageStyle = `
     @page {
       margin: 70pt 60pt 70pt;
     }
   `;
   return (
-    <div ref={ref} className={styles.printable}>
+    <div ref={ref} className={`${styles.printable} ${!isLast ? styles.pageBreakAfter : ''}`}>
       <style>{pageStyle}</style>
       <h1 className={styles.title}>Student Information</h1>
 
@@ -124,6 +125,24 @@ const PrintableStudentInfo: React.ForwardRefRenderFunction<
               {user?.academicInformation?.awaiting == "1" ? 'Awaiting' : 'Released'}
             </span>
           </div>
+          <div className={styles.infoItem}>
+            <span className={styles.label}>School Attended:</span>
+            <span className={styles.value}>
+              {user?.academicInformation?.schoolAttended || 'N/A'}
+            </span>
+          </div>
+          <div className={styles.infoItem}>
+            <span className={styles.label}>Academic Year:</span>
+            <span className={styles.value}>
+              {user?.academicInformation?.academicYear}
+            </span>
+          </div>
+          <div className={styles.infoItem}>
+            <span className={styles.label}>Admission Status:</span>
+            <span className={styles.value}>
+              {user?.academicInformation?.admissionStatus}
+            </span>
+          </div>
         </div>
         <h3 className={styles.subSectionTitle}>Subjects and Grades</h3>
         <table className={styles.subjectsTable}>
@@ -136,9 +155,9 @@ const PrintableStudentInfo: React.ForwardRefRenderFunction<
           <tbody>
             {user?.academicInformation?.subjects.map(
               (subject: { id: React.Key; subject: any; grade: any }) => (
-                <tr key={subject.id}>
-                  <td>{subject.subject}</td>
-                  <td>{subject.grade}</td>
+                <tr key={subject?.id}>
+                  <td>{subject?.subject}</td>
+                  <td>{subject?.grade}</td>
                 </tr>
               )
             )}
