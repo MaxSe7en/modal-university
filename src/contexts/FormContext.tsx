@@ -59,6 +59,7 @@ export const FormProvider = ({ children }: any) => {
     numRows: 0,
     slips: [],
     schoolAttended: "",
+    programme: ""
   });
 
   const message = `Dear ${inputValues.title} ${inputValues.firstname} ${inputValues.surname},
@@ -201,11 +202,14 @@ Admissions Team
     return errors;
   };
 
-  const validateAcademicInfo = (info: { numRows: any; slips: any }) => {
+  const validateAcademicInfo = (info: { numRows: any; slips: any, programme: any }) => {
     let errors: any = {};
-
+    console.log("------------------------------------>",info.programme)
     if (info.numRows === 0) {
       errors.numRows = "Number of result slips is required";
+    }
+    if (info.programme == "" || info.programme == undefined) {
+      errors.selectedProgramme = "Choose a programme";
     }
 
     info.slips.forEach(

@@ -1,0 +1,68 @@
+.programmeSettings {
+  padding: 20px;
+}
+
+.error {
+  color: red;
+}
+
+.addProgramme input,
+.addProgramme textarea {
+  display: block;
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 8px;
+}
+
+.addProgramme button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.programmeList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.programmeList li {
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.programmeList li.activeProgramme {
+  background-color: #e0ffe0;
+}
+
+.programmeActions {
+  margin-top: 10px;
+}
+
+.programmeActions button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.editBtn {
+  background-color: #ffc107;
+}
+
+.toggleActiveBtn {
+  background-color: #28a745;
+  color: white;
+}
+
+.removeBtn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.activeTxt {
+  color: green;
+  font-weight: bold;
+}

@@ -44,6 +44,8 @@ export const AdminProvider = ({ children }: any) => {
   const [message, setMessage] = useState("");
   const [recipientOption, setRecipientOption] = useState("selected");
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState("Academic Years");
+
 
   const handleAcademicYearFilter = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -371,6 +373,8 @@ export const AdminProvider = ({ children }: any) => {
       handleStatusChange,
       getStatusColor,
       filteredUsers,
+      selectedMenu,
+      setSelectedMenu,
       handleAcademicYearFilter,
       handleAdmissionStatusFilter,
       handleAddYear,

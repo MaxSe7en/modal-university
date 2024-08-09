@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./css/AccademicInfotion.module.css";
 import { gradeOptions } from "@/Utils/constants";
 import { useForm } from "@/contexts/FormContext";
+import { programmes_url } from "@/Utils/endpoints";
 
 type AcademicInformationProp = {
   activeStep: number;
@@ -15,6 +16,8 @@ export default function AcademicInformation({
   parentStyles,
 }: Readonly<AcademicInformationProp>) {
   const { academicInfo, handleAcademicChange, errors, handleSchoolNameChange }: any = useForm();
+  const [tertiaryProgrammes, setTertiaryProgrammes] = useState<string[]>([]);
+  const [selectedProgramme, setSelectedProgramme] = useState<string>("");
 
   const handleResultSlipsChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const numSlips = parseInt(event.target.value);
@@ -61,6 +64,34 @@ export default function AcademicInformation({
     handleAcademicChange({ ...academicInfo, slips: updatedSlips });
   };
 
+  const handleProgrammeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedProgramme(event.target.value);
+    handleAcademicChange({ ...academicInfo, selectedProgramme: event.target.value });
+  };
+
+  useEffect(() => {
+    const fetchProgrammes = async () => {
+      try {
+        const response = await fetch(programmes_url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setTertiaryProgrammes(data.data); // Adjust the key based on your API response structure
+        } else {
+          console.error("Failed to fetch tertiary programmes");
+        }
+      } catch (error) {
+        console.error("An error occurred while fetching programmes:", error);
+      }
+    };
+
+    fetchProgrammes();
+  }, []);
   return (
     <div className={`${parentStyles["formbold-form-step-2"]} ${activeStep === 2 ? parentStyles["active"] : ""}`}>
       <div className={styles.formContainer}>
@@ -83,6 +114,27 @@ export default function AcademicInformation({
             onChange={handleSchoolNameChange}
             className={styles.schoolNameInput}
           />
+        </div>
+        <div className={styles.formboldGridColumn}>
+          <span>TERTIARY PROGRAMME OF INTEREST</span>{JSON.stringify(tertiaryProgrammes)}SS
+          <select
+            value={selectedProgramme}
+            onChange={handleProgrammeChange}
+          >
+            <option value="" disabled>
+              Select a programme
+            </option>
+            {tertiaryProgrammes && tertiaryProgrammes.map((programme: any) => (
+              <option key={programme.id} value={programme.id}>
+                {programme.name}
+              </option>
+            ))}
+          </select>
+          {errors.selectedProgramme && (
+            <span className={`${styles.error} ${styles["formbold-error"]}`}>
+              {errors.selectedProgramme}
+            </span>
+          )}
         </div>
         <div className={styles.rowSelectContainer}>
           <label htmlFor="rowSelect" className={styles.resultSlip}>

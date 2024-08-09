@@ -14,3 +14,4 @@ export const admission_status_url = `${admin_base_url}/academic-information`;
 export const academic_year_admin_url = `${admin_base_url}/academic-years`;
 export const admin_login_url =  `${admin_base_url}/login`
 export const submit_url = `${base_url}/submit`;// /admin/academic-years
+export const programmes_url = `${base_url}/programmes/active`;// /admin/academic-years
