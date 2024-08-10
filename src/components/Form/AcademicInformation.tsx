@@ -66,7 +66,7 @@ export default function AcademicInformation({
 
   const handleProgrammeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedProgramme(event.target.value);
-    handleAcademicChange({ ...academicInfo, selectedProgramme: event.target.value });
+    handleAcademicChange({ ...academicInfo, programme: event.target.value });
   };
 
   useEffect(() => {
@@ -116,8 +116,9 @@ export default function AcademicInformation({
           />
         </div>
         <div className={styles.formboldGridColumn}>
-          <span>TERTIARY PROGRAMME OF INTEREST</span>{JSON.stringify(tertiaryProgrammes)}SS
+          <span>TERTIARY PROGRAMME OF INTEREST</span>
           <select
+          className="classic"
             value={selectedProgramme}
             onChange={handleProgrammeChange}
           >
@@ -125,7 +126,7 @@ export default function AcademicInformation({
               Select a programme
             </option>
             {tertiaryProgrammes && tertiaryProgrammes.map((programme: any) => (
-              <option key={programme.id} value={programme.id}>
+              <option key={programme.id} value={programme.name}>
                 {programme.name}
               </option>
             ))}

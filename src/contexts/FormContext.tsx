@@ -204,7 +204,7 @@ Admissions Team
 
   const validateAcademicInfo = (info: { numRows: any; slips: any, programme: any }) => {
     let errors: any = {};
-    console.log("------------------------------------>",info.programme)
+    console.log("------------------------------------>",info)
     if (info.numRows === 0) {
       errors.numRows = "Number of result slips is required";
     }

@@ -162,7 +162,7 @@ const StudentDashboard = () => {
           </button>
           <p className={styles.notice}>
             For any inquiries, please contact our support team at{" "}
-            <strong>+123 456 7890</strong>.
+            <strong>0240766893</strong>.
           </p>
         </div>
       )}
