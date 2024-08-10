@@ -32,7 +32,7 @@ interface User {
 
 interface Props {
   user: any;
-  isLast:any
+  isLast: any;
 }
 
 const PrintableStudentInfo: React.ForwardRefRenderFunction<
@@ -45,7 +45,10 @@ const PrintableStudentInfo: React.ForwardRefRenderFunction<
     }
   `;
   return (
-    <div ref={ref} className={`${styles.printable} ${!isLast ? styles.pageBreakAfter : ''}`}>
+    <div
+      ref={ref}
+      className={`${styles.printable} ${!isLast ? styles.pageBreakAfter : ""}`}
+    >
       <style>{pageStyle}</style>
       <h1 className={styles.title}>Student Information</h1>
 
@@ -94,7 +97,6 @@ const PrintableStudentInfo: React.ForwardRefRenderFunction<
             <span className={styles.label}>Marital Status:</span>
             <span className={styles.value}>{user?.maritalstatus}</span>
           </div>
-          
         </div>
       </section>
 
@@ -105,6 +107,12 @@ const PrintableStudentInfo: React.ForwardRefRenderFunction<
             <span className={styles.label}>Examination Title:</span>
             <span className={styles.value}>
               {user?.academicInformation?.examinationTitle}
+            </span>
+          </div>
+          <div className={styles.infoItem}>
+            <span className={styles.label}>School Attended:</span>
+            <span className={styles.value}>
+              {user?.academicInformation?.schoolAttended || "N/A"}
             </span>
           </div>
           <div className={styles.infoItem}>
@@ -121,14 +129,22 @@ const PrintableStudentInfo: React.ForwardRefRenderFunction<
           </div>
           <div className={styles.infoItem}>
             <span className={styles.label}>Results Status:</span>
-            <span className={`${styles.value} ${styles.resultStatus} ${user?.academicInformation?.awaiting ? styles.awaiting : styles.released}`}>
-              {user?.academicInformation?.awaiting == "1" ? 'Awaiting' : 'Released'}
+            <span
+              className={`${styles.value} ${styles.resultStatus} ${
+                user?.academicInformation?.awaiting
+                  ? styles.awaiting
+                  : styles.released
+              }`}
+            >
+              {user?.academicInformation?.awaiting == "1"
+                ? "Awaiting"
+                : "Released"}
             </span>
           </div>
           <div className={styles.infoItem}>
             <span className={styles.label}>School Attended:</span>
             <span className={styles.value}>
-              {user?.academicInformation?.schoolAttended || 'N/A'}
+              {user?.academicInformation?.schoolAttended || "N/A"}
             </span>
           </div>
           <div className={styles.infoItem}>
@@ -141,6 +157,12 @@ const PrintableStudentInfo: React.ForwardRefRenderFunction<
             <span className={styles.label}>Admission Status:</span>
             <span className={styles.value}>
               {user?.academicInformation?.admissionStatus}
+            </span>
+          </div>
+          <div className={styles.infoItem}>
+            <span className={styles.label}>Programme:</span>
+            <span className={styles.value}>
+              {user?.academicInformation?.programme}
             </span>
           </div>
         </div>

@@ -15,6 +15,8 @@ interface Subject {
 }
 
 interface AcademicInformation {
+  schoolAttended: string | null;
+  programme: string;
   id: number;
   userId: number;
   indexNumber: string;
@@ -54,7 +56,6 @@ const AcademicInfo: React.FC<Props> = ({ users }) => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-
 
   const handleSendSingleSms = async () => {
     if (!selectedUser) {
@@ -122,19 +123,23 @@ const AcademicInfo: React.FC<Props> = ({ users }) => {
             className={styles.studentName}
           >{`${user.surname} ${user.firstname}`}</h4>
           <div className={styles.examInfo}>
-            <p>
+            <p className={`${styles.resultsClass}`}>
               <strong>Examination:</strong>{" "}
               {user.academicInformation.examinationTitle}
             </p>
-            <p>
+            <p className={`${styles.resultsClass}`}>
+              <strong>School Attended:</strong>{" "}
+              {user.academicInformation?.schoolAttended || "N/A"}
+            </p>
+            <p className={`${styles.resultsClass}`}>
               <strong>Month/Year:</strong> {user.academicInformation.monthYear}
             </p>
-            <p>
+            <p className={`${styles.resultsClass}`}>
               <strong>Index Number:</strong>{" "}
               {user.academicInformation.indexNumber}
             </p>
-            <p>
-              <strong>Results Status</strong>{" "}
+            <p className={`${styles.resultsClass}`}>
+              <strong>Results Status:</strong>{" "}
               <span
                 className={`${styles.resultStatus} ${
                   user.academicInformation.awaiting == "1"
@@ -146,6 +151,18 @@ const AcademicInfo: React.FC<Props> = ({ users }) => {
                   ? "Awaiting"
                   : "Released"}
               </span>
+            </p>
+            <p className={`${styles.resultsClass}`}>
+              <strong>Programme:</strong>{" "}
+              {/* <span
+                className={`${styles.resultStatus} ${
+                  user.academicInformation.awaiting == "1"
+                    ? styles.awaiting
+                    : styles.released
+                }`}
+              > */}
+              {user?.academicInformation?.programme || "N/A"}
+              {/* </span> */}
             </p>
           </div>
           <div className={styles.subjectsGrid}>
@@ -188,7 +205,8 @@ const AcademicInfo: React.FC<Props> = ({ users }) => {
               className={styles.smsTextarea}
             />
             <div className={styles.smsButtons}>
-              <button style={{opacity: 0, cursor: "unset"}}
+              <button
+                style={{ opacity: 0, cursor: "unset" }}
                 disabled={true}
                 onClick={handleSendAllSms}
                 className={styles.smsSendAllButton}

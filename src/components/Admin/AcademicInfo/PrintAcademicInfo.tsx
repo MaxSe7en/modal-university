@@ -15,13 +15,19 @@ const PrintAcademicInfo = forwardRef<HTMLDivElement, Props>(({ user }, ref) => {
         </h3>
         <div className={styles.examInfo}>
           <p>
-            <strong>Examination:</strong> {user.academicInformation.examinationTitle}
+            <strong>Examination:</strong>{" "}
+            {user.academicInformation.examinationTitle}
+          </p>
+          <p>
+            <strong>School Attended:</strong>{" "}
+            {user.academicInformation.schoolAttended || "N/A"}
           </p>
           <p>
             <strong>Month/Year:</strong> {user.academicInformation.monthYear}
           </p>
           <p>
-            <strong>Index Number:</strong> {user.academicInformation.indexNumber}
+            <strong>Index Number:</strong>{" "}
+            {user.academicInformation.indexNumber}
           </p>
           <p>
             <strong>Results Status:</strong>
@@ -32,8 +38,13 @@ const PrintAcademicInfo = forwardRef<HTMLDivElement, Props>(({ user }, ref) => {
                   : styles.releaseda
               }`}
             >
-              {user.academicInformation.awaiting == "1" ? "Awaiting" : "Released"}
+              {user.academicInformation.awaiting == "1"
+                ? "Awaiting"
+                : "Released"}
             </span>
+          </p>
+          <p>
+            <strong>Programme:</strong> {user.academicInformation.programme || "N/A"}
           </p>
         </div>
         <h4 className={styles.subjectsTitle}>Subjects and Grades</h4>
