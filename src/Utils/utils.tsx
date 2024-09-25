@@ -36,7 +36,7 @@ export const sendSms = async (to: string, message: string): Promise<any> => {
   }
 
   const params: URLSearchParams = new URLSearchParams({
-    From: 'Modal University College', // Replace with your Sender Name
+    From: 'ModalColege',
     To: to,
     Content: message,
     ClientId: clientId,

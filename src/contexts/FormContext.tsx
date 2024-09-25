@@ -276,7 +276,7 @@ Admissions Team
 
   const handleSchoolNameChange = (event:any) => {
     const newSchoolAttended = event.target.value;
-    setAcademicInfo(prevState => ({
+    setAcademicInfo((prevState: any) => ({
       ...prevState,
       schoolAttended: newSchoolAttended
     }));
