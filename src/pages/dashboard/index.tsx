@@ -1,12 +1,20 @@
 import StudentDashboard from "@/components/StudentDashboard/StudentDashboard";
 import React from "react";
+import Head from "next/head";  // Import Head from next/head
 
 type Props = {
-  children: React.ReactNode; // Update the type definition for children
+  children: React.ReactNode;
 };
 
 const StudentDashboardPage = ({ children }: Props) => {
-  return <StudentDashboard/>
+  return (
+    <>
+      <Head>
+        <title>Student Dashboard - Modal University College</title>
+      </Head>
+      <StudentDashboard />
+    </>
+  );
 };
 
 export default StudentDashboardPage;
