@@ -92,7 +92,7 @@ const AdminDashboard: React.FC = () => {
   return (
     <div className={styles.dashboard}>
       <header className={styles.header}>
-        <h1 className={styles.title}>MODAL COLLEGE APLLICANTS</h1>
+        <h1 className={styles.title}>MODAL COLLEGE APPLICANTS</h1>
         <div className={styles.logoutBtnMa}></div>
         <button
           className={styles.applicantInfoBtn}
@@ -166,7 +166,7 @@ const AdminDashboard: React.FC = () => {
               ))}
             </ul> */}
             <ul className={styles.studentList}>
-              {currentUsers.map((user: any) => (
+              {filteredUsers.map((user: any) => (
                 <li
                   key={user.id}
                   className={`${styles.studentItem} ${
@@ -178,7 +178,7 @@ const AdminDashboard: React.FC = () => {
                 </li>
               ))}
             </ul>
-            <div className={styles.pagination}>
+            {/* <div className={styles.pagination}>
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
@@ -194,7 +194,7 @@ const AdminDashboard: React.FC = () => {
               >
                 Next
               </button>
-            </div>
+            </div> */}
           </div>
         </aside>
         <main className={styles.mainContent}>
