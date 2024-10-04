@@ -6,6 +6,7 @@ import { AdminProvider } from "@/contexts/AdminContext";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import SettingsPage from "./settings";
+import Head from "next/head";
 
 const AdminPage = () => {
   const { isAuthenticated }: any = useAuth();
@@ -22,12 +23,14 @@ const AdminPage = () => {
   }
 
   return (
-    // <AdminAuthProvider>
-    <AdminProvider>
-      <AdminDashboard />
-      {/* <SettingsPage /> */}
-    </AdminProvider>
-    // </AdminAuthProvider>
+    <>
+      <Head>
+        <title>Admin Dashboard - Modal University College</title>
+      </Head>
+      <AdminProvider>
+        <AdminDashboard />
+      </AdminProvider>
+    </>
   );
 };
 
