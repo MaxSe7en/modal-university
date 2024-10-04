@@ -1,5 +1,5 @@
 const domain = //"https://modalcollege.com:5000"
-  process.env.NODE_ENV !== "production"
+  process.env.NODE_ENV === "production"
     ? "https://modalcollege.com:5000"
     : "http://localhost:5000";
 
